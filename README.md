@@ -1,59 +1,34 @@
-# FinanzApp
+# FinanzApp — frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.1.4.
+Frontend en Angular para el backend FastAPI de `finanz-app`. Este repo está en fase de arranque: hay proyecto, pero ninguna feature todavía — el diseño de la aplicación (estructura de carpetas, componentes, pantallas) queda pendiente de definir.
 
-## Development server
+## Stack y decisiones ya tomadas
 
-To start a local development server, run:
+- **Angular 22** (última versión estable), componentes standalone, `@if`/`@for`.
+- **Angular Material** (Material 3, tema `azure-blue`) ya instalado.
+- **Estado**: signals nativos, sin librería de estado adicional.
+- **SPA pura**, sin SSR.
+- **Autenticación**: el backend entrega `access_token`/`refresh_token` como cookies `httpOnly` (no en el cuerpo JSON).
+- **Cliente de API**: pendiente de generar a partir del OpenAPI del backend (`/openapi.json`), en vez de escribirlo a mano. No implementado todavía.
+- **Testing**: Vitest (runner por defecto de Angular CLI 22).
+- **Package manager**: npm.
 
-```bash
-ng serve
-```
+## Estado actual del código
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- `src/app/app.config.ts` — providers base: router, animaciones, `HttpClient`.
+- `src/environments/` — `apiUrl` de desarrollo (`http://localhost:8000/api/v1`) y de producción (placeholder a sustituir).
+- Sin rutas, sin componentes de feature: todo eso depende del diseño que ya tienes pensado.
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+## Arrancar
 
 ```bash
-ng build
+npm install
+npm start
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+Sirve en `http://localhost:4200`. Necesita el backend corriendo en `http://localhost:8000` (o cambiar `apiUrl` en `src/environments/environment.ts`) y `CORS_ALLOWED_ORIGINS` del backend incluyendo `http://localhost:4200`.
 
 ```bash
-ng test
+npm run build   # build de producción
+npm test        # tests unitarios (Vitest)
 ```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
