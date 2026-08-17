@@ -1,0 +1,15 @@
+export * from './accountGroups.service';
+import { AccountGroupsService } from './accountGroups.service';
+export * from './accounts.service';
+import { AccountsService } from './accounts.service';
+export * from './auth.service';
+import { AuthService } from './auth.service';
+export * from './categories.service';
+import { CategoriesService } from './categories.service';
+export * from './health.service';
+import { HealthService } from './health.service';
+export * from './paymentPlans.service';
+import { PaymentPlansService } from './paymentPlans.service';
+export * from './transactions.service';
+import { TransactionsService } from './transactions.service';
+export const APIS = [AccountGroupsService, AccountsService, AuthService, CategoriesService, HealthService, PaymentPlansService, TransactionsService];

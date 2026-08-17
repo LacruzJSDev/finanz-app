@@ -1,4 +1,5 @@
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8000/api/v1',
+  // Sin /api/v1: los paths generados por openapi-generator ya lo incluyen.
+  apiUrl: 'http://localhost:8000',
 };

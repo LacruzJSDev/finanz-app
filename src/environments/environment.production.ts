@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://api.finanz-app.example.com/api/v1',
+  // Sin /api/v1: los paths generados por openapi-generator ya lo incluyen.
+  apiUrl: 'https://api.finanz-app.example.com',
 };
