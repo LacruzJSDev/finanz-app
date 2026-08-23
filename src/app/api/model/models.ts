@@ -35,4 +35,5 @@ export * from './updateCategoryRequest';
 export * from './updateGroupRequest';
 export * from './updatePaymentPlanRequest';
 export * from './updateTransactionRequest';
+export * from './updateUserRequest';
 export * from './userRead';

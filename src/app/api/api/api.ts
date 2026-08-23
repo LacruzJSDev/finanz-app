@@ -12,4 +12,6 @@ export * from './paymentPlans.service';
 import { PaymentPlansService } from './paymentPlans.service';
 export * from './transactions.service';
 import { TransactionsService } from './transactions.service';
-export const APIS = [AccountGroupsService, AccountsService, AuthService, CategoriesService, HealthService, PaymentPlansService, TransactionsService];
+export * from './users.service';
+import { UsersService } from './users.service';
+export const APIS = [AccountGroupsService, AccountsService, AuthService, CategoriesService, HealthService, PaymentPlansService, TransactionsService, UsersService];

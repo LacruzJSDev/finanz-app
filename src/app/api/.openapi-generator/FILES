@@ -10,6 +10,7 @@ api/categories.service.ts
 api/health.service.ts
 api/paymentPlans.service.ts
 api/transactions.service.ts
+api/users.service.ts
 configuration.ts
 encoder.ts
 git_push.sh
@@ -52,6 +53,7 @@ model/updateCategoryRequest.ts
 model/updateGroupRequest.ts
 model/updatePaymentPlanRequest.ts
 model/updateTransactionRequest.ts
+model/updateUserRequest.ts
 model/userRead.ts
 param.ts
 provide-api.ts
