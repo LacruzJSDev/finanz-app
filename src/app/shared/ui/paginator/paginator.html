@@ -1,0 +1,3 @@
+<button type="button" (click)="previous()" [disabled]="!hasPrevious()">Anterior</button>
+<span>{{ offset() + 1 }}–{{ offset() + limit() }} de {{ total() }}</span>
+<button type="button" (click)="next()" [disabled]="!hasNext()">Siguiente</button>
