@@ -1,0 +1,6 @@
+<h2>Crear grupo</h2>
+<form [formGroup]="form" (ngSubmit)="createGroupForm()">
+  <input type="text" formControlName="name" placeholder="Nombre del grupo" />
+  <app-icon-picker [selected]="form.controls.icon.value" (iconChange)="selectIcon($event)" />
+  <button type="submit">Guardar</button>
+</form>

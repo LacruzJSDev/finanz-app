@@ -1,0 +1,6 @@
+<h1>Grupos de cuentas</h1>
+<button type="button" (click)="openCreateAccountForm()">Crear Grupo</button>
+@for (group of accountGroupsService.groups(); track group.id) {
+  <p>{{ group.name }}</p>
+  <button type="button" (click)="showDetail(group.id)">Ver</button>
+}

@@ -11,6 +11,11 @@ export const routes: Routes = [
       import('./features/dashboard/dashboard.routes').then((m) => m.DASHBOARD_ROUTES),
   },
   {
+    path: 'grupos',
+    loadChildren: () =>
+      import('./features/account-groups/account-groups.routes').then((m) => m.GROUP_ACCOUNTS_ROUTES),
+  },
+  {
     path: 'cuentas',
     loadChildren: () =>
       import('./features/accounts/accounts.routes').then((m) => m.ACCOUNTS_ROUTES),
