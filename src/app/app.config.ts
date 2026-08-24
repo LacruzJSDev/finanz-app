@@ -1,18 +1,26 @@
-import { provideHttpClient, withFetch } from '@angular/common/http';
-import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { provideRouter } from '@angular/router';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import {
+  ApplicationConfig,
+  inject,
+  provideAppInitializer,
+  provideBrowserGlobalErrorListeners,
+} from '@angular/core';
+import { provideRouter, withComponentInputBinding } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideApi } from './api/provide-api';
 import { environment } from '../environments/environment';
+import { firstValueFrom } from 'rxjs';
+import { AuthService } from './core/auth/auth.service';
+import { authRefreshInterceptor } from './core/auth/auth-refresh.interceptors';
+import { apiErrorInterceptor } from './core/http/api-error.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideRouter(routes),
-    provideAnimationsAsync(),
-    provideHttpClient(withFetch()),
+    provideRouter(routes, withComponentInputBinding()),
+    provideHttpClient(withInterceptors([apiErrorInterceptor, authRefreshInterceptor])),
     provideApi({ basePath: environment.apiUrl, withCredentials: true }),
+    provideAppInitializer(() => firstValueFrom(inject(AuthService).bootstrap())),
   ],
 };
