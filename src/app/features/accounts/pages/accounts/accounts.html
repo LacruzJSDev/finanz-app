@@ -1,0 +1,19 @@
+@if (account(); as acc) {
+  <h1>Nombre: {{ acc.name }}</h1>
+  <h2>Balance: {{ acc.balance | centsToEuros: acc.currency }}</h2>
+  <button (click)="openCreateTransactionForm()">Añadir transación</button>
+}
+@if (transactions().length; as trs) {
+  <app-transactions-list
+    [transactions]="transactions()"
+    [categories]="categories()"
+    (rowClick)="openUpdateTransactionForm($event)"
+    (deleteClick)="deleteTransaction($event)"
+  />
+  <app-paginator
+    [total]="total()"
+    [limit]="limit"
+    [offset]="offset()"
+    (pageChange)="onPageChange($event)"
+  />
+}

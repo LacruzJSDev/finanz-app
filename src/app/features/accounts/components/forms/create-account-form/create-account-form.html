@@ -1,0 +1,7 @@
+<h2>Crear cuenta</h2>
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <input type="text" formControlName="name" placeholder="Nombre de la cuenta" />
+  <input type="number" formControlName="opening_balance" placeholder="Saldo actual" />
+  <app-icon-picker [selected]="form.controls.icon.value" (iconChange)="selectIcon($event)" />
+  <button type="submit">Guardar</button>
+</form>

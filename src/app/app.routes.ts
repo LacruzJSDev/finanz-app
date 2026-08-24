@@ -11,6 +11,11 @@ export const routes: Routes = [
       import('./features/dashboard/dashboard.routes').then((m) => m.DASHBOARD_ROUTES),
   },
   {
+    path: 'cuentas',
+    loadChildren: () =>
+      import('./features/accounts/accounts.routes').then((m) => m.ACCOUNTS_ROUTES),
+  },
+  {
     path: 'categorias',
     loadChildren: () =>
       import('./features/categories/categories.routes').then((m) => m.CATEGORIES_ROUTES),
