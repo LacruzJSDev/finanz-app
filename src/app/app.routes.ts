@@ -10,4 +10,9 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./features/dashboard/dashboard.routes').then((m) => m.DASHBOARD_ROUTES),
   },
+  {
+    path: 'categorias',
+    loadChildren: () =>
+      import('./features/categories/categories.routes').then((m) => m.CATEGORIES_ROUTES),
+  },
 ];

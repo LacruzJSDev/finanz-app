@@ -1,0 +1,18 @@
+<h2>Nueva categoría</h2>
+
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <input type="text" formControlName="name" placeholder="Nombre" />
+
+  <select formControlName="parent_id">
+    <option value="">Categoría raíz (sin padre)</option>
+    @for (category of data.rootCategories; track category.id) {
+      <option [value]="category.id">{{ category.name }}</option>
+    }
+  </select>
+
+  <input type="color" formControlName="color" />
+
+  <app-icon-picker [selected]="form.controls.icon.value" (iconChange)="selectIcon($event)" />
+
+  <button type="submit">Guardar</button>
+</form>

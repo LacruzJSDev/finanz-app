@@ -1,0 +1,4 @@
+<h1>Categorías</h1>
+<button type="button" (click)="openCreateCategoryForm()">Añadir categoría</button>
+
+<app-categories-list [categories]="categories()" (rowClick)="openUpdateCategoryForm($event)" />

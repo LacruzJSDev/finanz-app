@@ -1,0 +1,12 @@
+<ul>
+  @for (root of rootCategories(); track root.id) {
+    <li>
+      <span (click)="rowClick.emit(root)">{{ root.name }}</span>
+      <ul>
+        @for (child of childrenOf(root.id); track child.id) {
+          <li (click)="rowClick.emit(child)">{{ child.name }}</li>
+        }
+      </ul>
+    </li>
+  }
+</ul>
