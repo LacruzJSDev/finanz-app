@@ -13,7 +13,9 @@ export const routes: Routes = [
   {
     path: 'grupos',
     loadChildren: () =>
-      import('./features/account-groups/account-groups.routes').then((m) => m.GROUP_ACCOUNTS_ROUTES),
+      import('./features/account-groups/account-groups.routes').then(
+        (m) => m.GROUP_ACCOUNTS_ROUTES,
+      ),
   },
   {
     path: 'cuentas',

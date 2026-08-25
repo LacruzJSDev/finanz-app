@@ -78,7 +78,9 @@ export class TransactionsService {
       .pipe(
         tap((transaction) => {
           const deletedTransaction = { ...transaction, deleted_at: new Date().getDate() };
-          this.transactionsSignal.update((transactions) => transactions.filter((t) => t.id !== transactionId));
+          this.transactionsSignal.update((transactions) =>
+            transactions.filter((t) => t.id !== transactionId),
+          );
           this.transactionSignal.set(deletedTransaction);
         }),
       );

@@ -1,6 +1,15 @@
 export const AVAILABLE_ICONS = [
-  'home', 'restaurant', 'shopping_cart', 'directions_car', 'local_hospital',
-  'school', 'flight', 'savings', 'account_balance', 'credit_card', 'work',
+  'home',
+  'restaurant',
+  'shopping_cart',
+  'directions_car',
+  'local_hospital',
+  'school',
+  'flight',
+  'savings',
+  'account_balance',
+  'credit_card',
+  'work',
 ] as const;
 
 export type IconName = (typeof AVAILABLE_ICONS)[number];

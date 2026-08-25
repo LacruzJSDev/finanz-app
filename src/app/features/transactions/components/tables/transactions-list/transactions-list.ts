@@ -13,6 +13,6 @@ export class TransactionsList {
   readonly transactions = input.required<TransactionRead[]>();
   readonly categories = input.required<CategoryRead[]>();
 
-   readonly rowClick = output<TransactionRead>();
-   readonly deleteClick = output<TransactionRead>();
+  readonly rowClick = output<TransactionRead>();
+  readonly deleteClick = output<TransactionRead>();
 }

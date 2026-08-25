@@ -43,7 +43,7 @@ export class AuthService {
         shareReplay(1),
       );
     }
-    return this.refreshInFlight$
+    return this.refreshInFlight$;
   }
 
   bootstrap() {
