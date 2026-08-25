@@ -1,13 +1,21 @@
-<div class="icon-picker">
-  @for (icon of icons; track icon) {
-    <button
-      type="button"
-      [class.selected]="icon === selected()"
-      (click)="iconChange.emit(icon)"
-      [title]="icon | iconLabel"
-    >
-      <mat-icon>{{ icon }}</mat-icon>
-      <span class="icon-label">{{ icon | iconLabel }}</span>
-    </button>
-  }
-</div>
+<mat-form-field appearance="outline">
+  <mat-label>Icono</mat-label>
+  <mat-select [value]="selected()" (selectionChange)="iconChange.emit($event.value)">
+    <mat-select-trigger>
+      @if (selected(); as icon) {
+        <span class="icon-option">
+          <mat-icon>{{ icon }}</mat-icon>
+          {{ icon | iconLabel }}
+        </span>
+      }
+    </mat-select-trigger>
+    @for (icon of icons; track icon) {
+      <mat-option [value]="icon">
+        <span class="icon-option">
+          <mat-icon>{{ icon }}</mat-icon>
+          {{ icon | iconLabel }}
+        </span>
+      </mat-option>
+    }
+  </mat-select>
+</mat-form-field>
