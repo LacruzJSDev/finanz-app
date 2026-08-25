@@ -1,0 +1,36 @@
+<mat-card appearance="outlined" [style.border-left-color]="category().color ?? 'black'">
+  <div class="category-row">
+    <mat-icon>{{ category().icon | iconOrDefault }}</mat-icon>
+    <span class="category-name">{{ category().name }}</span>
+    <div class="category-actions">
+      <button matIconButton (click)="editClick.emit(category())">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button matIconButton (click)="archiveClick.emit(category())">
+        <mat-icon>archive</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  @if (children().length > 0) {
+    <div class="subcategories">
+      @for (child of children(); track child.id) {
+        <div
+          class="category-row category-row--child"
+          [style.border-left-color]="child.color ?? 'black'"
+        >
+          <mat-icon>{{ child.icon | iconOrDefault }}</mat-icon>
+          <span class="category-name">{{ child.name }}</span>
+          <div class="category-actions">
+            <button matIconButton (click)="editClick.emit(child)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button matIconButton (click)="archiveClick.emit(child)">
+              <mat-icon>archive</mat-icon>
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</mat-card>

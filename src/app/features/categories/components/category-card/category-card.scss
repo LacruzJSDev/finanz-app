@@ -1,0 +1,39 @@
+:host {
+  display: block;
+}
+
+.mat-mdc-card {
+  padding: 0.75rem;
+  border-left-width: 6px;
+  border-left-style: solid;
+}
+
+.category-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.25rem 0;
+}
+
+.category-name {
+  flex: 1;
+}
+
+.category-actions {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.subcategories {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-left: 1.5rem;
+}
+
+.category-row--child {
+  padding: 0.125rem 0 0.125rem 0.75rem;
+  border-left-width: 4px;
+  border-left-style: solid;
+}

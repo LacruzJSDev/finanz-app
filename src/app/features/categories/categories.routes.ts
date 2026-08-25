@@ -3,7 +3,7 @@ import { authGuard } from '../../core/auth/auth.guard';
 
 export const CATEGORIES_ROUTES: Routes = [
   {
-    path: ':id',
+    path: '',
     loadComponent: () => import('./pages/categories/categories').then((m) => m.Categories),
     canActivate: [authGuard],
   },
