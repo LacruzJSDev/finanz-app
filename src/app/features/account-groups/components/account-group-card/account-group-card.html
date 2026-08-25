@@ -1,0 +1,10 @@
+<mat-card class="account-group-card" appearance="outlined">
+  <mat-card-header>
+    <mat-card-title>{{ accountGroup().name }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-actions>
+    <button matButton (click)="showClick.emit(accountGroup())">Ver</button>
+    <!-- <button matButton (click)="activeClick.emit(accountGroup())">{{activeGroupId && activeGroupId === accountGroup()?.id ? "Desactivar" : "Activar"}}</button> -->
+    <button matButton (click)="activeClick.emit(accountGroup())">Activar</button>
+  </mat-card-actions>
+</mat-card>

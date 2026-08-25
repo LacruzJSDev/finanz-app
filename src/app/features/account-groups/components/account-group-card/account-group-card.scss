@@ -1,0 +1,11 @@
+:host {
+  .mat-mdc-card {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .mat-mdc-card-header {
+    width: fit-content;
+    padding: 0 0 0 1rem;
+  }
+}

@@ -5,16 +5,3 @@
 } @else {
   <p>Grupo no encontrado.</p>
 }
-<button (click)="showCategories()">Categorías</button>
-<h2>Cuentas</h2>
-<button (click)="openCreateAccountForm()">Crear cuenta</button>
-@if (accountsService.accounts().length; as a) {
-  @for (account of accountsService.accounts(); track account.id) {
-    <p>{{ account.name }}</p>
-    <p>{{ account.balance | centsToEuros: account.currency }}</p>
-    <button (click)="openUpdateAccountForm(account)">Editar</button>
-    <button (click)="showAccountDetail(account.id)">Ver</button>
-  }
-} @else {
-  <p>No hay cuentas asociadas al grupo</p>
-}

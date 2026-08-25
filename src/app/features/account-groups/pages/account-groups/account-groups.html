@@ -1,6 +1,8 @@
-<h1>Grupos de cuentas</h1>
-<button type="button" (click)="openCreateAccountForm()">Crear Grupo</button>
-@for (group of accountGroupsService.groups(); track group.id) {
-  <p>{{ group.name }}</p>
-  <button type="button" (click)="showDetail(group.id)">Ver</button>
+@for (group of groups(); track group.id) {
+  <app-account-group-card
+    [accountGroup]="group"
+    [activeGroupId]="activeGroupId()"
+    (showClick)="showDetail($event.id)"
+    (activeClick)="activeGroup($event.id)"
+  />
 }

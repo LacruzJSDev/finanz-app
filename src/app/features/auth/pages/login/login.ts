@@ -25,7 +25,7 @@ export class Login {
     if (this.form.invalid) return;
 
     this.authService.login(this.form.getRawValue()).subscribe({
-      next: () => this.router.navigateByUrl('/dashboard'),
+      next: () => this.router.navigateByUrl('/grupos'),
       error: (error: unknown) =>
         this.errorMessage.set(error instanceof ApiError ? error.message : 'Ha ocurrido un error'),
     });
