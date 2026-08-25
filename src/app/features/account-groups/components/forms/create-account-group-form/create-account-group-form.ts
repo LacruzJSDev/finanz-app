@@ -27,7 +27,7 @@ export class CreateAccountGroupForm {
   createGroupForm() {
     if (this.form.invalid) return;
     const raw = this.form.getRawValue();
-    this.accountGroupsService.createAccountGroup(raw)?.subscribe(() => {
+    this.accountGroupsService.createAccountGroup(raw).subscribe(() => {
       this.form.reset();
       this.bottomSheetRef.dismiss();
     });

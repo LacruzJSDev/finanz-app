@@ -44,7 +44,7 @@ export class CreateCategoryForm {
       icon: raw.icon,
     };
 
-    this.categoriesService.createCategory(this.data.groupId, payload)?.subscribe(() => {
+    this.categoriesService.createCategory(this.data.groupId, payload).subscribe(() => {
       this.bottomSheetRef.dismiss();
     });
   }

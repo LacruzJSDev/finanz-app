@@ -27,7 +27,7 @@ export class Categories {
 
   constructor() {
     effect(() => {
-      this.categoriesService.getCategories(this.id())?.subscribe();
+      this.categoriesService.getCategories(this.id()).subscribe();
     });
   }
 

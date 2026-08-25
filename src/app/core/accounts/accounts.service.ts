@@ -16,8 +16,7 @@ export class AccountsService {
   private readonly accountSignal = signal<AccountRead | null>(null);
   readonly account = this.accountSignal.asReadonly();
 
-  getAccounts(groupId: string | undefined) {
-    if (!groupId) return;
+  getAccounts(groupId: string) {
     return this.api.getAccountsApiV1AccountsGet(groupId).pipe(
       tap((res) => {
         this.accountsSignal.set(res.items);
@@ -25,8 +24,7 @@ export class AccountsService {
     );
   }
 
-  createAccount(groupId: string | undefined, payload: CreateAccountRequest) {
-    if (!groupId) return;
+  createAccount(groupId: string, payload: CreateAccountRequest) {
     return this.api.createAccountApiV1AccountsPost(groupId, payload).pipe(
       tap((account) => {
         this.accountsSignal.update((accounts) => [...accounts, account]);

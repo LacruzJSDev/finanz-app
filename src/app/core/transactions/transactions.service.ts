@@ -29,8 +29,7 @@ export class TransactionsService {
       );
   }
 
-  createTransactions(accountId: string | undefined, payload: CreateTransactionRequest) {
-    if (!accountId) return;
+  createTransactions(accountId: string, payload: CreateTransactionRequest) {
     return this.api
       .createTransactionApiV1AccountsAccountIdTransactionsPost(accountId, payload)
       .pipe(

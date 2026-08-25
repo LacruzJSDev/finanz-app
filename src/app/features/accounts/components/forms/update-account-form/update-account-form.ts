@@ -34,7 +34,7 @@ export class UpdateAccountForm {
   submit() {
     if (this.form.invalid) return;
     const raw = this.form.getRawValue();
-    this.accountsService.updateAccount(this.data.account.id, raw)?.subscribe(() => {
+    this.accountsService.updateAccount(this.data.account.id, raw).subscribe(() => {
       this.form.reset();
       this.bottomSheetRef.dismiss();
     });

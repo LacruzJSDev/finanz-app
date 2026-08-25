@@ -57,7 +57,7 @@ export class CreateTransactionForm {
       category_id: isTransfer ? undefined : raw.category_id || undefined,
     };
 
-    this.transactionsService.createTransactions(this.data.accountId, payload)?.subscribe(() => {
+    this.transactionsService.createTransactions(this.data.accountId, payload).subscribe(() => {
       this.bottomSheetRef.dismiss();
     });
   }

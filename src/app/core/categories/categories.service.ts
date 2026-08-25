@@ -16,8 +16,7 @@ export class CategoriesService {
   private readonly categorySignal = signal<CategoryRead | null>(null);
   readonly category = this.categorySignal.asReadonly();
 
-  getCategories(groupId: string | undefined) {
-    if (!groupId) return;
+  getCategories(groupId: string) {
     return this.api.getCategoriesApiV1CategoriesGet(groupId).pipe(
       tap((res) => {
         this.categoriesSignal.set(res.items);
@@ -25,8 +24,7 @@ export class CategoriesService {
     );
   }
 
-  createCategory(groupId: string | undefined, payload: CreateCategoryRequest) {
-    if (!groupId) return;
+  createCategory(groupId: string, payload: CreateCategoryRequest) {
     return this.api.createCategoryApiV1CategoriesPost(groupId, payload).pipe(
       tap((category) => {
         this.categoriesSignal.update((categories) => [...categories, category]);

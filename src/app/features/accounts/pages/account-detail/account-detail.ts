@@ -50,7 +50,7 @@ export class AccountDetail {
     effect(() => {
       const groupId = this.account()?.group_id;
       if (groupId) {
-        this.categoriesService.getCategories(groupId)?.subscribe();
+        this.categoriesService.getCategories(groupId).subscribe();
       }
     });
   }
@@ -63,7 +63,7 @@ export class AccountDetail {
     const account = this.account();
     if (!account) return;
 
-    this.accountsService.getAccounts(account.group_id)?.subscribe(() => {
+    this.accountsService.getAccounts(account.group_id).subscribe(() => {
       const ref = this.bottomSheet.open<CreateTransactionForm, CreateTransactionFormData>(
         CreateTransactionForm,
         {
@@ -85,7 +85,7 @@ export class AccountDetail {
     const account = this.account();
     if (!account) return;
 
-    this.accountsService.getAccounts(account.group_id)?.subscribe(() => {
+    this.accountsService.getAccounts(account.group_id).subscribe(() => {
       const ref = this.bottomSheet.open<UpdateTransactionForm, UpdateTransactionFormData>(
         UpdateTransactionForm,
         {
