@@ -1,0 +1,32 @@
+<mat-toolbar>
+  <button
+    class="navigate-button"
+    matIconButton
+    (click)="navigate('dashboard')"
+    [disabled]="activeGroupId() ? false : true"
+  >
+    <mat-icon>dashboard</mat-icon>
+  </button>
+  <button class="navigate-button" matIconButton (click)="navigate('grupos')">
+    <mat-icon>groups</mat-icon>
+  </button>
+  <button matMiniFab class="fab" [class.fab--hidden]="!action()" (click)="action()?.onClick()">
+    <mat-icon>{{ action()?.icon }}</mat-icon>
+  </button>
+  <button
+    class="navigate-button"
+    matIconButton
+    (click)="navigate('cuentas')"
+    [disabled]="activeGroupId() ? false : true"
+  >
+    <mat-icon>account_balance_wallet</mat-icon>
+  </button>
+  <button
+    class="navigate-button"
+    matIconButton
+    (click)="navigate('categorias')"
+    [disabled]="activeGroupId() ? false : true"
+  >
+    <mat-icon>category</mat-icon>
+  </button>
+</mat-toolbar>

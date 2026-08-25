@@ -1,0 +1,42 @@
+:host {
+  position: fixed;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: block;
+}
+
+.mat-toolbar {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  border: 1px solid black;
+  width: fit-content;
+  bottom: 1rem;
+}
+
+.navigate-button {
+  margin-inline: 0.5rem;
+}
+
+.fab {
+  overflow: hidden;
+  transition:
+    transform 200ms ease,
+    opacity 200ms ease,
+    width 200ms ease,
+    margin 200ms ease;
+  transform: scale(1);
+  opacity: 1;
+  width: 40px;
+  margin-inline: 0.5rem;
+}
+
+.fab--hidden {
+  transform: scale(0);
+  opacity: 0;
+  width: 0;
+  margin-inline: 0;
+  pointer-events: none;
+}

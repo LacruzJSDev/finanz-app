@@ -1,0 +1,87 @@
+// Reset moderno de estilos por defecto del navegador. Se aplica antes que
+// cualquier estilo de Material o de la propia app — normaliza el punto de
+// partida para que el box-sizing, los márgenes y los elementos nativos
+// (listas, botones, imágenes...) se comporten igual en todos los navegadores.
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+// Botones nativos (los de Material se sobreescriben solos, tienen más
+// especificidad vía sus propias clases) — esto es la base para <button>
+// sueltos que no lleven ninguna directiva de Material.
+button {
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+// Quita los bullets/numeración por defecto. Si alguna vez usas una <ul>/<ol>
+// como lista semántica real (no como contenedor de UI), recupera la
+// semántica para lectores de pantalla con role="list" en el elemento.
+ul,
+ol {
+  list-style: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+// Aísla el stacking context de la app del resto de la página (evita que
+// z-index de fuera se cuele entre tus capas, y viceversa).
+app-root {
+  isolation: isolate;
+}
