@@ -17,11 +17,11 @@ import {
 import { TransactionRead } from '../../../../api';
 
 @Component({
-  selector: 'app-accounts',
+  selector: 'app-account-detail',
   imports: [CentsToEurosPipe, TransactionsList, Paginator],
-  templateUrl: 'accounts.html',
+  templateUrl: 'account-detail.html',
 })
-export class Accounts {
+export class AccountDetail {
   private readonly bottomSheet = inject(MatBottomSheet);
   protected readonly accountsService = inject(AccountsService);
   protected readonly transactionsService = inject(TransactionsService);
