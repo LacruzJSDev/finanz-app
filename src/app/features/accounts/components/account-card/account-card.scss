@@ -1,0 +1,30 @@
+:host {
+  display: block;
+}
+
+.mat-mdc-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  padding-left: 0.75rem;
+  border-left-width: 6px;
+  border-left-style: solid;
+}
+
+// mat-card-header trae su propio padding y el de su bloque de texto interno
+// (.mat-mdc-card-header-text) por diseño de Material — hay que anularlos los
+// dos, no solo el del header, o el texto sigue sin alinearse con el icono.
+.mat-mdc-card-header {
+  padding: 0;
+
+  .mat-mdc-card-header-text {
+    padding: 0;
+    margin: 0;
+  }
+}
+
+.mat-mdc-card-title,
+.mat-mdc-card-subtitle {
+  margin: 0;
+}

@@ -1,0 +1,11 @@
+@if (accounts().length; as a) {
+  @for (account of accounts(); track account.id) {
+    <app-account-card
+      [account]="account"
+      (editClick)="openUpdateAccountForm($event)"
+      (viewClick)="showAccountDetail($event.id)"
+    />
+  }
+} @else {
+  <p>No hay cuentas asociadas al grupo</p>
+}

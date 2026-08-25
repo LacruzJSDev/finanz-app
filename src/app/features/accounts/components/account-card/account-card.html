@@ -1,0 +1,13 @@
+<mat-card appearance="outlined" [style.border-left-color]="account().color ?? 'black'">
+  <mat-icon>{{ account().icon | iconOrDefault }}</mat-icon>
+  <mat-card-header>
+    <mat-card-title>{{ account().name }}</mat-card-title>
+    <mat-card-subtitle>{{
+      account().balance | centsToEuros: account().currency
+    }}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-actions>
+    <button matButton (click)="editClick.emit(account())">Editar</button>
+    <button matButton (click)="viewClick.emit(account())">Ver</button>
+  </mat-card-actions>
+</mat-card>

@@ -15,17 +15,20 @@ import {
   UpdateTransactionFormData,
 } from '../../../transactions/components/forms/update-transaction-form/update-transaction-form';
 import { TransactionRead } from '../../../../api';
+import { PageContextService } from '../../../../core/ui/page-context.service';
 
 @Component({
   selector: 'app-account-detail',
   imports: [CentsToEurosPipe, TransactionsList, Paginator],
   templateUrl: 'account-detail.html',
+  host: { class: 'page-container' },
 })
 export class AccountDetail {
   private readonly bottomSheet = inject(MatBottomSheet);
   protected readonly accountsService = inject(AccountsService);
   protected readonly transactionsService = inject(TransactionsService);
   protected readonly categoriesService = inject(CategoriesService);
+  protected readonly pageContextService = inject(PageContextService);
 
   readonly id = input.required<string>();
 
@@ -51,6 +54,16 @@ export class AccountDetail {
       const groupId = this.account()?.group_id;
       if (groupId) {
         this.categoriesService.getCategories(groupId).subscribe();
+      }
+    });
+    effect(() => {
+      const account = this.account();
+      if (account) {
+        this.pageContextService.setTitle(account.name);
+        this.pageContextService.setAction({
+          onClick: () => this.openCreateTransactionForm(),
+          icon: 'add',
+        });
       }
     });
   }
