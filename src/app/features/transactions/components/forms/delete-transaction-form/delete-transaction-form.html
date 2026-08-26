@@ -1,1 +1,6 @@
-<button (click)="cancel()">Cancelar</button><button (click)="submit()">Eliminar</button>
+<h2>Eliminar movimiento</h2>
+<p>¿Seguro que quieres eliminar este movimiento? Esta acción no se puede deshacer.</p>
+<div class="actions">
+  <button matButton (click)="cancel()">Cancelar</button>
+  <button matButton="filled" class="delete-button" (click)="submit()">Eliminar</button>
+</div>

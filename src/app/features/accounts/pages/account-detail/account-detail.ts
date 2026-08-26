@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, signal } from '@angular/core';
+import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { AccountsService } from '../../../../core/accounts/accounts.service';
 import { CentsToEurosPipe } from '../../../../shared/money/cents-to-euros.pipe';
 import { TransactionsList } from '../../../transactions/components/tables/transactions-list/transactions-list';
@@ -14,6 +14,10 @@ import {
   UpdateTransactionForm,
   UpdateTransactionFormData,
 } from '../../../transactions/components/forms/update-transaction-form/update-transaction-form';
+import {
+  DeleteTransactionForm,
+  DeleteTransactionFormData,
+} from '../../../transactions/components/forms/delete-transaction-form/delete-transaction-form';
 import { TransactionRead } from '../../../../api';
 import { PageContextService } from '../../../../core/ui/page-context.service';
 
@@ -41,6 +45,12 @@ export class AccountDetail {
   // Se sigue cargando aquí: TransactionsList lo necesita para pintar el nombre de
   // categoría de cada fila, y los forms de crear/editar transacción para su <select>.
   protected readonly categories = this.categoriesService.categories;
+
+  // Las archivadas siguen haciendo falta para nombrar transacciones antiguas,
+  // pero no deben poder elegirse al crear o editar.
+  protected readonly selectableCategories = computed(() =>
+    this.categories().filter((category) => category.is_active),
+  );
 
   protected readonly limit = 20;
   protected readonly offset = signal(0);
@@ -83,7 +93,7 @@ export class AccountDetail {
           data: {
             accountId: account.id,
             otherAccounts: this.accountsService.accounts().filter((a) => a.id !== account.id),
-            categories: this.categories(),
+            categories: this.selectableCategories(),
           },
         },
       );
@@ -106,7 +116,7 @@ export class AccountDetail {
             transaction,
             accountId: account.id,
             otherAccounts: this.accountsService.accounts().filter((a) => a.id !== account.id),
-            categories: this.categories(),
+            categories: this.selectableCategories(),
           },
         },
       );
@@ -117,7 +127,11 @@ export class AccountDetail {
   }
 
   deleteTransaction(transaction: TransactionRead): void {
-    this.transactionsService.deleteTransactionById(this.id(), transaction.id).subscribe(() => {
+    const ref = this.bottomSheet.open<DeleteTransactionForm, DeleteTransactionFormData>(
+      DeleteTransactionForm,
+      { data: { transaction, accountId: this.id() } },
+    );
+    ref.afterDismissed().subscribe(() => {
       this.accountsService.getAccountById(this.id()).subscribe();
     });
   }

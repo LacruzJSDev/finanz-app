@@ -1,6 +1,5 @@
 @if (account(); as acc) {
   <h2>Balance: {{ acc.balance | centsToEuros: acc.currency }}</h2>
-  <button (click)="openCreateTransactionForm()">Añadir transación</button>
 }
 @if (transactions().length; as trs) {
   <app-transactions-list
