@@ -1,36 +1,53 @@
-<mat-card appearance="outlined" [style.border-left-color]="category().color ?? 'black'">
-  <div class="category-row">
-    <mat-icon>{{ category().icon | iconOrDefault }}</mat-icon>
-    <span class="category-name">{{ category().name }}</span>
-    <div class="category-actions">
+<!-- Solo se puede desplegar si tiene subcategorías; si no, no hay nada que ver. -->
+<mat-expansion-panel
+  [disabled]="!hasChildren()"
+  hideToggle
+  [expanded]="expanded()"
+  (expandedChange)="onExpandedChange($event)"
+>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      <app-color-icon [icon]="category().icon" [color]="category().color" [size]="48" />
+      <span class="category-name">
+        {{ category().name }}
+        @if (isSubcategory()) {
+          <span class="category-note">(Subcategoría)</span>
+        }
+      </span>
+    </mat-panel-title>
+
+    <div class="category-actions" (click)="$event.stopPropagation()">
+      <!-- El número de subcategorías insinúa que la fila se puede desplegar. -->
+      @if (hasChildren()) {
+        <span class="child-count">{{ children().length }}</span>
+      }
       <button matIconButton (click)="editClick.emit(category())">
         <mat-icon>edit</mat-icon>
       </button>
-      <button matIconButton (click)="archiveClick.emit(category())">
-        <mat-icon>archive</mat-icon>
-      </button>
+      <mat-slide-toggle
+        class="toggle-sm"
+        [checked]="category().is_active"
+        [disabled]="isBlocked(category())"
+        (change)="toggleActive.emit(category())"
+      />
     </div>
-  </div>
+  </mat-expansion-panel-header>
 
-  @if (children().length > 0) {
-    <div class="subcategories">
-      @for (child of children(); track child.id) {
-        <div
-          class="category-row category-row--child"
-          [style.border-left-color]="child.color ?? 'black'"
-        >
-          <mat-icon>{{ child.icon | iconOrDefault }}</mat-icon>
-          <span class="category-name">{{ child.name }}</span>
-          <div class="category-actions">
-            <button matIconButton (click)="editClick.emit(child)">
-              <mat-icon>edit</mat-icon>
-            </button>
-            <button matIconButton (click)="archiveClick.emit(child)">
-              <mat-icon>archive</mat-icon>
-            </button>
-          </div>
-        </div>
-      }
+  @for (child of children(); track child.id) {
+    <div class="category-row">
+      <app-color-icon [icon]="child.icon" [color]="child.color" />
+      <span class="category-name">{{ child.name }}</span>
+      <div class="category-actions">
+        <button matIconButton (click)="editClick.emit(child)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <mat-slide-toggle
+          class="toggle-sm"
+          [checked]="child.is_active"
+          [disabled]="isBlocked(child)"
+          (change)="toggleActive.emit(child)"
+        />
+      </div>
     </div>
   }
-</mat-card>
+</mat-expansion-panel>

@@ -1,8 +1,9 @@
-@for (root of rootCategories(); track root.id) {
+@for (category of topLevel(); track category.id) {
   <app-category-card
-    [category]="root"
-    [children]="childrenOf(root.id)"
+    [category]="category"
+    [children]="childrenOf(category.id)"
+    [blockedIds]="blockedIds()"
     (editClick)="editClick.emit($event)"
-    (archiveClick)="archiveClick.emit($event)"
+    (toggleActive)="toggleActive.emit($event)"
   />
 }

@@ -2,38 +2,56 @@
   display: block;
 }
 
-.mat-mdc-card {
-  padding: 0.75rem;
-  border-left-width: 6px;
-  border-left-style: solid;
+mat-panel-title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
+.category-name {
+  font: var(--mat-sys-title-medium);
+}
+
+.category-note {
+  font: var(--mat-sys-body-small);
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.category-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+// Contador de subcategorías: un círculo más, a la altura de los iconos.
+.child-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background: var(--mat-sys-surface-container-high);
+  color: var(--mat-sys-on-surface-variant);
+  font: var(--mat-sys-label-small);
+  flex-shrink: 0;
+}
+
+// Filas de subcategoría, dentro del panel desplegado.
 .category-row {
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 1rem;
-  padding: 0.25rem 0;
-}
+  padding: 0.5rem 0;
 
-.category-name {
-  flex: 1;
-}
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--mat-sys-outline-variant);
+  }
 
-.category-actions {
-  display: flex;
-  gap: 0.25rem;
-}
-
-.subcategories {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  margin-left: 1.5rem;
-}
-
-.category-row--child {
-  padding: 0.125rem 0 0.125rem 0.75rem;
-  border-left-width: 4px;
-  border-left-style: solid;
+  .category-name {
+    flex: 1;
+    font: var(--mat-sys-body-large);
+  }
 }

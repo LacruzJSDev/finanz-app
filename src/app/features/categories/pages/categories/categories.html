@@ -1,5 +1,19 @@
-<app-categories-list
-  [categories]="categories()"
-  (editClick)="openUpdateCategoryForm($event)"
-  (archiveClick)="archiveCategory($event)"
-/>
+<div class="segmented-track">
+  <mat-button-toggle-group [value]="filter()" (change)="filter.set($event.value)">
+    <mat-button-toggle value="active">Activas</mat-button-toggle>
+    <mat-button-toggle value="archived">Archivadas</mat-button-toggle>
+  </mat-button-toggle-group>
+</div>
+
+@if (visibleCategories().length) {
+  <app-categories-list
+    [categories]="visibleCategories()"
+    [blockedIds]="blockedIds()"
+    (editClick)="openUpdateCategoryForm($event)"
+    (toggleActive)="toggleCategoryActive($event)"
+  />
+} @else {
+  <p class="empty-note">
+    {{ filter() === 'active' ? 'No hay categorías activas.' : 'No hay categorías archivadas.' }}
+  </p>
+}
