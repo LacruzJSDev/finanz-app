@@ -1,7 +1,24 @@
 <h2>Editar cuenta</h2>
 <form [formGroup]="form" (ngSubmit)="submit()">
-  <input type="text" formControlName="name" placeholder="Nombre de la cuenta" />
-  <input type="checkbox" formControlName="is_active" />
-  <app-icon-picker [selected]="form.controls.icon.value" (iconChange)="selectIcon($event)" />
-  <button type="submit">Guardar</button>
+  <div class="grouped-card">
+    <mat-form-field>
+      <mat-label>Nombre</mat-label>
+      <input matInput type="text" formControlName="name" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Tipo</mat-label>
+      <mat-select formControlName="type">
+        @for (type of accountTypes; track type) {
+          <mat-option [value]="type">{{ type | accountTypeLabel }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <app-color-picker [selected]="form.controls.color.value" (colorChange)="selectColor($event)" />
+
+    <app-icon-picker [selected]="form.controls.icon.value" (iconChange)="selectIcon($event)" />
+  </div>
+
+  <button matButton="filled" type="submit">Guardar</button>
 </form>

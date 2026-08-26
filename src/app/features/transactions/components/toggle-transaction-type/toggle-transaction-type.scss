@@ -1,0 +1,12 @@
+:host {
+  display: block;
+}
+
+// Sustituye al selector cuando el tipo no se puede cambiar (transferencias).
+.type-label {
+  text-align: center;
+  font: var(--mat-sys-label-large);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--mat-sys-on-surface-variant);
+}

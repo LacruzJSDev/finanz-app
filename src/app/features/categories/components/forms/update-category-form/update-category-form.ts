@@ -5,7 +5,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CategoriesService } from '../../../../../core/categories/categories.service';
 import { CategoryRead, UpdateCategoryRequest } from '../../../../../api';
 import { IconPicker } from '../../../../../shared/icons/icon-picker/icon-picker';
@@ -29,7 +28,6 @@ export interface UpdateCategoryFormData {
     MatInputModule,
     MatSelectModule,
     MatButtonModule,
-    MatCheckboxModule,
   ],
   templateUrl: './update-category-form.html',
   host: { class: 'bottom-sheet-form' },
@@ -45,7 +43,6 @@ export class UpdateCategoryForm {
     parent_id: [this.data.category.parent_id ?? ''],
     color: [(this.data.category.color ?? AVAILABLE_COLORS[0]) as ColorName],
     icon: [(this.data.category.icon ?? 'home') as IconName],
-    is_active: [this.data.category.is_active, [Validators.required]],
   });
 
   selectIcon(icon: IconName): void {
@@ -67,7 +64,6 @@ export class UpdateCategoryForm {
       parent_id: this.data.hasChildren ? null : raw.parent_id || null,
       color: raw.color,
       icon: raw.icon,
-      is_active: raw.is_active,
     };
 
     this.categoriesService.updateCategory(this.data.category.id, payload).subscribe(() => {

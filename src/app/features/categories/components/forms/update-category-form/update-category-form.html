@@ -1,30 +1,32 @@
 <h2>Editar categoría</h2>
 
 <form [formGroup]="form" (ngSubmit)="submit()">
-  <mat-form-field appearance="outline">
-    <mat-label>Nombre</mat-label>
-    <input matInput type="text" formControlName="name" />
-  </mat-form-field>
-
   @if (data.hasChildren) {
-    <p>Esta categoría tiene subcategorías propias, no puede tener padre.</p>
-  } @else {
-    <mat-form-field appearance="outline">
-      <mat-label>Categoría padre</mat-label>
-      <mat-select formControlName="parent_id">
-        <mat-option value="">Categoría raíz (sin padre)</mat-option>
-        @for (category of data.rootCategories; track category.id) {
-          <mat-option [value]="category.id">{{ category.name }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
+    <p class="form-note">Esta categoría tiene subcategorías propias, no puede tener padre.</p>
   }
 
-  <app-color-picker [selected]="form.controls.color.value" (colorChange)="selectColor($event)" />
+  <div class="grouped-card">
+    <mat-form-field>
+      <mat-label>Nombre</mat-label>
+      <input matInput type="text" formControlName="name" />
+    </mat-form-field>
 
-  <app-icon-picker [selected]="form.controls.icon.value" (iconChange)="selectIcon($event)" />
+    @if (!data.hasChildren) {
+      <mat-form-field>
+        <mat-label>Categoría padre</mat-label>
+        <mat-select formControlName="parent_id">
+          <mat-option value="">Categoría raíz (sin padre)</mat-option>
+          @for (category of data.rootCategories; track category.id) {
+            <mat-option [value]="category.id">{{ category.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    }
 
-  <mat-checkbox formControlName="is_active">Activa</mat-checkbox>
+    <app-color-picker [selected]="form.controls.color.value" (colorChange)="selectColor($event)" />
+
+    <app-icon-picker [selected]="form.controls.icon.value" (iconChange)="selectIcon($event)" />
+  </div>
 
   <button matButton="filled" type="submit">Guardar</button>
 </form>

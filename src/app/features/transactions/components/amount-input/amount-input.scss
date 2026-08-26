@@ -1,0 +1,63 @@
+@use '@angular/material' as mat;
+
+:host {
+  display: block;
+}
+
+.amount {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.25rem;
+  padding: 0.75rem 0 0.25rem;
+}
+
+.amount--expense {
+  color: var(--mat-sys-error);
+}
+
+.amount--income {
+  color: var(--mat-sys-tertiary);
+}
+
+.amount--transfer {
+  color: var(--mat-sys-on-surface);
+}
+
+.amount-sign {
+  font-size: 2rem;
+  opacity: 0.6;
+}
+
+.amount-currency {
+  font-size: 1.4rem;
+  opacity: 0.5;
+}
+
+// Campo sin etiqueta: el signo y el contexto del formulario ya dicen qué es,
+// así que no aplica el padding reservado para la etiqueta flotante.
+.amount-field {
+  width: auto;
+  max-width: 12rem;
+
+  @include mat.form-field-overrides(
+    (
+      container-vertical-padding: 0,
+    )
+  );
+
+  input {
+    font-family: var(--mat-sys-display-large-font);
+    font-size: 3.5rem;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+    text-align: center;
+    color: inherit;
+
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+    }
+  }
+}
