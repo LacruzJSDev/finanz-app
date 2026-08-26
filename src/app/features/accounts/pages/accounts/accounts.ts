@@ -59,6 +59,12 @@ export class Accounts {
     });
   }
 
+  toggleAccountActive(account: AccountRead): void {
+    this.accountsService
+      .updateAccount(account.id, { name: account.name, is_active: !account.is_active })
+      .subscribe();
+  }
+
   showAccountDetail(accountId: string) {
     this.router.navigateByUrl(`/cuentas/${accountId}`);
   }
