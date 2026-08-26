@@ -9,6 +9,7 @@ import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/core';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { MAT_BUTTON_TOGGLE_DEFAULT_OPTIONS } from '@angular/material/button-toggle';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 
 import { routes } from './app.routes';
 import { provideApi } from './api/provide-api';
@@ -29,11 +30,15 @@ export const appConfig: ApplicationConfig = {
     { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
-      useValue: { appearance: 'fill', floatLabel: 'always', subscriptSizing: 'dynamic' },
+      useValue: { appearance: 'fill', floatLabel: 'always', subscriptSizing: 'fixed' },
     },
     {
       provide: MAT_BUTTON_TOGGLE_DEFAULT_OPTIONS,
       useValue: { hideSingleSelectionIndicator: true },
+    },
+    {
+      provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
+      useValue: { verticalPosition: 'top', horizontalPosition: 'center', duration: 5000 },
     },
   ],
 };
