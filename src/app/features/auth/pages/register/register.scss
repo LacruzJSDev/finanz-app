@@ -1,0 +1,31 @@
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100dvh;
+  padding: 1rem;
+}
+
+.auth-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 22rem;
+
+  h1 {
+    text-align: center;
+    font: var(--mat-sys-headline-small);
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  button[type='submit'] {
+    height: 52px;
+    margin-top: 0.5rem;
+  }
+}
