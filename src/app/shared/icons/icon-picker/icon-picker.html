@@ -1,20 +1,16 @@
-<mat-form-field appearance="outline">
+<mat-form-field>
   <mat-label>Icono</mat-label>
   <mat-select [value]="selected()" (selectionChange)="iconChange.emit($event.value)">
     <mat-select-trigger>
       @if (selected(); as icon) {
-        <span class="icon-option">
-          <mat-icon>{{ icon }}</mat-icon>
-          {{ icon | iconLabel }}
-        </span>
+        <mat-icon>{{ icon }}</mat-icon>
+        {{ labels[icon] }}
       }
     </mat-select-trigger>
     @for (icon of icons; track icon) {
       <mat-option [value]="icon">
-        <span class="icon-option">
-          <mat-icon>{{ icon }}</mat-icon>
-          {{ icon | iconLabel }}
-        </span>
+        <mat-icon>{{ icon }}</mat-icon>
+        {{ labels[icon] }}
       </mat-option>
     }
   </mat-select>

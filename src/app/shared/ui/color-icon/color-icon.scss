@@ -1,0 +1,15 @@
+:host {
+  display: inline-block;
+}
+
+.color-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--mat-sys-corner-small);
+  flex-shrink: 0;
+
+  mat-icon {
+    margin: 0;
+  }
+}

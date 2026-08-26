@@ -1,20 +1,16 @@
-<mat-form-field appearance="outline">
+<mat-form-field>
   <mat-label>Color</mat-label>
   <mat-select [value]="selected()" (selectionChange)="colorChange.emit($event.value)">
     <mat-select-trigger>
       @if (selected(); as color) {
-        <span class="color-option">
-          <span class="color-swatch" [style.background-color]="color"></span>
-          {{ labels[color] }}
-        </span>
+        <span class="color-swatch" [style.background-color]="color"></span>
+        {{ labels[color] }}
       }
     </mat-select-trigger>
     @for (color of colors; track color) {
       <mat-option [value]="color">
-        <span class="color-option">
-          <span class="color-swatch" [style.background-color]="color"></span>
-          {{ labels[color] }}
-        </span>
+        <span class="color-swatch" [style.background-color]="color"></span>
+        {{ labels[color] }}
       </mat-option>
     }
   </mat-select>
