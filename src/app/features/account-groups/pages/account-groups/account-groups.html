@@ -5,15 +5,17 @@
   </mat-button-toggle-group>
 </div>
 
-@for (group of visibleGroups(); track group.id) {
-  <app-account-group-card
-    [accountGroup]="group"
-    [activeGroupId]="activeGroupId()"
-    (showClick)="showDetail($event.id)"
-    (workingGroupChange)="setWorkingGroup(group, $event)"
-  />
-} @empty {
-  <p class="empty-note">
-    {{ filter() === 'active' ? 'No hay grupos activos.' : 'No hay grupos archivados.' }}
-  </p>
-}
+<div class="page-content">
+  @for (group of visibleGroups(); track group.id) {
+    <app-account-group-card
+      [accountGroup]="group"
+      [activeGroupId]="activeGroupId()"
+      (showClick)="showDetail($event.id)"
+      (workingGroupChange)="setWorkingGroup(group, $event)"
+    />
+  } @empty {
+    <p class="empty-note">
+      {{ filter() === 'active' ? 'No hay grupos activos.' : 'No hay grupos archivados.' }}
+    </p>
+  }
+</div>

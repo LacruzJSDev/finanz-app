@@ -17,6 +17,16 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
+// Sin barra de scroll visible en ningún elemento. El scroll sigue funcionando
+// igual, con rueda, teclado y gesto táctil.
+* {
+  scrollbar-width: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
 body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;

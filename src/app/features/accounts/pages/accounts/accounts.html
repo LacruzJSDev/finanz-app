@@ -1,4 +1,4 @@
-@if (accounts().length; as a) {
+<div class="page-content">
   @for (account of accounts(); track account.id) {
     <app-account-card
       [account]="account"
@@ -6,7 +6,7 @@
       (viewClick)="showAccountDetail($event.id)"
       (toggleActive)="toggleAccountActive($event)"
     />
+  } @empty {
+    <p class="empty-note">No hay cuentas asociadas al grupo.</p>
   }
-} @else {
-  <p>No hay cuentas asociadas al grupo</p>
-}
+</div>

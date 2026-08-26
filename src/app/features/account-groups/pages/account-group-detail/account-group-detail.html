@@ -1,7 +1,9 @@
-@if (group(); as g) {
-  <h1>{{ g.name }}</h1>
-  <p>{{ g.is_active ? 'Activo' : 'Archivado' }}</p>
-  <p [style.backgroundColor]="g.color">{{ g.color ? 'color' : 'Sin color' }}</p>
-} @else {
-  <p>Grupo no encontrado.</p>
-}
+<div class="page-content">
+  @if (group(); as g) {
+    <h1>{{ g.name }}</h1>
+    <p>{{ g.is_active ? 'Activo' : 'Archivado' }}</p>
+    <p [style.backgroundColor]="g.color">{{ g.color ? 'color' : 'Sin color' }}</p>
+  } @else {
+    <p class="empty-note">Grupo no encontrado.</p>
+  }
+</div>

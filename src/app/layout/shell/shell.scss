@@ -1,6 +1,10 @@
 :host {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+app-top-bar {
+  flex-shrink: 0;
 }

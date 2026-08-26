@@ -5,15 +5,17 @@
   </mat-button-toggle-group>
 </div>
 
-@if (visibleCategories().length) {
-  <app-categories-list
-    [categories]="visibleCategories()"
-    [blockedIds]="blockedIds()"
-    (editClick)="openUpdateCategoryForm($event)"
-    (toggleActive)="toggleCategoryActive($event)"
-  />
-} @else {
-  <p class="empty-note">
-    {{ filter() === 'active' ? 'No hay categorías activas.' : 'No hay categorías archivadas.' }}
-  </p>
-}
+<div class="page-content">
+  @if (visibleCategories().length) {
+    <app-categories-list
+      [categories]="visibleCategories()"
+      [blockedIds]="blockedIds()"
+      (editClick)="openUpdateCategoryForm($event)"
+      (toggleActive)="toggleCategoryActive($event)"
+    />
+  } @else {
+    <p class="empty-note">
+      {{ filter() === 'active' ? 'No hay categorías activas.' : 'No hay categorías archivadas.' }}
+    </p>
+  }
+</div>
