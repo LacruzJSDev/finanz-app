@@ -1,0 +1,11 @@
+@use '@angular/material' as mat;
+
+// Dentro de un botón el indicador tiene que leer el color del propio botón: el
+// rol primary sobre el relleno oscuro del botón principal no se ve.
+button {
+  @include mat.progress-spinner-overrides(
+    (
+      active-indicator-color: currentColor,
+    )
+  );
+}

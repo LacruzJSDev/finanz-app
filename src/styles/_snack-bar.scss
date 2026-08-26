@@ -1,0 +1,19 @@
+@use '@angular/material' as mat;
+
+:root {
+  @include mat.snack-bar-overrides(
+    (
+      container-shape: var(--mat-sys-corner-medium),
+    )
+  );
+}
+
+.snack-bar--error {
+  @include mat.snack-bar-overrides(
+    (
+      container-color: var(--mat-sys-error-container),
+      supporting-text-color: var(--mat-sys-on-error-container),
+      button-color: var(--mat-sys-on-error-container),
+    )
+  );
+}

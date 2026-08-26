@@ -8,6 +8,8 @@
 @use 'styles/form-field';
 @use 'styles/grouped-card';
 @use 'styles/select';
+@use 'styles/snack-bar';
+@use 'styles/progress-spinner';
 @use 'styles/expansion';
 @use 'styles/button-toggle';
 @use 'styles/card';
@@ -78,6 +80,25 @@ body {
   flex-direction: column;
   gap: 1rem;
   padding-bottom: 6rem;
+}
+
+// Error del formulario entero: el que no corresponde a ningún campo. Reserva
+// su línea siempre, igual que el subscript de los campos, para que el botón no
+// se desplace al aparecer.
+.form-error {
+  min-height: 1rem;
+  font: var(--mat-sys-body-small);
+  color: var(--mat-sys-error);
+  text-align: center;
+}
+
+// Carga en curso, en el mismo sitio que ocuparía la lista.
+.page-loader {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
 }
 
 // Lista sin resultados o página sin contenido. Va dentro de .page-content, y
