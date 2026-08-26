@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { eurosToCents } from '../../../../../shared/money/money';
 import { dateToIso } from '../../../../../shared/date/date';
@@ -19,6 +20,7 @@ import {
 import { ColorIcon } from '../../../../../shared/ui/color-icon/color-icon';
 import { AmountInput } from '../../amount-input/amount-input';
 import { ToggleTransactionType } from '../../toggle-transaction-type/toggle-transaction-type';
+import { applyServerErrors } from '../../../../../shared/forms/apply-server-errors';
 
 export interface CreateTransactionFormData {
   accountId: string;
@@ -38,6 +40,7 @@ export interface CreateTransactionFormData {
     MatSelectModule,
     MatButtonModule,
     MatDatepickerModule,
+    MatProgressSpinnerModule,
   ],
   templateUrl: './create-transaction-form.html',
   host: { class: 'bottom-sheet-form' },
@@ -47,6 +50,9 @@ export class CreateTransactionForm {
   private readonly transactionsService = inject(TransactionsService);
   private readonly bottomSheetRef = inject(MatBottomSheetRef<CreateTransactionForm>);
   protected readonly data = inject<CreateTransactionFormData>(MAT_BOTTOM_SHEET_DATA);
+
+  protected readonly submitting = signal(false);
+  protected readonly formError = signal<string | null>(null);
   protected readonly transactionTypes = Object.values(TransactionTypeEnum);
 
   readonly form = this.fb.nonNullable.group({
@@ -71,7 +77,10 @@ export class CreateTransactionForm {
   );
 
   submit(): void {
-    if (this.form.invalid) return;
+    if (this.form.invalid || this.submitting()) return;
+    this.submitting.set(true);
+    this.formError.set(null);
+    this.bottomSheetRef.disableClose = true;
     const raw = this.form.getRawValue();
     const isTransfer = raw.type === 'transfer';
 
@@ -84,8 +93,13 @@ export class CreateTransactionForm {
       category_id: isTransfer ? undefined : raw.category_id || undefined,
     };
 
-    this.transactionsService.createTransaction(this.data.accountId, payload).subscribe(() => {
-      this.bottomSheetRef.dismiss();
+    this.transactionsService.createTransaction(this.data.accountId, payload).subscribe({
+      next: () => this.bottomSheetRef.dismiss(),
+      error: (error: unknown) => {
+        this.submitting.set(false);
+        this.bottomSheetRef.disableClose = false;
+        this.formError.set(applyServerErrors(this.form, error));
+      },
     });
   }
 }

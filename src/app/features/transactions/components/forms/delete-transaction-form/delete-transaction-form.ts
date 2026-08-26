@@ -1,6 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { TransactionsService } from '../../../../../core/transactions/transactions.service';
 import { TransactionRead } from '../../../../../api';
 
@@ -11,7 +12,7 @@ export interface DeleteTransactionFormData {
 
 @Component({
   selector: 'app-delete-transaction-form',
-  imports: [MatButtonModule],
+  imports: [MatButtonModule, MatProgressSpinnerModule],
   templateUrl: './delete-transaction-form.html',
   styleUrl: './delete-transaction-form.scss',
   host: { class: 'bottom-sheet-form' },
@@ -22,11 +23,21 @@ export class DeleteTransactionForm {
 
   protected readonly data = inject<DeleteTransactionFormData>(MAT_BOTTOM_SHEET_DATA);
 
+  protected readonly submitting = signal(false);
+
   submit(): void {
+    if (this.submitting()) return;
+    this.submitting.set(true);
+    this.bottomSheetRef.disableClose = true;
+
     this.transactionsService
       .deleteTransactionById(this.data.accountId, this.data.transaction.id)
-      .subscribe(() => {
-        this.bottomSheetRef.dismiss();
+      .subscribe({
+        next: () => this.bottomSheetRef.dismiss(),
+        error: () => {
+          this.submitting.set(false);
+          this.bottomSheetRef.disableClose = false;
+        },
       });
   }
 

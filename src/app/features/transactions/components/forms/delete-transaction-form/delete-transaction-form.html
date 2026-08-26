@@ -1,6 +1,12 @@
 <h2>Eliminar movimiento</h2>
 <p>¿Seguro que quieres eliminar este movimiento? Esta acción no se puede deshacer.</p>
 <div class="actions">
-  <button matButton (click)="cancel()">Cancelar</button>
-  <button matButton="filled" class="delete-button" (click)="submit()">Eliminar</button>
+  <button matButton (click)="cancel()" [disabled]="submitting()">Cancelar</button>
+  <button matButton="filled" class="delete-button" (click)="submit()" [disabled]="submitting()">
+    @if (submitting()) {
+      <mat-spinner diameter="20" />
+    } @else {
+      Eliminar
+    }
+  </button>
 </div>

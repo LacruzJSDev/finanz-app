@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { LowerCasePipe } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { centsToEuros, eurosToCents } from '../../../../../shared/money/money';
 import { dateToIso, isoToDate } from '../../../../../shared/date/date';
@@ -22,6 +23,7 @@ import { TransactionTypeLabelPipe } from '../../../pipes/transaction-type-label.
 import { ColorIcon } from '../../../../../shared/ui/color-icon/color-icon';
 import { AmountInput } from '../../amount-input/amount-input';
 import { ToggleTransactionType } from '../../toggle-transaction-type/toggle-transaction-type';
+import { applyServerErrors } from '../../../../../shared/forms/apply-server-errors';
 
 export interface UpdateTransactionFormData {
   accountId: string;
@@ -43,6 +45,7 @@ export interface UpdateTransactionFormData {
     MatSelectModule,
     MatButtonModule,
     MatDatepickerModule,
+    MatProgressSpinnerModule,
     ToggleTransactionType,
   ],
   templateUrl: './update-transaction-form.html',
@@ -53,6 +56,9 @@ export class UpdateTransactionForm {
   private readonly fb = inject(FormBuilder);
   private readonly bottomSheetRef = inject(MatBottomSheetRef<UpdateTransactionForm>);
   protected readonly data = inject<UpdateTransactionFormData>(MAT_BOTTOM_SHEET_DATA);
+
+  protected readonly submitting = signal(false);
+  protected readonly formError = signal<string | null>(null);
 
   protected readonly transactionTypes =
     this.data.transaction.type !== TransactionTypeEnum.Transfer
@@ -82,7 +88,10 @@ export class UpdateTransactionForm {
   private readonly transactionsService = inject(TransactionsService);
 
   submit(): void {
-    if (this.form.invalid) return;
+    if (this.form.invalid || this.submitting()) return;
+    this.submitting.set(true);
+    this.formError.set(null);
+    this.bottomSheetRef.disableClose = true;
     const raw = this.form.getRawValue();
     const isTransfer = raw.type === 'transfer';
 
@@ -96,8 +105,13 @@ export class UpdateTransactionForm {
 
     this.transactionsService
       .updateTransaction(this.data.accountId, this.data.transaction.id, payload)
-      ?.subscribe(() => {
-        this.bottomSheetRef.dismiss();
+      .subscribe({
+        next: () => this.bottomSheetRef.dismiss(),
+        error: (error: unknown) => {
+          this.submitting.set(false);
+          this.bottomSheetRef.disableClose = false;
+          this.formError.set(applyServerErrors(this.form, error));
+        },
       });
   }
 }

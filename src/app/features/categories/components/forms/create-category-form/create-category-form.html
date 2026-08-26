@@ -5,6 +5,9 @@
     <mat-form-field>
       <mat-label>Nombre</mat-label>
       <input matInput type="text" formControlName="name" />
+      <mat-error>{{
+        form.controls.name.getError('server') ?? 'El nombre es obligatorio.'
+      }}</mat-error>
     </mat-form-field>
 
     <mat-form-field>
@@ -21,6 +24,13 @@
 
     <app-icon-picker [selected]="form.controls.icon.value" (iconChange)="selectIcon($event)" />
   </div>
+  <p class="form-error">{{ formError() }}</p>
 
-  <button matButton="filled" type="submit">Guardar</button>
+  <button matButton="filled" type="submit" [disabled]="submitting()">
+    @if (submitting()) {
+      <mat-spinner diameter="20" />
+    } @else {
+      Guardar
+    }
+  </button>
 </form>

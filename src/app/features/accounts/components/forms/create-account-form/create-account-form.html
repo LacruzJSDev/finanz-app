@@ -4,6 +4,9 @@
     <mat-form-field>
       <mat-label>Nombre</mat-label>
       <input matInput type="text" formControlName="name" />
+      <mat-error>{{
+        form.controls.name.getError('server') ?? 'El nombre es obligatorio.'
+      }}</mat-error>
     </mat-form-field>
 
     <mat-form-field>
@@ -18,17 +21,30 @@
     <mat-form-field>
       <mat-label>Saldo actual</mat-label>
       <input matInput type="number" step="0.01" formControlName="opening_balance" />
+      <mat-error>{{
+        form.controls.opening_balance.getError('server') ?? 'El saldo es obligatorio.'
+      }}</mat-error>
     </mat-form-field>
 
     <mat-form-field>
       <mat-label>Moneda</mat-label>
       <input matInput type="text" formControlName="currency" maxlength="3" />
+      <mat-error>{{
+        form.controls.currency.getError('server') ?? 'La moneda es obligatoria.'
+      }}</mat-error>
     </mat-form-field>
 
     <app-color-picker [selected]="form.controls.color.value" (colorChange)="selectColor($event)" />
 
     <app-icon-picker [selected]="form.controls.icon.value" (iconChange)="selectIcon($event)" />
   </div>
+  <p class="form-error">{{ formError() }}</p>
 
-  <button matButton="filled" type="submit">Guardar</button>
+  <button matButton="filled" type="submit" [disabled]="submitting()">
+    @if (submitting()) {
+      <mat-spinner diameter="20" />
+    } @else {
+      Guardar
+    }
+  </button>
 </form>

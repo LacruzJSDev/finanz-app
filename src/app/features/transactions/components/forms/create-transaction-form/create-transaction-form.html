@@ -15,6 +15,9 @@
       />
       <mat-datepicker-toggle matIconSuffix [for]="datePicker" />
       <mat-datepicker #datePicker />
+      <mat-error>{{
+        form.controls.date.getError('server') ?? 'La fecha es obligatoria.'
+      }}</mat-error>
     </mat-form-field>
 
     @if (type() === 'transfer') {
@@ -45,6 +48,9 @@
             </mat-option>
           }
         </mat-select>
+        <mat-error>{{
+          form.controls.category_id.getError('server') ?? 'La categoría es obligatoria.'
+        }}</mat-error>
       </mat-form-field>
     }
 
@@ -53,6 +59,13 @@
       <input matInput type="text" formControlName="notes" />
     </mat-form-field>
   </div>
+  <p class="form-error">{{ formError() }}</p>
 
-  <button matButton="filled" type="submit">Guardar</button>
+  <button matButton="filled" type="submit" [disabled]="submitting()">
+    @if (submitting()) {
+      <mat-spinner diameter="20" />
+    } @else {
+      Guardar
+    }
+  </button>
 </form>
