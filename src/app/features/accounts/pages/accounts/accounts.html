@@ -7,6 +7,10 @@
       (toggleActive)="toggleAccountActive($event)"
     />
   } @empty {
-    <p class="empty-note">No hay cuentas asociadas al grupo.</p>
+    <div class="empty-state">
+      <mat-icon>account_balance_wallet</mat-icon>
+      <p>No hay cuentas en este grupo.</p>
+      <p class="empty-state-hint">Crea la primera con el botón +.</p>
+    </div>
   }
 </div>

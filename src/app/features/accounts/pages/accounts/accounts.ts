@@ -14,10 +14,11 @@ import {
 } from '../../components/forms/update-account-form/update-account-form';
 import { PageContextService } from '../../../../core/ui/page-context.service';
 import { AccountCard } from '../../components/account-card/account-card';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-accounts',
-  imports: [AccountCard],
+  imports: [AccountCard, MatIconModule],
   templateUrl: 'accounts.html',
   host: { class: 'page-container' },
 })

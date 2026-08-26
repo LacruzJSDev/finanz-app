@@ -6,10 +6,11 @@ import {
   UpdateAccountGroupForm,
   UpdateAccountGroupFormData,
 } from '../../components/forms/update-account-group-form/update-account-group-form';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-account-group-detail',
-  imports: [],
+  imports: [MatIconModule],
   templateUrl: './account-group-detail.html',
   host: { class: 'page-container' },
 })

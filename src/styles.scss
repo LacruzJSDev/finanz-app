@@ -80,9 +80,30 @@ body {
   padding-bottom: 6rem;
 }
 
-// Aviso de lista vacía dentro de una página.
-.empty-note {
+// Lista sin resultados o página sin contenido. Va dentro de .page-content, y
+// el `flex: 1` hace que se quede centrado en el hueco libre en vez de pegado
+// arriba, que es donde se nota que falta algo.
+.empty-state {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 2rem 1rem;
   text-align: center;
-  padding: 2rem 0;
   color: var(--mat-sys-on-surface-variant);
+
+  mat-icon {
+    font-size: 2.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--mat-sys-outline);
+  }
+}
+
+// Segunda línea, para decir cómo se llena la lista.
+.empty-state-hint {
+  font: var(--mat-sys-body-small);
 }

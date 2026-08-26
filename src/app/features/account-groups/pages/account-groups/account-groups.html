@@ -14,8 +14,15 @@
       (workingGroupChange)="setWorkingGroup(group, $event)"
     />
   } @empty {
-    <p class="empty-note">
-      {{ filter() === 'active' ? 'No hay grupos activos.' : 'No hay grupos archivados.' }}
-    </p>
+    <div class="empty-state">
+      <mat-icon>groups</mat-icon>
+      @if (filter() === 'active') {
+        <p>No hay grupos activos.</p>
+        <p class="empty-state-hint">Crea el primero con el botón +.</p>
+      } @else {
+        <p>No hay grupos archivados.</p>
+        <p class="empty-state-hint">Los grupos que archives aparecerán aquí.</p>
+      }
+    </div>
   }
 </div>

@@ -20,10 +20,11 @@ import {
 } from '../../../transactions/components/forms/delete-transaction-form/delete-transaction-form';
 import { TransactionRead } from '../../../../api';
 import { PageContextService } from '../../../../core/ui/page-context.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-account-detail',
-  imports: [CentsToEurosPipe, TransactionsList, Paginator],
+  imports: [CentsToEurosPipe, TransactionsList, Paginator, MatIconModule],
   templateUrl: 'account-detail.html',
   host: { class: 'page-container' },
 })

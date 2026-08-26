@@ -4,6 +4,9 @@
     <p>{{ g.is_active ? 'Activo' : 'Archivado' }}</p>
     <p [style.backgroundColor]="g.color">{{ g.color ? 'color' : 'Sin color' }}</p>
   } @else {
-    <p class="empty-note">Grupo no encontrado.</p>
+    <div class="empty-state">
+      <mat-icon>search_off</mat-icon>
+      <p>Grupo no encontrado.</p>
+    </div>
   }
 </div>

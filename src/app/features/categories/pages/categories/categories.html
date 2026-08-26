@@ -14,8 +14,15 @@
       (toggleActive)="toggleCategoryActive($event)"
     />
   } @else {
-    <p class="empty-note">
-      {{ filter() === 'active' ? 'No hay categorías activas.' : 'No hay categorías archivadas.' }}
-    </p>
+    <div class="empty-state">
+      <mat-icon>category</mat-icon>
+      @if (filter() === 'active') {
+        <p>No hay categorías activas.</p>
+        <p class="empty-state-hint">Crea la primera con el botón +.</p>
+      } @else {
+        <p>No hay categorías archivadas.</p>
+        <p class="empty-state-hint">Las categorías que archives aparecerán aquí.</p>
+      }
+    </div>
   }
 </div>

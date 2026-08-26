@@ -1,9 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { PageContextService } from '../../../../core/ui/page-context.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [],
+  imports: [MatIconModule],
   templateUrl: './dashboard.html',
   host: { class: 'page-container' },
 })
