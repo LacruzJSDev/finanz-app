@@ -1,0 +1,12 @@
+@use '@angular/material' as mat;
+
+// Por defecto la card usa `surface`, el mismo rol que el fondo de página, y se
+// confunde con él. La escala de superficies de M3 tiene un rol justo para lo
+// que va encima: surface-container-lowest.
+:root {
+  @include mat.card-overrides(
+    (
+      outlined-container-color: var(--mat-sys-surface-container-lowest),
+    )
+  );
+}

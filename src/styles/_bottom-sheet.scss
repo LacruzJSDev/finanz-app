@@ -1,0 +1,60 @@
+// Material solo redondea el sheet a partir del breakpoint "medium"; en móvil
+// no le pone clase de tamaño y lo deja a bordes vivos.
+.mat-bottom-sheet-container {
+  border-top-left-radius: var(--mat-sys-corner-extra-large);
+  border-top-right-radius: var(--mat-sys-corner-extra-large);
+}
+
+.bottom-sheet-form {
+  display: block;
+  padding: 0.5rem 1rem 1rem;
+
+  // Tirador decorativo, sin gesto de arrastre.
+  &::before {
+    content: '';
+    display: block;
+    width: 36px;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--mat-sys-outline-variant);
+    margin: 0 auto 0.75rem;
+  }
+
+  h2 {
+    margin: 0 0 1rem;
+    text-align: center;
+    font: var(--mat-sys-title-medium);
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  // Cabecera con una acción a la derecha (archivar, por ejemplo). El título
+  // deja de ir centrado: con algo al lado quedaría descuadrado respecto al
+  // sheet, no respecto al hueco que le sobra.
+  .head-form {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+
+    h2 {
+      margin: 0;
+      text-align: left;
+    }
+  }
+
+  // Aclaración sobre una restricción del formulario, no un error de validación.
+  .form-note {
+    font: var(--mat-sys-body-small);
+    color: var(--mat-sys-on-surface-variant);
+  }
+
+  button[type='submit'] {
+    height: 52px;
+    margin-top: 0.5rem;
+  }
+}

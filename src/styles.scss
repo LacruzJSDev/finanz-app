@@ -1,39 +1,61 @@
-// Include theming for Angular Material with `mat.theme()`.
-// This Sass mixin will define CSS variables that are used for styling Angular Material
-// components according to the Material 3 design spec.
-// Learn more about theming and how to use it for your application's
-// custom components at https://material.angular.dev/guide/theming
+@use 'sass:map';
 @use '@angular/material' as mat;
+@use 'styles/theme-colors' as theme;
 @use 'styles/reset';
+@use 'styles/bottom-sheet';
+@use 'styles/icon';
+@use 'styles/slide-toggle';
+@use 'styles/form-field';
+@use 'styles/grouped-card';
+@use 'styles/select';
+@use 'styles/expansion';
+@use 'styles/button-toggle';
+@use 'styles/card';
+@use 'styles/fab';
 
 html {
   height: 100%;
+  color-scheme: light;
+
   @include mat.theme(
     (
       color: (
-        primary: mat.$azure-palette,
-        tertiary: mat.$blue-palette,
+        primary: theme.$primary-palette,
+        tertiary: theme.$tertiary-palette,
+        theme-type: light,
       ),
-      typography: Roboto,
+      typography: (
+        plain-family: (
+          Geist,
+          system-ui,
+          sans-serif,
+        ),
+        brand-family: (
+          'Space Grotesk',
+          system-ui,
+          sans-serif,
+        ),
+      ),
       density: 0,
+    )
+  );
+
+  @include mat.theme-overrides(
+    (
+      primary: map.get(theme.$primary-palette, 10),
+      corner-medium: 14px,
+      corner-large: 22px,
     )
   );
 }
 
 body {
-  // Default the application to a light color theme. This can be changed to
-  // `dark` to enable the dark color theme, or to `light dark` to defer to the
-  // user's system settings.
-  color-scheme: light;
-
-  // Set a default background, font and text colors for the application using
-  // Angular Material's system-level CSS variables. Learn more about these
-  // variables at https://material.angular.dev/guide/system-variables
-  background-color: var(--mat-sys-surface);
+  background-color: var(--mat-sys-background);
   color: var(--mat-sys-on-surface);
   font: var(--mat-sys-body-medium);
+  letter-spacing: -0.005em;
+  font-feature-settings: 'ss01', 'cv11';
 }
-/* You can add global styles to this file, and also import other style files */
 
 .page-container {
   display: flex;
@@ -44,26 +66,9 @@ body {
   padding: 1rem;
 }
 
-.bottom-sheet-form {
-  display: block;
-  padding: 1rem;
-
-  h2 {
-    margin: 0 0 1rem;
-  }
-
-  form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  mat-form-field {
-    width: 100%;
-  }
-
-  button[type='submit'] {
-    align-self: stretch;
-    margin-top: 0.5rem;
-  }
+// Aviso de lista vacía dentro de una página.
+.empty-note {
+  text-align: center;
+  padding: 2rem 0;
+  color: var(--mat-sys-on-surface-variant);
 }

@@ -1,0 +1,12 @@
+// Sin esto el glifo queda descentrado dentro de cajas de tamaño fijo (p.ej. ColorIcon).
+mat-icon {
+  line-height: 1;
+}
+
+// Para filas de lista y opciones de select, donde los 24px por defecto de
+// Material quedan grandes junto a texto pequeño.
+// mat-icon.icon-sm {
+//   font-size: 1.125rem;
+//   width: 1.125rem;
+//   height: 1.125rem;
+// }

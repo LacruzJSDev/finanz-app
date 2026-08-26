@@ -1,0 +1,18 @@
+@use '@angular/material' as mat;
+
+// El FAB usa por defecto el par primary-container / on-primary-container, que
+// es un gris claro y no pega con los CTA. Aquí lee el par primary, igual que
+// el botón principal de los formularios.
+// Para que el FAB sea el acento azul, cambiar primary por secondary.
+:root {
+  @include mat.fab-overrides(
+    (
+      container-color: var(--mat-sys-primary),
+      foreground-color: var(--mat-sys-on-primary),
+      state-layer-color: var(--mat-sys-on-primary),
+      small-container-color: var(--mat-sys-primary),
+      small-foreground-color: var(--mat-sys-on-primary),
+      small-state-layer-color: var(--mat-sys-on-primary),
+    )
+  );
+}

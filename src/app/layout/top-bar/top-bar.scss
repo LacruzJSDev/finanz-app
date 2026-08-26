@@ -1,6 +1,11 @@
 :host {
   width: 100%;
-  .mat-mdc-standard-chip {
-    width: fit-content;
-  }
+}
+
+mat-chip {
+  width: fit-content;
+}
+
+.mat-toolbar {
+  background: var(--mat-sys-surface-container-lowest);
 }

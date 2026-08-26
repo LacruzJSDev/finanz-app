@@ -1,0 +1,6 @@
+// El panel desplegable no tiene token de forma en Material y su regla propia
+// gana por orden de carga, de ahí el !important (comprobado: sin él queda en
+// los 4px de Material).
+.mat-mdc-select-panel {
+  border-radius: var(--mat-sys-corner-medium) !important;
+}

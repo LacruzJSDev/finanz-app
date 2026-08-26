@@ -1,0 +1,25 @@
+@use '@angular/material' as mat;
+
+:root {
+  @include mat.button-toggle-overrides(
+    (
+      shape: var(--mat-sys-corner-full),
+      height: 36px,
+      selected-state-background-color: var(--mat-sys-surface-container-lowest),
+      selected-state-text-color: var(--mat-sys-on-surface),
+      text-color: var(--mat-sys-on-surface-variant),
+      divider-color: transparent,
+      label-text-weight: 600,
+    )
+  );
+}
+
+// Pista del selector segmentado. El grupo ya es inline-flex por defecto, así
+// que se ajusta solo a su contenido; aquí basta con centrarlo.
+.segmented-track {
+  width: fit-content;
+  margin-inline: auto;
+  background: var(--mat-sys-surface-container-high);
+  border-radius: var(--mat-sys-corner-full);
+  padding: 0.25rem;
+}

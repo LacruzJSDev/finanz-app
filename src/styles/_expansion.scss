@@ -1,0 +1,24 @@
+@use '@angular/material' as mat;
+
+// El panel expandible se presenta como una card más: plano, con borde y con la
+// misma forma que `mat-card` (que usa corner-medium, no corner-large).
+:root {
+  @include mat.expansion-overrides(
+    (
+      container-shape: var(--mat-sys-corner-medium),
+      container-background-color: var(--mat-sys-surface-container-lowest),
+      container-elevation-shadow: none,
+      // Alto suficiente para un icono grande, en vez de los 48px por defecto.
+      header-collapsed-state-height: 72px,
+      header-expanded-state-height: 72px,
+      // `disabled` se usa solo para impedir que se despliegue cuando no hay
+      // nada dentro; no debe verse apagado por eso.
+      header-disabled-state-text-color: var(--mat-sys-on-surface),
+    )
+  );
+}
+
+// No hay token de borde: el panel solo expone fondo, forma y elevación.
+mat-expansion-panel {
+  border: var(--mat-card-outlined-outline-width, 1px) solid var(--mat-sys-outline-variant);
+}

@@ -1,0 +1,18 @@
+@use '@angular/material' as mat;
+
+:root {
+  @include mat.form-field-overrides(
+    (
+      filled-container-color: transparent,
+      filled-active-indicator-color: transparent,
+    )
+  );
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+mat-label {
+  text-transform: uppercase;
+}

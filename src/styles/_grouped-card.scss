@@ -1,0 +1,18 @@
+// Tarjeta que agrupa varios campos como filas separadas por una línea fina.
+// Es el marco que los propios campos ya no dibujan (ver _form-field.scss); el
+// sangrado horizontal lo pone cada campo con su padding propio.
+// Vale para cualquier hijo directo, para que un campo envuelto en un
+// componente (color-picker, icon-picker) sea una fila más.
+.grouped-card {
+  background: var(--mat-sys-surface-container-lowest);
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: var(--mat-sys-corner-large);
+  padding: 0.5rem 0.5rem;
+  > * {
+    display: block;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid var(--mat-sys-outline-variant);
+    }
+  }
+}
