@@ -19,9 +19,10 @@ export class Shell {
 
   constructor() {
     this.accountGroupsService.getAccountGroups().subscribe((res) => {
-      const stillValid = res.items.some((g) => g.id === this.groupContextService.activeGroupId());
-      if (!stillValid && res.items.length > 0) {
-        this.groupContextService.setActiveGroupId(res.items[0].id);
+      const usable = res.items.filter((group) => group.is_active);
+      const stillValid = usable.some((g) => g.id === this.groupContextService.activeGroupId());
+      if (!stillValid) {
+        this.groupContextService.setActiveGroupId(usable[0]?.id ?? null);
       }
     });
   }

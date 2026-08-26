@@ -1,8 +1,19 @@
-@for (group of groups(); track group.id) {
+<div class="segmented-track">
+  <mat-button-toggle-group [value]="filter()" (change)="filter.set($event.value)">
+    <mat-button-toggle value="active">Activos</mat-button-toggle>
+    <mat-button-toggle value="archived">Archivados</mat-button-toggle>
+  </mat-button-toggle-group>
+</div>
+
+@for (group of visibleGroups(); track group.id) {
   <app-account-group-card
     [accountGroup]="group"
     [activeGroupId]="activeGroupId()"
     (showClick)="showDetail($event.id)"
-    (activeClick)="activeGroup($event.id)"
+    (workingGroupChange)="setWorkingGroup(group, $event)"
   />
+} @empty {
+  <p class="empty-note">
+    {{ filter() === 'active' ? 'No hay grupos activos.' : 'No hay grupos archivados.' }}
+  </p>
 }

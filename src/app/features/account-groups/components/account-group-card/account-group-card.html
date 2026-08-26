@@ -1,10 +1,19 @@
-<mat-card class="account-group-card" appearance="outlined">
-  <mat-card-header>
-    <mat-card-title>{{ accountGroup().name }}</mat-card-title>
-  </mat-card-header>
-  <mat-card-actions>
-    <button matButton (click)="showClick.emit(accountGroup())">Ver</button>
-    <!-- <button matButton (click)="activeClick.emit(accountGroup())">{{activeGroupId && activeGroupId === accountGroup()?.id ? "Desactivar" : "Activar"}}</button> -->
-    <button matButton (click)="activeClick.emit(accountGroup())">Activar</button>
-  </mat-card-actions>
+<mat-card appearance="outlined" (click)="showClick.emit(accountGroup())">
+  <app-color-icon [icon]="accountGroup().icon" [color]="accountGroup().color" [size]="48" />
+
+  <div class="group-info">
+    <span class="group-name">{{ accountGroup().name }}</span>
+    <span class="group-members">Miembros: {{ memberCount() }}</span>
+  </div>
+
+  <!-- Un grupo archivado no puede ser el grupo de trabajo. -->
+  @if (accountGroup().is_active) {
+    <div class="group-context" (click)="$event.stopPropagation()">
+      <mat-slide-toggle
+        class="toggle-sm"
+        [checked]="isWorkingGroup()"
+        (change)="workingGroupChange.emit($event.checked)"
+      />
+    </div>
+  }
 </mat-card>

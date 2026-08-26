@@ -1,6 +1,11 @@
 import { Component, computed, inject, input } from '@angular/core';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { PageContextService } from '../../../../core/ui/page-context.service';
 import { AccountGroupsService } from '../../../../core/account-groups/account-groups.service';
+import {
+  UpdateAccountGroupForm,
+  UpdateAccountGroupFormData,
+} from '../../components/forms/update-account-group-form/update-account-group-form';
 
 @Component({
   selector: 'app-account-group-detail',
@@ -9,6 +14,7 @@ import { AccountGroupsService } from '../../../../core/account-groups/account-gr
   host: { class: 'page-container' },
 })
 export class AccountGroupDetail {
+  private readonly bottomSheet = inject(MatBottomSheet);
   protected readonly accountGroupsService = inject(AccountGroupsService);
   protected readonly pageContextService = inject(PageContextService);
 
@@ -21,8 +27,17 @@ export class AccountGroupDetail {
     this.pageContextService.setTitle('Grupo');
     this.pageContextService.setAction({
       onClick: () => this.updateAccountGroup(),
-      icon: 'add',
+      icon: 'edit',
     });
   }
-  updateAccountGroup() {}
+
+  updateAccountGroup(): void {
+    const accountGroup = this.group();
+    if (!accountGroup) return;
+
+    this.bottomSheet.open<UpdateAccountGroupForm, UpdateAccountGroupFormData>(
+      UpdateAccountGroupForm,
+      { data: { accountGroup } },
+    );
+  }
 }

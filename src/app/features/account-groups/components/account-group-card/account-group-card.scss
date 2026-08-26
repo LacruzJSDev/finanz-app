@@ -1,11 +1,34 @@
 :host {
-  .mat-mdc-card {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .mat-mdc-card-header {
-    width: fit-content;
-    padding: 0 0 0 1rem;
-  }
+  display: block;
+}
+
+// Tres secciones: icono | nombre y miembros | grupo de trabajo.
+mat-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+}
+
+.group-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.group-name {
+  font: var(--mat-sys-title-medium);
+}
+
+.group-members {
+  font: var(--mat-sys-body-small);
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.group-context {
+  display: flex;
+  align-items: center;
 }

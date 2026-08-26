@@ -5,6 +5,8 @@ import { GroupContextService } from '../../core/ui/group-context.service';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDividerModule } from '@angular/material/divider';
 
+const NO_GROUP_SELECTED = 'Grupo no seleccionado';
+
 @Component({
   selector: 'app-top-bar',
   imports: [MatToolbarModule, MatChipsModule, MatDividerModule],
@@ -17,13 +19,15 @@ export class TopBar {
 
   protected readonly title = this.pageContextService.title;
 
-  protected groupName = signal<string>('Grupo no seleccionado');
+  protected groupName = signal<string>(NO_GROUP_SELECTED);
 
   constructor() {
     effect(() => {
       const activeGroup = this.groupContextService.activeGroup();
       if (activeGroup) {
         this.groupName.set(activeGroup.name);
+      } else {
+        this.groupName.set(NO_GROUP_SELECTED);
       }
     });
   }

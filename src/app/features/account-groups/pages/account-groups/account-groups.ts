@@ -1,17 +1,21 @@
-import { Component, inject } from '@angular/core';
-import { AccountGroupsService } from '../../../../core/account-groups/account-groups.service';
+import { Component, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { AccountGroupsService } from '../../../../core/account-groups/account-groups.service';
+import { GroupRead } from '../../../../api';
 import { CreateAccountGroupForm } from '../../components/forms/create-account-group-form/create-account-group-form';
 import { PageContextService } from '../../../../core/ui/page-context.service';
 import { AccountGroupCard } from '../../components/account-group-card/account-group-card';
 import { GroupContextService } from '../../../../core/ui/group-context.service';
 
+/** Los archivados se listan aparte para no confundirlos con los de uso diario. */
+type GroupFilter = 'active' | 'archived';
+
 @Component({
   selector: 'app-account-groups',
-  imports: [AccountGroupCard],
+  imports: [AccountGroupCard, MatButtonToggleModule],
   templateUrl: './account-groups.html',
-  styleUrl: 'account-groups.scss',
   host: { class: 'page-container' },
 })
 export class AccountGroups {
@@ -23,6 +27,13 @@ export class AccountGroups {
 
   protected groups = this.accountGroupsService.groups;
   protected activeGroupId = this.groupContextService.activeGroupId;
+
+  protected readonly filter = signal<GroupFilter>('active');
+
+  protected readonly visibleGroups = computed(() => {
+    const wantActive = this.filter() === 'active';
+    return this.groups().filter((group) => group.is_active === wantActive);
+  });
 
   constructor() {
     this.pageContextService.setTitle('Grupos');
@@ -36,8 +47,8 @@ export class AccountGroups {
     this.router.navigateByUrl(`/grupos/${groupId}`);
   }
 
-  activeGroup(groupId: string) {
-    this.groupContextService.setActiveGroupId(groupId);
+  setWorkingGroup(group: GroupRead, isWorking: boolean): void {
+    this.groupContextService.setActiveGroupId(isWorking ? group.id : null);
   }
 
   openCreateAccountGroupForm(): void {
