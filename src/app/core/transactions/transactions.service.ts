@@ -14,7 +14,7 @@ export class TransactionsService {
   private readonly transactionsSignal = signal<TransactionRead[]>([]);
   readonly transactions = this.transactionsSignal.asReadonly();
   private readonly transactionSignal = signal<TransactionRead | null>(null);
-  readonly Transactions = this.transactionSignal.asReadonly();
+  readonly transaction = this.transactionSignal.asReadonly();
   private readonly totalSignal = signal(0);
   readonly total = this.totalSignal.asReadonly();
 
@@ -29,7 +29,7 @@ export class TransactionsService {
       );
   }
 
-  createTransactions(accountId: string, payload: CreateTransactionRequest) {
+  createTransaction(accountId: string, payload: CreateTransactionRequest) {
     return this.api
       .createTransactionApiV1AccountsAccountIdTransactionsPost(accountId, payload)
       .pipe(
@@ -39,7 +39,7 @@ export class TransactionsService {
       );
   }
 
-  updateTransactions(accountId: string, transactionId: string, payload: UpdateTransactionRequest) {
+  updateTransaction(accountId: string, transactionId: string, payload: UpdateTransactionRequest) {
     return this.api
       .updateTransactionApiV1AccountsAccountIdTransactionsTransactionIdPatch(
         accountId,

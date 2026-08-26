@@ -95,7 +95,7 @@ export class UpdateTransactionForm {
     };
 
     this.transactionsService
-      .updateTransactions(this.data.accountId, this.data.transaction.id, payload)
+      .updateTransaction(this.data.accountId, this.data.transaction.id, payload)
       ?.subscribe(() => {
         this.bottomSheetRef.dismiss();
       });
