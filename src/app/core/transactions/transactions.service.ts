@@ -1,5 +1,5 @@
 import { Injectable, inject, signal } from '@angular/core';
-import { tap } from 'rxjs';
+import { finalize, tap } from 'rxjs';
 import {
   TransactionsService as TransactionsApi,
   TransactionRead,
@@ -17,8 +17,11 @@ export class TransactionsService {
   readonly transaction = this.transactionSignal.asReadonly();
   private readonly totalSignal = signal(0);
   readonly total = this.totalSignal.asReadonly();
+  private readonly loadingSignal = signal(false);
+  readonly loading = this.loadingSignal.asReadonly();
 
   getTransactions(accountId: string, limit = 20, offset = 0) {
+    this.loadingSignal.set(true);
     return this.api
       .getTransactionsApiV1AccountsAccountIdTransactionsGet(accountId, limit, offset)
       .pipe(
@@ -26,6 +29,7 @@ export class TransactionsService {
           this.transactionsSignal.set(res.items);
           this.totalSignal.set(res.total);
         }),
+        finalize(() => this.loadingSignal.set(false)),
       );
   }
 

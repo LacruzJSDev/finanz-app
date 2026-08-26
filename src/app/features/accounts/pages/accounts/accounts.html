@@ -1,16 +1,20 @@
 <div class="page-content">
-  @for (account of accounts(); track account.id) {
-    <app-account-card
-      [account]="account"
-      (editClick)="openUpdateAccountForm($event)"
-      (viewClick)="showAccountDetail($event.id)"
-      (toggleActive)="toggleAccountActive($event)"
-    />
-  } @empty {
-    <div class="empty-state">
-      <mat-icon>account_balance_wallet</mat-icon>
-      <p>No hay cuentas en este grupo.</p>
-      <p class="empty-state-hint">Crea la primera con el botón +.</p>
-    </div>
+  @if (loading()) {
+    <div class="page-loader"><mat-spinner diameter="36" /></div>
+  } @else {
+    @for (account of accounts(); track account.id) {
+      <app-account-card
+        [account]="account"
+        (editClick)="openUpdateAccountForm($event)"
+        (viewClick)="showAccountDetail($event.id)"
+        (toggleActive)="toggleAccountActive($event)"
+      />
+    } @empty {
+      <div class="empty-state">
+        <mat-icon>account_balance_wallet</mat-icon>
+        <p>No hay cuentas en este grupo.</p>
+        <p class="empty-state-hint">Crea la primera con el botón +.</p>
+      </div>
+    }
   }
 </div>

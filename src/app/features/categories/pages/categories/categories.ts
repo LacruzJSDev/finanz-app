@@ -16,19 +16,22 @@ import { PageContextService } from '../../../../core/ui/page-context.service';
 import { GroupContextService } from '../../../../core/ui/group-context.service';
 import { Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 /** Las archivadas se listan aparte para no estorbar en el uso diario. */
 type CategoryFilter = 'active' | 'archived';
 
 @Component({
   selector: 'app-categories',
-  imports: [CategoriesList, MatButtonToggleModule, MatIconModule],
+  imports: [CategoriesList, MatButtonToggleModule, MatIconModule, MatProgressSpinnerModule],
   templateUrl: './categories.html',
   host: { class: 'page-container' },
 })
 export class Categories {
   private readonly bottomSheet = inject(MatBottomSheet);
   protected readonly categoriesService = inject(CategoriesService);
+
+  protected readonly loading = this.categoriesService.loading;
   protected readonly pageContextService = inject(PageContextService);
   protected readonly groupContextService = inject(GroupContextService);
   protected readonly router = inject(Router);

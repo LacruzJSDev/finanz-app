@@ -15,10 +15,11 @@ import {
 import { PageContextService } from '../../../../core/ui/page-context.service';
 import { AccountCard } from '../../components/account-card/account-card';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-accounts',
-  imports: [AccountCard, MatIconModule],
+  imports: [AccountCard, MatIconModule, MatProgressSpinnerModule],
   templateUrl: 'accounts.html',
   host: { class: 'page-container' },
 })
@@ -26,6 +27,8 @@ export class Accounts {
   private readonly bottomSheet = inject(MatBottomSheet);
   protected readonly groupContextService = inject(GroupContextService);
   protected readonly accountsService = inject(AccountsService);
+
+  protected readonly loading = this.accountsService.loading;
   protected readonly router = inject(Router);
   protected readonly pageContextService = inject(PageContextService);
 

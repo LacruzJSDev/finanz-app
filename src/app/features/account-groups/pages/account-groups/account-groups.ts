@@ -9,19 +9,22 @@ import { PageContextService } from '../../../../core/ui/page-context.service';
 import { AccountGroupCard } from '../../components/account-group-card/account-group-card';
 import { GroupContextService } from '../../../../core/ui/group-context.service';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 /** Los archivados se listan aparte para no confundirlos con los de uso diario. */
 type GroupFilter = 'active' | 'archived';
 
 @Component({
   selector: 'app-account-groups',
-  imports: [AccountGroupCard, MatButtonToggleModule, MatIconModule],
+  imports: [AccountGroupCard, MatButtonToggleModule, MatIconModule, MatProgressSpinnerModule],
   templateUrl: './account-groups.html',
   host: { class: 'page-container' },
 })
 export class AccountGroups {
   private readonly bottomSheet = inject(MatBottomSheet);
   protected readonly accountGroupsService = inject(AccountGroupsService);
+
+  protected readonly loading = this.accountGroupsService.loading;
   private readonly router = inject(Router);
   protected readonly pageContextService = inject(PageContextService);
   protected readonly groupContextService = inject(GroupContextService);

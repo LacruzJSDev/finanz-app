@@ -3,7 +3,9 @@
 }
 
 <div class="page-content">
-  @if (!account()) {
+  @if (loading()) {
+    <div class="page-loader"><mat-spinner diameter="36" /></div>
+  } @else if (!account()) {
     <div class="empty-state">
       <mat-icon>search_off</mat-icon>
       <p>Cuenta no encontrada.</p>

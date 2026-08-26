@@ -21,10 +21,11 @@ import {
 import { TransactionRead } from '../../../../api';
 import { PageContextService } from '../../../../core/ui/page-context.service';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-account-detail',
-  imports: [CentsToEurosPipe, TransactionsList, Paginator, MatIconModule],
+  imports: [CentsToEurosPipe, TransactionsList, Paginator, MatIconModule, MatProgressSpinnerModule],
   templateUrl: 'account-detail.html',
   host: { class: 'page-container' },
 })
@@ -32,6 +33,8 @@ export class AccountDetail {
   private readonly bottomSheet = inject(MatBottomSheet);
   protected readonly accountsService = inject(AccountsService);
   protected readonly transactionsService = inject(TransactionsService);
+
+  protected readonly loading = this.transactionsService.loading;
   protected readonly categoriesService = inject(CategoriesService);
   protected readonly pageContextService = inject(PageContextService);
 

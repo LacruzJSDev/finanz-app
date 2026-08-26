@@ -1,5 +1,5 @@
 import { Injectable, inject, signal } from '@angular/core';
-import { tap } from 'rxjs';
+import { finalize, tap } from 'rxjs';
 import {
   AccountGroupsService as AccountsGroupApi,
   CreateGroupRequest,
@@ -13,12 +13,16 @@ export class AccountGroupsService {
 
   private readonly groupsSignal = signal<GroupRead[]>([]);
   readonly groups = this.groupsSignal.asReadonly();
+  private readonly loadingSignal = signal(false);
+  readonly loading = this.loadingSignal.asReadonly();
 
   getAccountGroups() {
+    this.loadingSignal.set(true);
     return this.api.groupsApiV1AccountGroupsGet().pipe(
       tap((res) => {
         this.groupsSignal.set(res.items);
       }),
+      finalize(() => this.loadingSignal.set(false)),
     );
   }
 

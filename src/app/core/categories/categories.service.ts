@@ -1,5 +1,5 @@
 import { Injectable, inject, signal } from '@angular/core';
-import { tap } from 'rxjs';
+import { finalize, tap } from 'rxjs';
 import {
   CategoriesService as CategoryApi,
   CategoryRead,
@@ -15,12 +15,16 @@ export class CategoriesService {
   readonly categories = this.categoriesSignal.asReadonly();
   private readonly categorySignal = signal<CategoryRead | null>(null);
   readonly category = this.categorySignal.asReadonly();
+  private readonly loadingSignal = signal(false);
+  readonly loading = this.loadingSignal.asReadonly();
 
   getCategories(groupId: string) {
+    this.loadingSignal.set(true);
     return this.api.getCategoriesApiV1CategoriesGet(groupId).pipe(
       tap((res) => {
         this.categoriesSignal.set(res.items);
       }),
+      finalize(() => this.loadingSignal.set(false)),
     );
   }
 
