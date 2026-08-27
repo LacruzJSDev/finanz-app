@@ -1,5 +1,5 @@
 import { FormGroup } from '@angular/forms';
-import { ApiError } from '../../core/http/api-error.interceptor';
+import { ApiError } from '../http/api-error';
 
 const GENERIC_MESSAGE = 'No se ha podido guardar. Inténtalo de nuevo.';
 

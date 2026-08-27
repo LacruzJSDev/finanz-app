@@ -1,7 +1,7 @@
 import { Component, input } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { TransactionTypeEnum } from '../../../../api';
+import { TransactionTypeEnum } from '../../../../core/models';
 import { TransactionTypeLabelPipe } from '../../pipes/transaction-type-label.pipe';
 
 @Component({

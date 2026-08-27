@@ -3,7 +3,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { AccountRead } from '../../../../api';
+import { AccountRead } from '../../../../core/models';
 import { CentsToEurosPipe } from '../../../../shared/money/cents-to-euros.pipe';
 import { ColorIcon } from '../../../../shared/ui/color-icon/color-icon';
 

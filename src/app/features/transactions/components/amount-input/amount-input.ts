@@ -2,7 +2,7 @@ import { Component, input } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { TransactionTypeEnum } from '../../../../api';
+import { TransactionTypeEnum } from '../../../../core/models';
 
 @Component({
   selector: 'app-amount-input',

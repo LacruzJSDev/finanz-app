@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { TransactionTypeEnum } from '../../../api';
+import { TransactionTypeEnum } from '../../../core/models';
 
 const TRANSACTION_TYPE_LABELS: Record<TransactionTypeEnum, string> = {
   [TransactionTypeEnum.Income]: 'Ingreso',

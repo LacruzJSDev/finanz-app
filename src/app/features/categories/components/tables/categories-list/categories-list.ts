@@ -1,5 +1,5 @@
 import { Component, computed, input, output } from '@angular/core';
-import { CategoryRead } from '../../../../../api';
+import { CategoryRead } from '../../../../../core/models';
 import { CategoryCard } from '../../category-card/category-card';
 
 @Component({

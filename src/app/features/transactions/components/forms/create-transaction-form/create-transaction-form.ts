@@ -16,11 +16,11 @@ import {
   CategoryRead,
   CreateTransactionRequest,
   TransactionTypeEnum,
-} from '../../../../../api';
+} from '../../../../../core/models';
 import { ColorIcon } from '../../../../../shared/ui/color-icon/color-icon';
 import { AmountInput } from '../../amount-input/amount-input';
 import { ToggleTransactionType } from '../../toggle-transaction-type/toggle-transaction-type';
-import { applyServerErrors } from '../../../../../shared/forms/apply-server-errors';
+import { applyServerErrors } from '../../../../../core/forms/apply-server-errors';
 
 export interface CreateTransactionFormData {
   accountId: string;

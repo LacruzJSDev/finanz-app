@@ -2,7 +2,7 @@ import { Component, computed, effect, inject, signal } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { CategoriesService } from '../../../../core/categories/categories.service';
-import { CategoryRead } from '../../../../api';
+import { CategoryRead } from '../../../../core/models';
 import { CategoriesList } from '../../components/tables/categories-list/categories-list';
 import {
   CreateCategoryForm,

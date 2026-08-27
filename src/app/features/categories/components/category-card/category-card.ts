@@ -3,7 +3,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { CategoryRead } from '../../../../api';
+import { CategoryRead } from '../../../../core/models';
 import { ColorIcon } from '../../../../shared/ui/color-icon/color-icon';
 
 @Component({

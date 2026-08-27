@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { AccountGroupsService } from '../../../../core/account-groups/account-groups.service';
-import { GroupRead } from '../../../../api';
+import { GroupRead } from '../../../../core/models';
 import { CreateAccountGroupForm } from '../../components/forms/create-account-group-form/create-account-group-form';
 import { PageContextService } from '../../../../core/ui/page-context.service';
 import { AccountGroupCard } from '../../components/account-group-card/account-group-card';

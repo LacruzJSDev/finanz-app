@@ -8,12 +8,12 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { AccountGroupsService } from '../../../../../core/account-groups/account-groups.service';
 import { GroupContextService } from '../../../../../core/ui/group-context.service';
-import { GroupRead, UpdateGroupRequest } from '../../../../../api';
+import { GroupRead, UpdateGroupRequest } from '../../../../../core/models';
 import { IconPicker } from '../../../../../shared/icons/icon-picker/icon-picker';
 import { IconName } from '../../../../../shared/icons/icons';
 import { ColorPicker } from '../../../../../shared/colors/color-picker/color-picker';
 import { AVAILABLE_COLORS, ColorName } from '../../../../../shared/colors/colors';
-import { applyServerErrors } from '../../../../../shared/forms/apply-server-errors';
+import { applyServerErrors } from '../../../../../core/forms/apply-server-errors';
 
 export interface UpdateAccountGroupFormData {
   accountGroup: GroupRead;

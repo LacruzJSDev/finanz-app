@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { CategoryRead } from '../../../api';
+import { CategoryRead } from '../../../core/models';
 
 @Pipe({ name: 'categoryName' })
 export class CategoryNamePipe implements PipeTransform {

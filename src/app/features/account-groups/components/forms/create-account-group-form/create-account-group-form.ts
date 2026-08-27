@@ -10,7 +10,7 @@ import { IconPicker } from '../../../../../shared/icons/icon-picker/icon-picker'
 import { IconName } from '../../../../../shared/icons/icons';
 import { ColorPicker } from '../../../../../shared/colors/color-picker/color-picker';
 import { AVAILABLE_COLORS, ColorName } from '../../../../../shared/colors/colors';
-import { applyServerErrors } from '../../../../../shared/forms/apply-server-errors';
+import { applyServerErrors } from '../../../../../core/forms/apply-server-errors';
 
 @Component({
   selector: 'app-create-account-group-form',

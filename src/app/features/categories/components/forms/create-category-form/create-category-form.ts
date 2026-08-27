@@ -7,12 +7,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CategoriesService } from '../../../../../core/categories/categories.service';
-import { CategoryRead, CreateCategoryRequest } from '../../../../../api';
+import { CategoryRead, CreateCategoryRequest } from '../../../../../core/models';
 import { IconPicker } from '../../../../../shared/icons/icon-picker/icon-picker';
 import { IconName } from '../../../../../shared/icons/icons';
 import { ColorPicker } from '../../../../../shared/colors/color-picker/color-picker';
 import { AVAILABLE_COLORS, ColorName } from '../../../../../shared/colors/colors';
-import { applyServerErrors } from '../../../../../shared/forms/apply-server-errors';
+import { applyServerErrors } from '../../../../../core/forms/apply-server-errors';
 
 export interface CreateCategoryFormData {
   groupId: string;

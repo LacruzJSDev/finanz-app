@@ -1,23 +1,12 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { catchError, throwError } from 'rxjs';
-import { ErrorDetail, ErrorResponse } from '../../api';
+import { ErrorResponse } from '../../api';
+import { ApiError } from './api-error';
 import { NotificationsService } from '../notifications/notifications.service';
 
 const AUTH_PATH = '/auth/';
 const CONNECTION_MESSAGE = 'No se ha podido conectar con el servidor.';
-
-export class ApiError extends Error {
-  constructor(
-    public readonly code: string,
-    message: string,
-    public readonly status: number,
-    public readonly details?: ErrorDetail[],
-  ) {
-    super(message);
-    this.name = 'ApiError';
-  }
-}
 
 export const apiErrorInterceptor: HttpInterceptorFn = (req, next) => {
   const notifications = inject(NotificationsService);

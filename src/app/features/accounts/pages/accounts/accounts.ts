@@ -7,7 +7,7 @@ import {
   CreateAccountForm,
   CreateAccountFormData,
 } from '../../components/forms/create-account-form/create-account-form';
-import { AccountRead } from '../../../../api';
+import { AccountRead } from '../../../../core/models';
 import {
   UpdateAccountForm,
   UpdateAccountFormData,

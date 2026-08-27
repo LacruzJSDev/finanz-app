@@ -1,8 +1,8 @@
 import { Component, input, output } from '@angular/core';
-import { CategoryRead, TransactionRead } from '../../../../../api';
+import { CategoryRead, TransactionRead } from '../../../../../core/models';
 import { CentsToEurosPipe } from '../../../../../shared/money/cents-to-euros.pipe';
 import { TransactionTypeLabelPipe } from '../../../pipes/transaction-type-label.pipe';
-import { CategoryNamePipe } from '../../../../categories/pipes/category-name.pipe';
+import { CategoryNamePipe } from '../../../pipes/category-name.pipe';
 
 @Component({
   selector: 'app-transactions-list',

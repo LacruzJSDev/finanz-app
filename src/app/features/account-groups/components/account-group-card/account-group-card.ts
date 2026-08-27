@@ -1,7 +1,7 @@
 import { Component, computed, input, output } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { GroupRead } from '../../../../api';
+import { GroupRead } from '../../../../core/models';
 import { ColorIcon } from '../../../../shared/ui/color-icon/color-icon';
 
 @Component({

@@ -3,7 +3,7 @@ import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bott
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { TransactionsService } from '../../../../../core/transactions/transactions.service';
-import { TransactionRead } from '../../../../../api';
+import { TransactionRead } from '../../../../../core/models';
 
 export interface DeleteTransactionFormData {
   accountId: string;

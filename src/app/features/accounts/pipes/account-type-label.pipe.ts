@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { AccountTypeEnum } from '../../../api';
+import { AccountTypeEnum } from '../../../core/models';
 
 const ACCOUNT_TYPE_LABELS: Record<AccountTypeEnum, string> = {
   [AccountTypeEnum.Cash]: 'Efectivo',

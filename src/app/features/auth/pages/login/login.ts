@@ -6,7 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthService } from '../../../../core/auth/auth.service';
-import { ApiError } from '../../../../core/http/api-error.interceptor';
+import { ApiError } from '../../../../core/http/api-error';
 
 @Component({
   selector: 'app-login',

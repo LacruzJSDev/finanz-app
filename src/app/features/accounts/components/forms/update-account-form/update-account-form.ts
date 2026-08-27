@@ -7,13 +7,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { AccountRead, AccountTypeEnum } from '../../../../../api';
+import { AccountRead, AccountTypeEnum } from '../../../../../core/models';
 import { IconPicker } from '../../../../../shared/icons/icon-picker/icon-picker';
 import { IconName } from '../../../../../shared/icons/icons';
 import { ColorPicker } from '../../../../../shared/colors/color-picker/color-picker';
 import { AVAILABLE_COLORS, ColorName } from '../../../../../shared/colors/colors';
 import { AccountTypeLabelPipe } from '../../../pipes/account-type-label.pipe';
-import { applyServerErrors } from '../../../../../shared/forms/apply-server-errors';
+import { applyServerErrors } from '../../../../../core/forms/apply-server-errors';
 
 export interface UpdateAccountFormData {
   account: AccountRead;
