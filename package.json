@@ -8,7 +8,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "generate:api": "openapi-generator-cli generate -i http://localhost:8000/openapi.json -g typescript-angular -o src/app/api",
-    "format": "prettier --write \"src/**/*.{ts,html,scss,css,json}\""
+    "format": "prettier --write \"src/**/*.{ts,html,scss,css,json}\"",
+    "lint:boundaries": "node tools/check-boundaries.mjs"
   },
   "private": true,
   "packageManager": "npm@11.11.0",

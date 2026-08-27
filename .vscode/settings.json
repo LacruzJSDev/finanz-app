@@ -1,0 +1,9 @@
+{
+  // El cliente generado solo lo importa core, y ahí el import ya está escrito.
+  // Esto lo quita del autoimport para que no se cuele por accidente al escribir
+  // un tipo en una feature: el sitio del que se importan es core/models.
+  // Escribirlo a mano sigue siendo posible; el guardia real es
+  // `npm run lint:boundaries`.
+  "typescript.preferences.autoImportFileExcludePatterns": ["./src/app/api"],
+  "typescript.preferences.importModuleSpecifier": "shortest"
+}
