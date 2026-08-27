@@ -1,24 +1,20 @@
 import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { AccountsService } from '../../../../core/accounts/accounts.service';
-import { CentsToEurosPipe } from '../../../../shared/money/cents-to-euros.pipe';
-import { TransactionsList } from '../../../transactions/components/tables/transactions-list/transactions-list';
-import { TransactionsService } from '../../../../core/transactions/transactions.service';
-import { Paginator } from '../../../../shared/ui/paginator/paginator';
 import {
   CreateTransactionForm,
   CreateTransactionFormData,
-} from '../../../transactions/components/forms/create-transaction-form/create-transaction-form';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { CategoriesService } from '../../../../core/categories/categories.service';
-import {
-  UpdateTransactionForm,
-  UpdateTransactionFormData,
-} from '../../../transactions/components/forms/update-transaction-form/update-transaction-form';
-import {
   DeleteTransactionForm,
   DeleteTransactionFormData,
-} from '../../../transactions/components/forms/delete-transaction-form/delete-transaction-form';
-import { TransactionRead } from '../../../../api';
+  TransactionsList,
+  UpdateTransactionForm,
+  UpdateTransactionFormData,
+} from '../../../transactions';
+import { CentsToEurosPipe } from '../../../../shared/money/cents-to-euros.pipe';
+import { TransactionsService } from '../../../../core/transactions/transactions.service';
+import { Paginator } from '../../../../shared/ui/paginator/paginator';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { CategoriesService } from '../../../../core/categories/categories.service';
+import { TransactionRead } from '../../../../core/models';
 import { PageContextService } from '../../../../core/ui/page-context.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
