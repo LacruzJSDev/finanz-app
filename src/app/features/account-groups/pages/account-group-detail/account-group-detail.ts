@@ -1,4 +1,4 @@
-import { Component, computed, inject, input } from '@angular/core';
+import { Component, computed, effect, inject, input } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { PageContextService } from '../../../../core/ui/page-context.service';
 import { AccountGroupsService } from '../../../../core/account-groups/account-groups.service';
@@ -6,11 +6,12 @@ import {
   UpdateAccountGroupForm,
   UpdateAccountGroupFormData,
 } from '../../components/forms/update-account-group-form/update-account-group-form';
-import { MatIconModule } from '@angular/material/icon';
+import { Router } from '@angular/router';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-account-group-detail',
-  imports: [MatIconModule],
+  imports: [MatProgressSpinnerModule],
   templateUrl: './account-group-detail.html',
   host: { class: 'page-container' },
 })
@@ -18,6 +19,9 @@ export class AccountGroupDetail {
   private readonly bottomSheet = inject(MatBottomSheet);
   protected readonly accountGroupsService = inject(AccountGroupsService);
   protected readonly pageContextService = inject(PageContextService);
+  private readonly router = inject(Router);
+
+  protected readonly loading = this.accountGroupsService.loading;
 
   readonly id = input.required<string>();
   protected readonly group = computed(() =>
@@ -25,6 +29,16 @@ export class AccountGroupDetail {
   );
 
   constructor() {
+    // `group` busca en una lista que puede no haber llegado todavía, así que no
+    // se puede confundir "no está" con "aún no ha cargado". Solo cuando la
+    // carga ha terminado y sigue sin aparecer, la URL apunta a algo que no
+    // existe, y eso se resuelve volviendo a la lista.
+    effect(() => {
+      if (!this.loading() && !this.group()) {
+        this.router.navigateByUrl('/grupos');
+      }
+    });
+
     this.pageContextService.setTitle('Grupo');
     this.pageContextService.setAction({
       onClick: () => this.updateAccountGroup(),

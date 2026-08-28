@@ -4,8 +4,6 @@ import { TransactionsService } from '../../../../core/transactions/transactions.
 import { CategoriesService } from '../../../../core/categories/categories.service';
 import { PageContextService } from '../../../../core/ui/page-context.service';
 import { GroupContextService } from '../../../../core/ui/group-context.service';
-import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -14,7 +12,7 @@ import { formatMoney } from '../../../../shared/money/money';
 
 @Component({
   selector: 'app-account-detail',
-  imports: [MatIconModule, MatProgressSpinnerModule, RouterOutlet, MatButtonToggleModule],
+  imports: [RouterOutlet, MatButtonToggleModule],
   templateUrl: 'account-detail.html',
   host: { class: 'page-container' },
 })
@@ -43,8 +41,12 @@ export class AccountDetail {
   protected readonly account = this.accountsService.account;
 
   constructor() {
+    // Una URL que apunta a una cuenta que no existe no es un estado que pintar:
+    // es una vuelta a la lista, que sí es válida siempre.
     effect(() => {
-      this.accountsService.getAccountById(this.id()).subscribe();
+      this.accountsService.getAccountById(this.id()).subscribe({
+        error: () => this.router.navigateByUrl('/cuentas'),
+      });
     });
 
     // Al cambiar de grupo de trabajo esta cuenta deja de pertenecer a él, y la
