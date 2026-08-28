@@ -14,7 +14,6 @@
         [account]="account"
         (editClick)="openUpdateAccountForm($event)"
         (viewClick)="showAccountDetail($event.id)"
-        (toggleActive)="toggleAccountActive($event)"
       />
     } @empty {
       <div class="empty-state">
