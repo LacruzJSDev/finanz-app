@@ -1,0 +1,28 @@
+<mat-card appearance="outlined" (click)="rowClick.emit(transaction())">
+  <app-color-icon
+    [icon]="category()?.icon ?? null"
+    [color]="category()?.color ?? null"
+    [size]="40"
+  />
+
+  <div class="transaction-info">
+    <span class="transaction-title">{{ title() }}</span>
+    @if (subtitle()) {
+      <span class="transaction-subtitle">{{ subtitle() }}</span>
+    }
+  </div>
+
+  <span class="transaction-amount" [class]="'transaction-amount--' + transaction().type">
+    {{ transaction().amount | centsToEuros }}
+  </span>
+
+  <!-- La tarjeta entera abre la edición; borrar es otra acción, no la de la fila. -->
+  <button
+    matIconButton
+    class="transaction-delete"
+    aria-label="Eliminar movimiento"
+    (click)="$event.stopPropagation(); deleteClick.emit(transaction())"
+  >
+    <mat-icon>delete</mat-icon>
+  </button>
+</mat-card>

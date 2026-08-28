@@ -1,0 +1,27 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.transaction-day {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+// Cabecera del día: etiqueta a la izquierda, fecha corta a la derecha.
+.transaction-day__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 0 0.5rem;
+  font: var(--mat-sys-label-medium);
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.transaction-day__items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}

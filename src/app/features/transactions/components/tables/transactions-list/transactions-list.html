@@ -1,25 +1,19 @@
-<table>
-  <thead>
-    <tr>
-      <th>Cantidad</th>
-      <th>Tipo</th>
-      <th>Fecha</th>
-      <th>Categoria</th>
-    </tr>
-  </thead>
-  <tbody>
-    @for (transaction of transactions(); track transaction.id) {
-      <tr (click)="rowClick.emit(transaction)">
-        <td>{{ transaction.amount | centsToEuros }}</td>
-        <td>{{ transaction.type | transactionTypeLabel }}</td>
-        <td>{{ transaction.date }}</td>
-        <td>{{ transaction.category_id | categoryName: categories() }}</td>
-        <td>
-          <button type="button" (click)="$event.stopPropagation(); deleteClick.emit(transaction)">
-            Eliminar
-          </button>
-        </td>
-      </tr>
-    }
-  </tbody>
-</table>
+@for (group of groups(); track group.key) {
+  <section class="transaction-day">
+    <header class="transaction-day__header">
+      <span class="transaction-day__label">{{ group.label }}</span>
+      <span class="transaction-day__date">{{ group.date }}</span>
+    </header>
+
+    <div class="transaction-day__items">
+      @for (transaction of group.transactions; track transaction.id) {
+        <app-transaction-card
+          [transaction]="transaction"
+          [categories]="categories()"
+          (rowClick)="rowClick.emit($event)"
+          (deleteClick)="deleteClick.emit($event)"
+        />
+      }
+    </div>
+  </section>
+}
