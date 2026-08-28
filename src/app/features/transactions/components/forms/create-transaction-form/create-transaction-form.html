@@ -6,6 +6,11 @@
 
   <div class="grouped-card">
     <mat-form-field>
+      <mat-label>Concepto</mat-label>
+      <input matInput type="text" formControlName="notes" required />
+    </mat-form-field>
+
+    <mat-form-field>
       <mat-label>Fecha</mat-label>
       <input
         matInput
@@ -53,11 +58,6 @@
         }}</mat-error>
       </mat-form-field>
     }
-
-    <mat-form-field>
-      <mat-label>Notas</mat-label>
-      <input matInput type="text" formControlName="notes" />
-    </mat-form-field>
   </div>
   <p class="form-error">{{ formError() }}</p>
 
