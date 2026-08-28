@@ -1,34 +1,58 @@
-import { Component, effect, inject, signal } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 import { PageContextService } from '../../core/ui/page-context.service';
-import { MatChipsModule } from '@angular/material/chips';
 import { GroupContextService } from '../../core/ui/group-context.service';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatDividerModule } from '@angular/material/divider';
+import { AuthService } from '../../core/auth/auth.service';
+import { GroupSwitcher } from '../group-switcher/group-switcher';
 
 const NO_GROUP_SELECTED = 'Grupo no seleccionado';
 
 @Component({
   selector: 'app-top-bar',
-  imports: [MatToolbarModule, MatChipsModule, MatDividerModule],
+  imports: [MatIconModule, MatMenuModule],
   templateUrl: 'top-bar.html',
   styleUrl: 'top-bar.scss',
 })
 export class TopBar {
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
+  private readonly bottomSheet = inject(MatBottomSheet);
+
   protected readonly pageContextService = inject(PageContextService);
   protected readonly groupContextService = inject(GroupContextService);
 
   protected readonly title = this.pageContextService.title;
+  protected readonly subtitle = this.pageContextService.subtitle;
+  // De AuthService y no de UsersService: este se actualiza al hacer login,
+  // mientras que UsersService solo se llena con getMe() en el arranque.
+  protected readonly user = this.authService.currentUser;
 
-  protected groupName = signal<string>(NO_GROUP_SELECTED);
+  protected readonly groupName = computed(
+    () => this.groupContextService.activeGroup()?.name ?? NO_GROUP_SELECTED,
+  );
 
-  constructor() {
-    effect(() => {
-      const activeGroup = this.groupContextService.activeGroup();
-      if (activeGroup) {
-        this.groupName.set(activeGroup.name);
-      } else {
-        this.groupName.set(NO_GROUP_SELECTED);
-      }
+  // El grupo es contexto global, así que lo compone la barra; la página solo
+  // aporta su propio dato. Si no hay, queda el grupo solo y la línea nunca
+  // se vacía, que es lo que mantenía el alto estable.
+  protected readonly contextLine = computed(() => {
+    const detail = this.subtitle();
+    return detail ? `${this.groupName()} · ${detail}` : this.groupName();
+  });
+
+  /** UserRead no trae avatar: es la inicial del nombre, que es obligatorio. */
+  protected readonly initials = computed(() => this.user()?.name.charAt(0).toUpperCase() ?? '');
+
+  openGroupSwitcher(): void {
+    this.bottomSheet.open(GroupSwitcher);
+  }
+
+  logout(): void {
+    this.authService.logout().subscribe({
+      next: () => this.router.navigateByUrl('/login'),
+      error: () => this.router.navigateByUrl('/login'),
     });
   }
 }

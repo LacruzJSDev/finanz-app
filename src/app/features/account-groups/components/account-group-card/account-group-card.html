@@ -6,14 +6,7 @@
     <span class="group-members">Miembros: {{ memberCount() }}</span>
   </div>
 
-  <!-- Un grupo archivado no puede ser el grupo de trabajo. -->
-  @if (accountGroup().is_active) {
-    <div class="group-context" (click)="$event.stopPropagation()">
-      <mat-slide-toggle
-        class="toggle-sm"
-        [checked]="isWorkingGroup()"
-        (change)="workingGroupChange.emit($event.checked)"
-      />
-    </div>
+  @if (isWorkingGroup()) {
+    <span class="group-context">En uso</span>
   }
 </mat-card>

@@ -1,9 +1,34 @@
-<mat-toolbar>
-  <mat-toolbar-row>
+<header class="top-bar">
+  <div class="identity">
     <h1>{{ title() }}</h1>
-  </mat-toolbar-row>
-  <mat-toolbar-row>
-    <mat-chip>{{ groupName() }}</mat-chip>
-  </mat-toolbar-row>
-</mat-toolbar>
-<mat-divider></mat-divider>
+    <!-- Línea de contexto: el grupo lo pone la barra (es global), el resto lo
+         pone la página. Así el grupo no gasta una columna propia y el título
+         se queda con todo el ancho. -->
+    <span class="identity__context">{{ contextLine() }}</span>
+  </div>
+
+  <!-- El botón es el círculo. Con matIconButton no encajaba: mide 40px con 8px
+       de padding para un icono de 24, así que un círculo de 32 se salía por la
+       derecha y por abajo, y el foco seguía la caja del botón, no el círculo. -->
+  <button class="avatar" type="button" [matMenuTriggerFor]="userMenu" aria-label="Tu cuenta">
+    {{ initials() }}
+  </button>
+</header>
+
+<mat-menu #userMenu="matMenu">
+  <div class="user-menu__head">
+    <span class="user-menu__name">{{ user()?.name }}</span>
+    <span class="user-menu__email">{{ user()?.email }}</span>
+  </div>
+
+  <!-- Cambiar de grupo desde cualquier pantalla, sin gastar cromo permanente. -->
+  <button mat-menu-item (click)="openGroupSwitcher()">
+    <mat-icon>groups</mat-icon>
+    <span>Grupo: {{ groupName() }}</span>
+  </button>
+
+  <button mat-menu-item (click)="logout()">
+    <mat-icon>logout</mat-icon>
+    <span>Cerrar sesión</span>
+  </button>
+</mat-menu>

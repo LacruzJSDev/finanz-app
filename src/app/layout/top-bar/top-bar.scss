@@ -1,11 +1,82 @@
 :host {
-  width: 100%;
+  display: block;
 }
 
-mat-chip {
-  width: fit-content;
-}
-
-.mat-toolbar {
+// Dos columnas: identidad de la página y usuario. El grupo ya no ocupa una
+// columna central, así que el título deja de pagar la simetría que esa columna
+// obligaba a reservar a la derecha.
+.top-bar {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 64px;
+  padding: 0.5rem 1rem;
   background: var(--mat-sys-surface-container-lowest);
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+}
+
+.identity {
+  display: flex;
+  flex-direction: column;
+  min-width: 0; // sin esto la columna no encoge y el título desborda
+}
+
+// Ahora sí cabe a title-large: el título pasa de ~125px de ancho a los ~306
+// que deja la barra sin el chip.
+.identity h1 {
+  font: var(--mat-sys-title-large);
+  font-weight: 600;
+}
+
+// Ya no hace falta reservar el hueco: el grupo siempre está, así que la línea
+// nunca se queda vacía y el alto no puede saltar.
+.identity__context {
+  font: var(--mat-sys-body-medium);
+  font-variant-numeric: tabular-nums;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.identity h1,
+.identity__context {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+// 40px para que sea un objetivo táctil decente, no 32: el círculo es todo el
+// botón, así que el foco cae justo donde se ve.
+.avatar {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--mat-sys-primary);
+  color: var(--mat-sys-on-primary);
+  font: var(--mat-sys-label-large);
+
+  &:focus-visible {
+    outline: 2px solid var(--mat-sys-primary);
+    outline-offset: 2px;
+  }
+}
+
+// Cabecera del menú: quién eres, no una opción que se pueda pulsar.
+.user-menu__head {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 1rem 0.75rem;
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+}
+
+.user-menu__name {
+  font: var(--mat-sys-title-small);
+}
+
+.user-menu__email {
+  font: var(--mat-sys-body-small);
+  color: var(--mat-sys-on-surface-variant);
 }
