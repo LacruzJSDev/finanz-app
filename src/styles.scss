@@ -82,6 +82,24 @@ body {
   padding-bottom: 6rem;
 }
 
+// Una sección dentro de un armazón que ya es .page-container: /cuentas/:id
+// pinta cabecera y saldo, y el router encaja aquí la sección activa. No repite
+// el padding ni el fondo, solo pasa la altura al .page-content de dentro, que
+// es quien scrollea. Sin esto la sección mide lo que mide su contenido y el
+// overflow lo recorta el armazón, sin barra por ninguna parte.
+.page-section {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+// El outlet es un marcador, no una caja: dejarlo como item del flex se lleva
+// un `gap` entero entre el armazon y la seccion que encaja detras.
+router-outlet {
+  display: none;
+}
+
 // Error del formulario entero: el que no corresponde a ningún campo. Reserva
 // su línea siempre, igual que el subscript de los campos, para que el botón no
 // se desplace al aparecer.

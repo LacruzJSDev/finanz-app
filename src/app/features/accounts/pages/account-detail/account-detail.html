@@ -1,33 +1,9 @@
-@if (account(); as acc) {
-  <h2>Balance: {{ acc.balance | centsToEuros: acc.currency }}</h2>
-}
-
-<div class="page-content">
-  @if (loading()) {
-    <div class="page-loader"><mat-spinner diameter="36" /></div>
-  } @else if (!account()) {
-    <div class="empty-state">
-      <mat-icon>search_off</mat-icon>
-      <p>Cuenta no encontrada.</p>
-    </div>
-  } @else if (transactions().length) {
-    <app-transactions-list
-      [transactions]="transactions()"
-      [categories]="categories()"
-      (rowClick)="openUpdateTransactionForm($event)"
-      (deleteClick)="deleteTransaction($event)"
-    />
-    <app-paginator
-      [total]="total()"
-      [limit]="limit"
-      [offset]="offset()"
-      (pageChange)="onPageChange($event)"
-    />
-  } @else {
-    <div class="empty-state">
-      <mat-icon>receipt_long</mat-icon>
-      <p>Esta cuenta no tiene movimientos.</p>
-      <p class="empty-state-hint">Añade el primero con el botón +.</p>
-    </div>
-  }
+<div class="segmented-track">
+  <mat-button-toggle-group
+    [value]="section()"
+    (change)="router.navigate([$event.value], { relativeTo: route })"
+  >
+    <mat-button-toggle value="movimientos">Movimientos</mat-button-toggle>
+  </mat-button-toggle-group>
 </div>
+<router-outlet />

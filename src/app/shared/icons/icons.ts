@@ -10,6 +10,7 @@ export const AVAILABLE_ICONS = [
   'account_balance',
   'credit_card',
   'work',
+  'wallet',
 ] as const;
 
 export type IconName = (typeof AVAILABLE_ICONS)[number];
@@ -26,4 +27,5 @@ export const ICON_LABELS: Record<IconName, string> = {
   account_balance: 'Banco',
   credit_card: 'Tarjeta',
   work: 'Trabajo',
+  wallet: 'Cartera',
 };

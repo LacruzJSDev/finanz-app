@@ -1,0 +1,33 @@
+<div class="page-content">
+  @if (loading()) {
+    <div class="page-loader"><mat-spinner diameter="36" /></div>
+  } @else if (!account()) {
+    <div class="empty-state">
+      <mat-icon>search_off</mat-icon>
+      <p>Cuenta no encontrada.</p>
+    </div>
+  } @else if (transactions().length) {
+    <app-transactions-list
+      [transactions]="transactions()"
+      [categories]="categories()"
+      (rowClick)="openUpdateTransactionForm($event)"
+      (deleteClick)="deleteTransaction($event)"
+    />
+
+    <!-- Centinela: al acercarse pide la página siguiente. Ocupa sitio siempre
+         para que el hueco no dé un salto cuando aparece el spinner. -->
+    <div class="load-more" appInfiniteScroll [disabled]="!canLoadMore()" (reached)="loadMore()">
+      @if (loadingMore()) {
+        <mat-spinner diameter="24" />
+      } @else if (!hasMore()) {
+        <span class="load-more__end">No hay más movimientos</span>
+      }
+    </div>
+  } @else {
+    <div class="empty-state">
+      <mat-icon>receipt_long</mat-icon>
+      <p>Esta cuenta no tiene movimientos.</p>
+      <p class="empty-state-hint">Añade el primero con el botón +.</p>
+    </div>
+  }
+</div>

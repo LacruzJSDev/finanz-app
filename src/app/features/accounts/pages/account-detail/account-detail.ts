@@ -1,138 +1,53 @@
-import { Component, computed, effect, inject, input, signal } from '@angular/core';
+import { Component, effect, inject, input } from '@angular/core';
 import { AccountsService } from '../../../../core/accounts/accounts.service';
-import {
-  CreateTransactionForm,
-  CreateTransactionFormData,
-  DeleteTransactionForm,
-  DeleteTransactionFormData,
-  TransactionsList,
-  UpdateTransactionForm,
-  UpdateTransactionFormData,
-} from '../../../transactions';
-import { CentsToEurosPipe } from '../../../../shared/money/cents-to-euros.pipe';
 import { TransactionsService } from '../../../../core/transactions/transactions.service';
-import { Paginator } from '../../../../shared/ui/paginator/paginator';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { CategoriesService } from '../../../../core/categories/categories.service';
-import { TransactionRead } from '../../../../core/models';
 import { PageContextService } from '../../../../core/ui/page-context.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { filter, map } from 'rxjs';
 
 @Component({
   selector: 'app-account-detail',
-  imports: [CentsToEurosPipe, TransactionsList, Paginator, MatIconModule, MatProgressSpinnerModule],
+  imports: [MatIconModule, MatProgressSpinnerModule, RouterOutlet, MatButtonToggleModule],
   templateUrl: 'account-detail.html',
   host: { class: 'page-container' },
 })
 export class AccountDetail {
-  private readonly bottomSheet = inject(MatBottomSheet);
   protected readonly accountsService = inject(AccountsService);
   protected readonly transactionsService = inject(TransactionsService);
+  protected readonly router = inject(Router);
+  protected readonly route = inject(ActivatedRoute);
 
-  protected readonly loading = this.transactionsService.loading;
   protected readonly categoriesService = inject(CategoriesService);
   protected readonly pageContextService = inject(PageContextService);
+
+  private childPath = () => this.route.snapshot.firstChild?.routeConfig?.path;
+
+  protected readonly section = toSignal(
+    this.router.events.pipe(
+      filter((e) => e instanceof NavigationEnd),
+      map(() => this.childPath()),
+    ),
+    { initialValue: this.childPath() },
+  );
 
   readonly id = input.required<string>();
 
   protected readonly account = this.accountsService.account;
-  protected readonly accounts = this.accountsService.accounts;
-
-  protected readonly transactions = this.transactionsService.transactions;
-  protected readonly total = this.transactionsService.total;
-
-  // Se sigue cargando aquí: TransactionsList lo necesita para pintar el nombre de
-  // categoría de cada fila, y los forms de crear/editar transacción para su <select>.
-  protected readonly categories = this.categoriesService.categories;
-
-  // Las archivadas siguen haciendo falta para nombrar transacciones antiguas,
-  // pero no deben poder elegirse al crear o editar.
-  protected readonly selectableCategories = computed(() =>
-    this.categories().filter((category) => category.is_active),
-  );
-
-  protected readonly limit = 20;
-  protected readonly offset = signal(0);
 
   constructor() {
     effect(() => {
       this.accountsService.getAccountById(this.id()).subscribe();
-      this.transactionsService.getTransactions(this.id(), this.limit, this.offset()).subscribe();
-    });
-    effect(() => {
-      const groupId = this.account()?.group_id;
-      if (groupId) {
-        this.categoriesService.getCategories(groupId).subscribe();
-      }
     });
     effect(() => {
       const account = this.account();
       if (account) {
         this.pageContextService.setTitle(account.name);
-        this.pageContextService.setAction({
-          onClick: () => this.openCreateTransactionForm(),
-          icon: 'add',
-        });
       }
-    });
-  }
-
-  onPageChange(newOffset: number): void {
-    this.offset.set(newOffset);
-  }
-
-  openCreateTransactionForm(): void {
-    const account = this.account();
-    if (!account) return;
-
-    this.accountsService.getAccounts(account.group_id).subscribe(() => {
-      const ref = this.bottomSheet.open<CreateTransactionForm, CreateTransactionFormData>(
-        CreateTransactionForm,
-        {
-          data: {
-            accountId: account.id,
-            otherAccounts: this.accountsService.accounts().filter((a) => a.id !== account.id),
-            categories: this.selectableCategories(),
-          },
-        },
-      );
-
-      ref.afterDismissed().subscribe(() => {
-        this.accountsService.getAccountById(this.id()).subscribe();
-      });
-    });
-  }
-
-  openUpdateTransactionForm(transaction: TransactionRead): void {
-    const account = this.account();
-    if (!account) return;
-
-    this.accountsService.getAccounts(account.group_id).subscribe(() => {
-      const ref = this.bottomSheet.open<UpdateTransactionForm, UpdateTransactionFormData>(
-        UpdateTransactionForm,
-        {
-          data: {
-            transaction,
-            accountId: account.id,
-            otherAccounts: this.accountsService.accounts().filter((a) => a.id !== account.id),
-            categories: this.selectableCategories(),
-          },
-        },
-      );
-      ref.afterDismissed().subscribe(() => {
-        this.accountsService.getAccountById(this.id()).subscribe();
-      });
-    });
-  }
-
-  deleteTransaction(transaction: TransactionRead): void {
-    const ref = this.bottomSheet.open<DeleteTransactionForm, DeleteTransactionFormData>(
-      DeleteTransactionForm,
-      { data: { transaction, accountId: this.id() } },
-    );
-    ref.afterDismissed().subscribe(() => {
-      this.accountsService.getAccountById(this.id()).subscribe();
     });
   }
 }

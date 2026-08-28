@@ -11,6 +11,17 @@ export const ACCOUNTS_ROUTES: Routes = [
     path: ':id',
     loadComponent: () =>
       import('./pages/account-detail/account-detail').then((m) => m.AccountDetail),
-    canActivate: [authGuard],
+    children: [
+      {
+        path: '',
+        redirectTo: 'movimientos',
+        pathMatch: 'full',
+      },
+      {
+        path: 'movimientos',
+        loadComponent: () => import('../transactions/').then((m) => m.Transactions),
+        canActivate: [authGuard],
+      },
+    ],
   },
 ];
