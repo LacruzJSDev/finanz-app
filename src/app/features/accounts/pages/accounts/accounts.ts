@@ -1,4 +1,4 @@
-import { Component, effect, inject } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { GroupContextService } from '../../../../core/ui/group-context.service';
 import { AccountsService } from '../../../../core/accounts/accounts.service';
 import { Router } from '@angular/router';
@@ -16,10 +16,13 @@ import { PageContextService } from '../../../../core/ui/page-context.service';
 import { AccountCard } from '../../components/account-card/account-card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+
+type GroupFilter = 'active' | 'archived';
 
 @Component({
   selector: 'app-accounts',
-  imports: [AccountCard, MatIconModule, MatProgressSpinnerModule],
+  imports: [AccountCard, MatIconModule, MatProgressSpinnerModule, MatButtonToggleModule],
   templateUrl: 'accounts.html',
   host: { class: 'page-container' },
 })
@@ -34,6 +37,13 @@ export class Accounts {
 
   protected activeGroupId = this.groupContextService.activeGroupId;
   protected accounts = this.accountsService.accounts;
+
+  protected readonly filter = signal<GroupFilter>('active');
+
+  protected readonly visibleAccounts = computed(() => {
+    const wantActive = this.filter() === 'active';
+    return this.accounts().filter((account) => account.is_active === wantActive);
+  });
 
   constructor() {
     effect(() => {

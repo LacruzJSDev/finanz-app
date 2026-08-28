@@ -1,5 +1,10 @@
-<h2>Editar cuenta</h2>
 <form [formGroup]="form" (ngSubmit)="submit()">
+  <div class="head-form">
+    <h2>Editar cuenta</h2>
+    <mat-slide-toggle formControlName="is_active" labelPosition="before">{{
+      form.controls.is_active.value ? 'Activa' : 'Archivada'
+    }}</mat-slide-toggle>
+  </div>
   <div class="grouped-card">
     <mat-form-field>
       <mat-label>Nombre</mat-label>

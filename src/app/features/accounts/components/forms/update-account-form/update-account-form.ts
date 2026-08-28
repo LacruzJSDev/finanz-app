@@ -14,6 +14,7 @@ import { ColorPicker } from '../../../../../shared/colors/color-picker/color-pic
 import { AVAILABLE_COLORS, ColorName } from '../../../../../shared/colors/colors';
 import { AccountTypeLabelPipe } from '../../../pipes/account-type-label.pipe';
 import { applyServerErrors } from '../../../../../core/forms/apply-server-errors';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 export interface UpdateAccountFormData {
   account: AccountRead;
@@ -31,6 +32,7 @@ export interface UpdateAccountFormData {
     MatButtonModule,
     AccountTypeLabelPipe,
     MatProgressSpinnerModule,
+    MatSlideToggleModule
   ],
   templateUrl: 'update-account-form.html',
   host: { class: 'bottom-sheet-form' },
@@ -46,6 +48,7 @@ export class UpdateAccountForm {
     type: [this.data.account.type],
     color: [(this.data.account.color ?? AVAILABLE_COLORS[0]) as ColorName],
     icon: [(this.data.account.icon ?? 'home') as IconName],
+    is_active: [this.data.account.is_active],
   });
 
   protected readonly accountsService = inject(AccountsService);

@@ -1,18 +1,12 @@
-<mat-card appearance="outlined" [style.border-left-color]="account().color ?? 'black'">
-  <app-color-icon [icon]="account().icon" [color]="account().color" />
-  <mat-card-header>
-    <mat-card-title>{{ account().name }}</mat-card-title>
-    <mat-card-subtitle>{{
-      account().balance | centsToEuros: account().currency
-    }}</mat-card-subtitle>
-  </mat-card-header>
-  <mat-slide-toggle
-    class="toggle-sm"
-    [checked]="account().is_active"
-    (change)="toggleActive.emit(account())"
-  ></mat-slide-toggle>
-  <mat-card-actions>
-    <button matButton (click)="editClick.emit(account())">Editar</button>
-    <button matButton (click)="viewClick.emit(account())">Ver</button>
-  </mat-card-actions>
+<mat-card appearance="outlined" (click)="viewClick.emit(account())">
+  <app-color-icon [icon]="account().icon" [color]="account().color" [size]="48" />
+
+  <div class="account-info">
+    <span class="account-name">{{ account().name }}</span>
+    <span class="account-balance">{{ account().balance | centsToEuros: account().currency }}</span>
+  </div>
+
+  <button matIconButton (click)="$event.stopPropagation(); editClick.emit(account())">
+    <mat-icon>edit</mat-icon>
+  </button>
 </mat-card>

@@ -7,23 +7,18 @@ mat-card {
   flex-direction: row;
   align-items: center;
   gap: 1rem;
-  padding-left: 0.75rem;
-  border-left-width: 6px;
-  border-left-style: solid;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
 }
 
-// mat-card-header trae padding propio y también en su bloque de texto interno:
-// hay que anular los dos o el texto no se alinea con el icono.
-mat-card-header {
-  padding: 0;
+.account-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
 
-  .mat-mdc-card-header-text {
-    padding: 0;
-    margin: 0;
+  .account-name{
+    font: var(--mat-sys-title-medium);
   }
 }
 
-mat-card-title,
-mat-card-subtitle {
-  margin: 0;
-}

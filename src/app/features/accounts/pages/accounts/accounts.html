@@ -1,8 +1,15 @@
+<div class="segmented-track">
+  <mat-button-toggle-group [value]="filter()" (change)="filter.set($event.value)">
+    <mat-button-toggle value="active">Activos</mat-button-toggle>
+    <mat-button-toggle value="archived">Archivados</mat-button-toggle>
+  </mat-button-toggle-group>
+</div>
+
 <div class="page-content">
   @if (loading()) {
     <div class="page-loader"><mat-spinner diameter="36" /></div>
   } @else {
-    @for (account of accounts(); track account.id) {
+    @for (account of visibleAccounts(); track account.id) {
       <app-account-card
         [account]="account"
         (editClick)="openUpdateAccountForm($event)"
