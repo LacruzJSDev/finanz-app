@@ -1,21 +1,27 @@
+// Sin <mat-toolbar>: aportaba dos declaraciones de ocho y había que desactivar
+// el resto. Además su alto fijo cuadraba por casualidad con el de los iconos, y
+// habría dejado de cuadrar al tocar el padding.
+//
+// El propio host es la pastilla, con la misma piel que las tarjetas —fondo
+// `surface-container-lowest` y borde `outline-variant`— y el mismo radio
+// completo que el selector segmentado, que es la otra fila de controles que
+// flota en la aplicación.
 :host {
   position: fixed;
   bottom: 1rem;
   left: 50%;
   transform: translateX(-50%);
-  display: block;
-}
-
-.mat-toolbar {
   display: flex;
   align-items: center;
-  padding: 0.5rem 1rem;
-  border-radius: 10px;
-  border: 1px solid black;
   width: fit-content;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: var(--mat-sys-corner-full);
   background: var(--mat-sys-surface-container-lowest);
 }
 
+// La separación va en los hijos y no en un `gap` del contenedor: el fab se
+// encoge hasta cero, y un `gap` seguiría reservando su hueco a los lados.
 .navigate-button {
   margin-inline: 0.5rem;
 }

@@ -4,13 +4,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { GroupContextService } from '../../core/ui/group-context.service';
 import { MatButtonModule } from '@angular/material/button';
-import { MatToolbarModule } from '@angular/material/toolbar';
 
 @Component({
   selector: 'app-bottom-nav',
-  imports: [MatToolbarModule, MatButtonModule, MatIconModule],
+  imports: [MatButtonModule, MatIconModule],
   templateUrl: 'bottom-nav.html',
   styleUrl: 'bottom-nav.scss',
+  host: { role: 'navigation', 'aria-label': 'Navegación principal' },
 })
 export class BottomNav {
   protected readonly pageContextService = inject(PageContextService);

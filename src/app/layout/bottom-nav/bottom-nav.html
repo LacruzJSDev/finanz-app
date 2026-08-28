@@ -1,32 +1,45 @@
-<mat-toolbar>
-  <button
-    class="navigate-button"
-    matIconButton
-    (click)="navigate('dashboard')"
-    [disabled]="activeGroupId() ? false : true"
-  >
-    <mat-icon>dashboard</mat-icon>
-  </button>
-  <button class="navigate-button" matIconButton (click)="navigate('grupos')">
-    <mat-icon>groups</mat-icon>
-  </button>
-  <button matMiniFab class="fab" [class.fab--hidden]="!action()" (click)="action()?.onClick()">
-    <mat-icon>{{ action()?.icon }}</mat-icon>
-  </button>
-  <button
-    class="navigate-button"
-    matIconButton
-    (click)="navigate('cuentas')"
-    [disabled]="activeGroupId() ? false : true"
-  >
-    <mat-icon>account_balance_wallet</mat-icon>
-  </button>
-  <button
-    class="navigate-button"
-    matIconButton
-    (click)="navigate('categorias')"
-    [disabled]="activeGroupId() ? false : true"
-  >
-    <mat-icon>category</mat-icon>
-  </button>
-</mat-toolbar>
+<button
+  class="navigate-button"
+  matIconButton
+  (click)="navigate('dashboard')"
+  [disabled]="!activeGroupId()"
+  aria-label="Resumen"
+>
+  <mat-icon>dashboard</mat-icon>
+</button>
+
+<button class="navigate-button" matIconButton (click)="navigate('grupos')" aria-label="Grupos">
+  <mat-icon>groups</mat-icon>
+</button>
+
+<!-- La acción de la página. Se encoge hasta desaparecer cuando no hay ninguna,
+     en vez de quitarse de golpe y dar un salto a los iconos de al lado. -->
+<button
+  matMiniFab
+  class="fab"
+  [class.fab--hidden]="!action()"
+  [attr.aria-hidden]="!action()"
+  (click)="action()?.onClick()"
+>
+  <mat-icon>{{ action()?.icon }}</mat-icon>
+</button>
+
+<button
+  class="navigate-button"
+  matIconButton
+  (click)="navigate('cuentas')"
+  [disabled]="!activeGroupId()"
+  aria-label="Cuentas"
+>
+  <mat-icon>account_balance_wallet</mat-icon>
+</button>
+
+<button
+  class="navigate-button"
+  matIconButton
+  (click)="navigate('categorias')"
+  [disabled]="!activeGroupId()"
+  aria-label="Categorías"
+>
+  <mat-icon>category</mat-icon>
+</button>

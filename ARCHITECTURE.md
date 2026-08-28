@@ -518,5 +518,6 @@ disuasorio, no un candado: el guardia real es el comprobador.
   dispare. Los que no la tienen —`getCategoryById`, `getTransactionById`,
   `getGroupMembers`, `getPaymentPlans`— no la llevan, porque sin nadie que los
   llame no hay carrera posible. Necesitan el testigo el día que la tengan.
-- `bottom-nav` sigue montado sobre `mat-toolbar` sobreescribiéndole casi todo,
-  como estaba `top-bar` antes de pasar a un `<header>` propio.
+- La navegación inferior no señala en qué sección estás. El resto de la
+  aplicación sí marca lo seleccionado —el selector segmentado, la etiqueta del
+  grupo en uso—, así que es una inconsistencia, no solo una carencia.
