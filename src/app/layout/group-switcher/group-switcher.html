@@ -1,0 +1,20 @@
+<h2>Grupo de trabajo</h2>
+
+<div class="grouped-card">
+  @for (group of groups(); track group.id) {
+    <button type="button" class="group-row" (click)="select(group)">
+      <app-color-icon [icon]="group.icon" [color]="group.color" [size]="40" />
+      <span class="group-row__name">{{ group.name }}</span>
+      @if (group.id === activeGroupId()) {
+        <mat-icon class="group-row__check">check</mat-icon>
+      }
+    </button>
+  } @empty {
+    <p class="group-empty">No tienes grupos activos.</p>
+  }
+</div>
+
+<button type="button" class="manage-link" (click)="manageGroups()">
+  <mat-icon>settings</mat-icon>
+  <span>Gestionar grupos</span>
+</button>

@@ -1,0 +1,42 @@
+// Cada grupo es una fila del grouped-card, con el mismo sangrado que los
+// campos de los formularios.
+.group-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  text-align: left;
+}
+
+.group-row__name {
+  flex: 1;
+  min-width: 0;
+  font: var(--mat-sys-title-medium);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.group-row__check {
+  color: var(--mat-sys-primary);
+  flex-shrink: 0;
+}
+
+.group-empty {
+  padding: 0.75rem 1rem;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+// Salida hacia la gestión: no es elegir grupo, así que va fuera de la tarjeta.
+.manage-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.75rem;
+  color: var(--mat-sys-on-surface-variant);
+  font: var(--mat-sys-label-large);
+}
