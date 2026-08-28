@@ -5,9 +5,9 @@
   </mat-button-toggle-group>
 </div>
 
-<div class="page-content">
+<app-page-content>
   @if (loading()) {
-    <div class="page-loader"><mat-spinner diameter="36" /></div>
+    <app-page-loader />
   } @else {
     @for (group of visibleGroups(); track group.id) {
       <app-account-group-card
@@ -16,16 +16,19 @@
         (showClick)="showDetail($event.id)"
       />
     } @empty {
-      <div class="empty-state">
-        <mat-icon>groups</mat-icon>
-        @if (filter() === 'active') {
-          <p>No hay grupos activos.</p>
-          <p class="empty-state-hint">Crea el primero con el botón +.</p>
-        } @else {
-          <p>No hay grupos archivados.</p>
-          <p class="empty-state-hint">Los grupos que archives aparecerán aquí.</p>
-        }
-      </div>
+      @if (filter() === 'active') {
+        <app-empty-state
+          icon="groups"
+          message="No hay grupos activos."
+          hint="Crea el primero con el botón +."
+        />
+      } @else {
+        <app-empty-state
+          icon="groups"
+          message="No hay grupos archivados."
+          hint="Los grupos que archives aparecerán aquí."
+        />
+      }
     }
   }
-</div>
+</app-page-content>

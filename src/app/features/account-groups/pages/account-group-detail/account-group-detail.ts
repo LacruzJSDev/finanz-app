@@ -7,11 +7,12 @@ import {
   UpdateAccountGroupFormData,
 } from '../../components/forms/update-account-group-form/update-account-group-form';
 import { Router } from '@angular/router';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { PageContent } from '../../../../shared/ui/page-content/page-content';
+import { PageLoader } from '../../../../shared/ui/page-loader/page-loader';
 
 @Component({
   selector: 'app-account-group-detail',
-  imports: [MatProgressSpinnerModule],
+  imports: [PageContent, PageLoader],
   templateUrl: './account-group-detail.html',
   host: { class: 'page-container' },
 })

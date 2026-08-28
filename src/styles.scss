@@ -70,22 +70,10 @@ body {
   padding: 1rem 1rem 0;
 }
 
-// La parte de la página que scrollea. Lo que cada página quiera dejar fijo lo
-// pone fuera, como hermano; si no tiene nada fijo, mete todo aquí dentro.
-.page-content {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  padding-bottom: 6rem;
-}
-
 // Una sección dentro de un armazón que ya es .page-container: /cuentas/:id
 // pinta cabecera y saldo, y el router encaja aquí la sección activa. No repite
-// el padding ni el fondo, solo pasa la altura al .page-content de dentro, que
-// es quien scrollea. Sin esto la sección mide lo que mide su contenido y el
+// el padding ni el fondo, solo pasa la altura al <app-page-content> de dentro,
+// que es quien scrollea. Sin esto la sección mide lo que mide su contenido y el
 // overflow lo recorta el armazón, sin barra por ninguna parte.
 .page-section {
   flex: 1;
@@ -108,41 +96,4 @@ router-outlet {
   font: var(--mat-sys-body-small);
   color: var(--mat-sys-error);
   text-align: center;
-}
-
-// Carga en curso, en el mismo sitio que ocuparía la lista.
-.page-loader {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem 1rem;
-}
-
-// Lista sin resultados o página sin contenido. Va dentro de .page-content, y
-// el `flex: 1` hace que se quede centrado en el hueco libre en vez de pegado
-// arriba, que es donde se nota que falta algo.
-.empty-state {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 2rem 1rem;
-  text-align: center;
-  color: var(--mat-sys-on-surface-variant);
-
-  mat-icon {
-    font-size: 2.5rem;
-    width: 2.5rem;
-    height: 2.5rem;
-    margin-bottom: 0.5rem;
-    color: var(--mat-sys-outline);
-  }
-}
-
-// Segunda línea, para decir cómo se llena la lista.
-.empty-state-hint {
-  font: var(--mat-sys-body-small);
 }

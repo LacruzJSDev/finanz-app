@@ -14,15 +14,16 @@ import {
 } from '../../components/forms/update-account-form/update-account-form';
 import { PageContextService } from '../../../../core/ui/page-context.service';
 import { AccountCard } from '../../components/account-card/account-card';
-import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { PageContent } from '../../../../shared/ui/page-content/page-content';
+import { PageLoader } from '../../../../shared/ui/page-loader/page-loader';
+import { EmptyState } from '../../../../shared/ui/empty-state/empty-state';
 
 type GroupFilter = 'active' | 'archived';
 
 @Component({
   selector: 'app-accounts',
-  imports: [AccountCard, MatIconModule, MatProgressSpinnerModule, MatButtonToggleModule],
+  imports: [AccountCard, MatButtonToggleModule, PageContent, PageLoader, EmptyState],
   templateUrl: 'accounts.html',
   host: { class: 'page-container' },
 })

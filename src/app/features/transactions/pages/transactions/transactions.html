@@ -1,6 +1,6 @@
-<div class="page-content">
+<app-page-content>
   @if (loading()) {
-    <div class="page-loader"><mat-spinner diameter="36" /></div>
+    <app-page-loader />
   } @else if (transactions().length) {
     <app-transactions-list
       [transactions]="transactions()"
@@ -19,10 +19,10 @@
       }
     </div>
   } @else {
-    <div class="empty-state">
-      <mat-icon>receipt_long</mat-icon>
-      <p>Esta cuenta no tiene movimientos.</p>
-      <p class="empty-state-hint">Añade el primero con el botón +.</p>
-    </div>
+    <app-empty-state
+      icon="receipt_long"
+      message="Esta cuenta no tiene movimientos."
+      hint="Añade el primero con el botón +."
+    />
   }
-</div>
+</app-page-content>

@@ -18,13 +18,22 @@ import {
 } from '../../components/forms/delete-transaction-form/delete-transaction-form';
 import { TransactionsList } from '../../components/tables/transactions-list/transactions-list';
 import { InfiniteScroll } from '../../../../shared/ui/infinite-scroll/infinite-scroll';
-import { MatIconModule } from '@angular/material/icon';
+import { PageContent } from '../../../../shared/ui/page-content/page-content';
+import { PageLoader } from '../../../../shared/ui/page-loader/page-loader';
+import { EmptyState } from '../../../../shared/ui/empty-state/empty-state';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AccountsService } from '../../../../core/accounts/accounts.service';
 
 @Component({
   selector: 'app-transactions',
-  imports: [TransactionsList, InfiniteScroll, MatIconModule, MatProgressSpinnerModule],
+  imports: [
+    TransactionsList,
+    InfiniteScroll,
+    MatProgressSpinnerModule,
+    PageContent,
+    PageLoader,
+    EmptyState,
+  ],
   templateUrl: 'transactions.html',
   styleUrl: 'transactions.scss',
   host: { class: 'page-section' },

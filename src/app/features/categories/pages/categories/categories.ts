@@ -15,15 +15,16 @@ import {
 import { PageContextService } from '../../../../core/ui/page-context.service';
 import { GroupContextService } from '../../../../core/ui/group-context.service';
 import { Router } from '@angular/router';
-import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { PageContent } from '../../../../shared/ui/page-content/page-content';
+import { PageLoader } from '../../../../shared/ui/page-loader/page-loader';
+import { EmptyState } from '../../../../shared/ui/empty-state/empty-state';
 
 /** Las archivadas se listan aparte para no estorbar en el uso diario. */
 type CategoryFilter = 'active' | 'archived';
 
 @Component({
   selector: 'app-categories',
-  imports: [CategoriesList, MatButtonToggleModule, MatIconModule, MatProgressSpinnerModule],
+  imports: [CategoriesList, MatButtonToggleModule, PageContent, PageLoader, EmptyState],
   templateUrl: './categories.html',
   host: { class: 'page-container' },
 })

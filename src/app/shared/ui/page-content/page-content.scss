@@ -1,0 +1,10 @@
+// El propio host es la caja que scrollea: sin nodo extra por envolver.
+:host {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-bottom: 6rem; // deja pasar la navegación inferior, que flota encima
+}

@@ -5,9 +5,9 @@
   </mat-button-toggle-group>
 </div>
 
-<div class="page-content">
+<app-page-content>
   @if (loading()) {
-    <div class="page-loader"><mat-spinner diameter="36" /></div>
+    <app-page-loader />
   } @else if (visibleCategories().length) {
     <app-categories-list
       [categories]="visibleCategories()"
@@ -15,16 +15,17 @@
       (editClick)="openUpdateCategoryForm($event)"
       (toggleActive)="toggleCategoryActive($event)"
     />
+  } @else if (filter() === 'active') {
+    <app-empty-state
+      icon="category"
+      message="No hay categorías activas."
+      hint="Crea la primera con el botón +."
+    />
   } @else {
-    <div class="empty-state">
-      <mat-icon>category</mat-icon>
-      @if (filter() === 'active') {
-        <p>No hay categorías activas.</p>
-        <p class="empty-state-hint">Crea la primera con el botón +.</p>
-      } @else {
-        <p>No hay categorías archivadas.</p>
-        <p class="empty-state-hint">Las categorías que archives aparecerán aquí.</p>
-      }
-    </div>
+    <app-empty-state
+      icon="category"
+      message="No hay categorías archivadas."
+      hint="Las categorías que archives aparecerán aquí."
+    />
   }
-</div>
+</app-page-content>

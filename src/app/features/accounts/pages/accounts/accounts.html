@@ -5,9 +5,9 @@
   </mat-button-toggle-group>
 </div>
 
-<div class="page-content">
+<app-page-content>
   @if (loading()) {
-    <div class="page-loader"><mat-spinner diameter="36" /></div>
+    <app-page-loader />
   } @else {
     @for (account of visibleAccounts(); track account.id) {
       <app-account-card
@@ -16,11 +16,11 @@
         (viewClick)="showAccountDetail($event.id)"
       />
     } @empty {
-      <div class="empty-state">
-        <mat-icon>account_balance_wallet</mat-icon>
-        <p>No hay cuentas en este grupo.</p>
-        <p class="empty-state-hint">Crea la primera con el botón +.</p>
-      </div>
+      <app-empty-state
+        icon="account_balance_wallet"
+        message="No hay cuentas en este grupo."
+        hint="Crea la primera con el botón +."
+      />
     }
   }
-</div>
+</app-page-content>

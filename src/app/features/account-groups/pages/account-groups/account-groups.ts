@@ -7,15 +7,16 @@ import { CreateAccountGroupForm } from '../../components/forms/create-account-gr
 import { PageContextService } from '../../../../core/ui/page-context.service';
 import { AccountGroupCard } from '../../components/account-group-card/account-group-card';
 import { GroupContextService } from '../../../../core/ui/group-context.service';
-import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { PageContent } from '../../../../shared/ui/page-content/page-content';
+import { PageLoader } from '../../../../shared/ui/page-loader/page-loader';
+import { EmptyState } from '../../../../shared/ui/empty-state/empty-state';
 
 /** Los archivados se listan aparte para no confundirlos con los de uso diario. */
 type GroupFilter = 'active' | 'archived';
 
 @Component({
   selector: 'app-account-groups',
-  imports: [AccountGroupCard, MatButtonToggleModule, MatIconModule, MatProgressSpinnerModule],
+  imports: [AccountGroupCard, MatButtonToggleModule, PageContent, PageLoader, EmptyState],
   templateUrl: './account-groups.html',
   host: { class: 'page-container' },
 })
