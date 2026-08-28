@@ -8,13 +8,7 @@ import { ColorIcon } from '../../../../shared/ui/color-icon/color-icon';
 
 @Component({
   selector: 'app-category-card',
-  imports: [
-    MatIconModule,
-    MatButtonModule,
-    MatSlideToggleModule,
-    MatExpansionModule,
-    ColorIcon,
-  ],
+  imports: [MatIconModule, MatButtonModule, MatSlideToggleModule, MatExpansionModule, ColorIcon],
   templateUrl: 'category-card.html',
   styleUrl: 'category-card.scss',
 })

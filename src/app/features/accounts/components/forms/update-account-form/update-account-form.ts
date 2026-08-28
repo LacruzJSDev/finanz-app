@@ -32,7 +32,7 @@ export interface UpdateAccountFormData {
     MatButtonModule,
     AccountTypeLabelPipe,
     MatProgressSpinnerModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
   ],
   templateUrl: 'update-account-form.html',
   host: { class: 'bottom-sheet-form' },
