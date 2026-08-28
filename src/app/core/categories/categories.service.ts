@@ -6,6 +6,7 @@ import {
   CreateCategoryRequest,
   UpdateCategoryRequest,
 } from '../../api';
+import { LatestRequest } from '../http/latest-request';
 
 @Injectable({ providedIn: 'root' })
 export class CategoriesService {
@@ -18,13 +19,19 @@ export class CategoriesService {
   private readonly loadingSignal = signal(false);
   readonly loading = this.loadingSignal.asReadonly();
 
+  private readonly categoriesRequest = new LatestRequest();
+
   getCategories(groupId: string) {
+    const token = this.categoriesRequest.next();
     this.loadingSignal.set(true);
     return this.api.getCategoriesApiV1CategoriesGet(groupId).pipe(
       tap((res) => {
+        if (!this.categoriesRequest.isCurrent(token)) return;
         this.categoriesSignal.set(res.items);
       }),
-      finalize(() => this.loadingSignal.set(false)),
+      finalize(() => {
+        if (this.categoriesRequest.isCurrent(token)) this.loadingSignal.set(false);
+      }),
     );
   }
 

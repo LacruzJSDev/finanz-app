@@ -6,6 +6,7 @@ import {
   GroupRead,
   UpdateGroupRequest,
 } from '../../api';
+import { LatestRequest } from '../http/latest-request';
 
 @Injectable({ providedIn: 'root' })
 export class AccountGroupsService {
@@ -16,13 +17,19 @@ export class AccountGroupsService {
   private readonly loadingSignal = signal(false);
   readonly loading = this.loadingSignal.asReadonly();
 
+  private readonly groupsRequest = new LatestRequest();
+
   getAccountGroups() {
+    const token = this.groupsRequest.next();
     this.loadingSignal.set(true);
     return this.api.groupsApiV1AccountGroupsGet().pipe(
       tap((res) => {
+        if (!this.groupsRequest.isCurrent(token)) return;
         this.groupsSignal.set(res.items);
       }),
-      finalize(() => this.loadingSignal.set(false)),
+      finalize(() => {
+        if (this.groupsRequest.isCurrent(token)) this.loadingSignal.set(false);
+      }),
     );
   }
 

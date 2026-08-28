@@ -6,6 +6,7 @@ import {
   UpdateTransactionRequest,
   CreateTransactionRequest,
 } from '../../api';
+import { LatestRequest } from '../http/latest-request';
 
 @Injectable({ providedIn: 'root' })
 export class TransactionsService {
@@ -23,20 +24,36 @@ export class TransactionsService {
   private readonly loadingMoreSignal = signal(false);
   readonly loadingMore = this.loadingMoreSignal.asReadonly();
 
+  // Aquí el testigo no marca "la última petición" sino "la lista en curso": las
+  // páginas siguientes se acumulan sobre la primera, así que comparten el suyo
+  // en vez de invalidarla. Empezar de cero es lo que abre una lista nueva.
+  private readonly listRequest = new LatestRequest();
+
   getTransactions(accountId: string, limit = 20, offset = 0) {
     const isFirstPage = offset === 0;
+    const token = isFirstPage ? this.listRequest.next() : this.listRequest.current();
     const busy = isFirstPage ? this.loadingSignal : this.loadingMoreSignal;
     busy.set(true);
     return this.api
       .getTransactionsApiV1AccountsAccountIdTransactionsGet(accountId, limit, offset)
       .pipe(
         tap((res) => {
+          // Una página de la lista anterior no se puede pegar a la de ahora:
+          // saldría con duplicados o huecos, y el total descuadrado.
+          if (!this.listRequest.isCurrent(token)) return;
           this.transactionsSignal.update((current) =>
             isFirstPage ? res.items : [...current, ...res.items],
           );
           this.totalSignal.set(res.total);
         }),
-        finalize(() => busy.set(false)),
+        finalize(() => {
+          // `loading` lo apaga quien siga siendo la carga vigente, porque la
+          // que la reemplazó ya lo encendió por su cuenta. `loadingMore` no lo
+          // va a apagar nadie más: su petición queda abandonada, y dejarlo
+          // encendido bloquearía el scroll para siempre.
+          if (!isFirstPage) this.loadingMoreSignal.set(false);
+          else if (this.listRequest.isCurrent(token)) this.loadingSignal.set(false);
+        }),
       );
   }
 

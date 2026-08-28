@@ -270,10 +270,25 @@ Aun así, cada uno es **un booleano por servicio**: si dos cargas del mismo tipo
 se solaparan, la primera en terminar lo apagaría mientras la otra sigue en
 vuelo. El arreglo, cuando haga falta, es contar peticiones en vuelo.
 
-Y ninguno de los dos protege del problema de fondo: las respuestas llegan en el
-orden que quiere la red, no en el que se pidieron, y hoy nada comprueba al
-recibir si lo que llega todavía interesa. Una respuesta vieja se escribe encima
-de una nueva sin dar ningún error.
+### Respuestas obsoletas
+
+Las respuestas llegan en el orden que quiere la red, no en el que se pidieron.
+Si una pantalla lanza una carga y enseguida otra —cambiar de grupo, de cuenta,
+de filtro—, la primera puede llegar la última y escribir encima de la buena. No
+da ningún error: se ven datos de otro sitio.
+
+Por eso cada carga pide un testigo a un `LatestRequest` antes de salir y lo
+comprueba al llegar. Si por el camino ha empezado otra, la respuesta se tira.
+
+En transacciones el testigo significa algo distinto: no "la última petición"
+sino **la lista en curso**. Las páginas siguientes se acumulan sobre la primera,
+así que comparten testigo en vez de invalidarla, y solo empezar desde cero abre
+una lista nueva. Sin esa distinción, hacer scroll cancelaría su propia lista.
+
+Y el testigo no vale para apagar los dos indicadores por igual. `loading` solo
+lo apaga quien siga vigente, porque la carga que lo reemplazó ya lo encendió por
+su cuenta. `loadingMore` se apaga siempre: su petición queda abandonada, nadie
+más lo va a hacer, y dejarlo encendido bloquearía el scroll para siempre.
 
 ## Caso de estudio: el detalle de cuenta
 
@@ -499,10 +514,9 @@ disuasorio, no un candado: el guardia real es el comprobador.
 
 - `features/payment-plans` no existe todavía; su servicio en `core` sí. El
   armazón del detalle de cuenta ya está listo para recibirla como sección.
-- Los servicios no descartan respuestas obsoletas. Como las respuestas llegan
-  en el orden que quiere la red y la signal se sobrescribe sin comprobar nada,
-  una carga vieja puede pisar a una nueva y enseñar datos del grupo o de la
-  cuenta equivocados, sin dar ningún error. Se nota más desde que el grupo se
-  puede cambiar en cualquier pantalla.
+- Descartan respuestas obsoletas los cargadores que hoy tienen pantalla que los
+  dispare. Los que no la tienen —`getCategoryById`, `getTransactionById`,
+  `getGroupMembers`, `getPaymentPlans`— no la llevan, porque sin nadie que los
+  llame no hay carrera posible. Necesitan el testigo el día que la tengan.
 - `bottom-nav` sigue montado sobre `mat-toolbar` sobreescribiéndole casi todo,
   como estaba `top-bar` antes de pasar a un `<header>` propio.
