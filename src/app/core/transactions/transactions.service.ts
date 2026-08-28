@@ -17,19 +17,26 @@ export class TransactionsService {
   readonly transaction = this.transactionSignal.asReadonly();
   private readonly totalSignal = signal(0);
   readonly total = this.totalSignal.asReadonly();
+
   private readonly loadingSignal = signal(false);
   readonly loading = this.loadingSignal.asReadonly();
+  private readonly loadingMoreSignal = signal(false);
+  readonly loadingMore = this.loadingMoreSignal.asReadonly();
 
   getTransactions(accountId: string, limit = 20, offset = 0) {
-    this.loadingSignal.set(true);
+    const isFirstPage = offset === 0;
+    const busy = isFirstPage ? this.loadingSignal : this.loadingMoreSignal;
+    busy.set(true);
     return this.api
       .getTransactionsApiV1AccountsAccountIdTransactionsGet(accountId, limit, offset)
       .pipe(
         tap((res) => {
-          this.transactionsSignal.set(res.items);
+          this.transactionsSignal.update((current) =>
+            isFirstPage ? res.items : [...current, ...res.items],
+          );
           this.totalSignal.set(res.total);
         }),
-        finalize(() => this.loadingSignal.set(false)),
+        finalize(() => busy.set(false)),
       );
   }
 
@@ -39,6 +46,7 @@ export class TransactionsService {
       .pipe(
         tap((transaction) => {
           this.transactionsSignal.update((transactions) => [...transactions, transaction]);
+          this.totalSignal.update((total) => total + 1);
         }),
       );
   }
@@ -81,6 +89,7 @@ export class TransactionsService {
       .pipe(
         tap((transaction) => {
           const deletedTransaction = { ...transaction, deleted_at: new Date().toISOString() };
+          this.totalSignal.update((total) => Math.max(0, total - 1));
           this.transactionsSignal.update((transactions) =>
             transactions.filter((t) => t.id !== transactionId),
           );
