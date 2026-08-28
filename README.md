@@ -1,11 +1,13 @@
 # FinanzApp — frontend
 
-Frontend en Angular para el backend FastAPI de `finanz-app`. Este repo está en fase de arranque: hay proyecto, pero ninguna feature todavía — el diseño de la aplicación (estructura de carpetas, componentes, pantallas) queda pendiente de definir.
+Frontend en Angular para el backend FastAPI de `finanz-app`.
+
+Cómo está organizado el código y por qué está en **[ARCHITECTURE.md](ARCHITECTURE.md)**. Léelo antes de añadir una carpeta: explica qué capa puede importar a cuál, y por qué el cliente generado no sale de `core`.
 
 ## Stack y decisiones ya tomadas
 
 - **Angular 22** (última versión estable), componentes standalone, `@if`/`@for`.
-- **Angular Material** (Material 3, tema `azure-blue`) ya instalado.
+- **Angular Material** (Material 3) con paletas propias en `src/styles/_theme-colors.scss`, y las personalizaciones por componente en `src/styles/`.
 - **Estado**: signals nativos, sin librería de estado adicional.
 - **SPA pura**, sin SSR.
 - **Autenticación**: el backend entrega `access_token`/`refresh_token` como cookies `httpOnly` (no en el cuerpo JSON) — por eso el cliente de API se configura con `withCredentials: true` (ver `provideApi` en `app.config.ts`).
@@ -31,9 +33,16 @@ El cliente ya viene cableado en `app.config.ts` vía `provideApi({ basePath: env
 
 ## Estado actual del código
 
-- `src/app/app.config.ts` — providers base: router, animaciones, cliente de API generado.
-- `src/environments/` — `apiUrl` de desarrollo (`http://localhost:8000`) y de producción (placeholder a sustituir).
-- Sin rutas, sin componentes de feature: todo eso depende del diseño que ya tienes pensado.
+Aplicación móvil de una sola columna: barra superior con la identidad de la pantalla y el menú de usuario, navegación inferior flotante, y formularios en bottom sheets.
+
+- **Sesión** — login y registro, cookies `httpOnly`, refresco automático vía interceptor y guard en las rutas.
+- **Grupos** — listar, crear, editar y archivar. El grupo de trabajo se elige desde el menú del avatar y se guarda en `sessionStorage`.
+- **Cuentas** — listado con filtro de archivadas, y detalle como armazón con secciones enrutadas (`/cuentas/:id/movimientos`).
+- **Movimientos** — lista agrupada por día con scroll infinito; crear, editar y borrar.
+- **Categorías** — árbol de dos niveles con archivado, color e icono.
+- **Dashboard** — todavía vacío.
+
+Pendiente: planes de pago (el servicio de `core` existe, la feature no) y estadísticas por cuenta.
 
 ## Arrancar
 
@@ -45,7 +54,11 @@ npm start
 Sirve en `http://localhost:4200`. Necesita el backend corriendo en `http://localhost:8000` (o cambiar `apiUrl` en `src/environments/environment.ts`) y `CORS_ALLOWED_ORIGINS` del backend incluyendo `http://localhost:4200`.
 
 ```bash
-npm run build         # build de producción
+npm run build          # build de producción
 npm test               # tests unitarios (Vitest)
 npm run generate:api   # regenerar el cliente de API desde el backend
+npm run lint:boundaries # comprobar la dirección de las dependencias entre capas
+npm run format         # Prettier sobre src/
 ```
+
+`lint:boundaries` es el que sostiene las reglas de ARCHITECTURE.md: recorre los imports de `src/app`, clasifica los dos extremos y falla si alguno apunta donde no debe.

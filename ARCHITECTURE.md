@@ -42,7 +42,7 @@ src/app/
 │   ├── ui/               contexto de grupo y de página
 │   └── models.ts         única puerta a los tipos generados, que son privados
 ├── shared/         piezas reutilizables que no saben nada del dominio
-│   ├── ui/               color-icon, paginator
+│   ├── ui/               color-icon, infinite-scroll
 │   ├── colors/           color-picker
 │   ├── icons/            icon-picker
 │   ├── money/            céntimos ↔ euros
@@ -50,6 +50,7 @@ src/app/
 ├── layout/         el armazón visible en todas las pantallas
 │   ├── shell/            marco del viewport
 │   ├── top-bar/          barra superior
+│   ├── group-switcher/   elegir el grupo de trabajo
 │   └── bottom-nav/       navegación inferior
 └── features/       pantallas y UI de dominio
     ├── accounts/
@@ -136,8 +137,8 @@ frontend sea dueño de las palabras —internacionalizar, reescribir mensajes—
 ese es el único sitio donde tocar.
 
 **`shared/` es la prueba del algodón de la reutilización.** Si una pieza
-necesita un modelo del dominio, no es shared. `ColorIcon` y `Paginator` valen
-para cualquier aplicación; por eso están ahí.
+necesita un modelo del dominio, no es shared. `ColorIcon` e `InfiniteScroll`
+valen para cualquier aplicación; por eso están ahí.
 
 ## Dominio y feature no son lo mismo
 
@@ -260,10 +261,19 @@ Cargar una lista responde que sí a las dos primeras. Enviar un formulario, no.
 `loading` está solo en los métodos de lista, los únicos que alimentan un estado
 de pantalla completa. `getAccountById` no lo tiene.
 
-Y es **un solo booleano por servicio**: si dos cargas del mismo servicio se
-solaparan, la primera en terminar lo apagaría mientras la otra sigue en vuelo.
-Hoy no ocurre porque cada pantalla carga una lista. El arreglo, cuando haga
-falta, es contar peticiones en vuelo en lugar de encender y apagar un booleano.
+`TransactionsService` tiene dos, y no por capricho: `loading` significa que no
+hay lista todavía y tapa la pantalla, mientras que `loadingMore` significa que
+ya hay lista y viene la página siguiente, y solo se ve al final. Con un solo
+booleano, pedir la página dos borraba la página uno.
+
+Aun así, cada uno es **un booleano por servicio**: si dos cargas del mismo tipo
+se solaparan, la primera en terminar lo apagaría mientras la otra sigue en
+vuelo. El arreglo, cuando haga falta, es contar peticiones en vuelo.
+
+Y ninguno de los dos protege del problema de fondo: las respuestas llegan en el
+orden que quiere la red, no en el que se pidieron, y hoy nada comprueba al
+recibir si lo que llega todavía interesa. Una respuesta vieja se escribe encima
+de una nueva sin dar ningún error.
 
 ## Caso de estudio: el detalle de cuenta
 
@@ -283,8 +293,9 @@ demasiado, con tantas razones para cambiar que siempre está cambiando.
 ### La solución: armazón y secciones
 
 La página deja de mostrar contenido y pasa a ser un **armazón** (_shell_): un
-componente que solo prepara el contexto —cargar la cuenta, pintar cabecera y
-saldo— y deja un hueco donde el router encaja la sección activa.
+componente que solo prepara el contexto —cargar la cuenta y publicar su nombre
+y su saldo en el contexto de página, que es quien pinta la barra superior— y
+deja un hueco donde el router encaja la sección activa.
 
 ```
 /cuentas/:id                 armazón: carga la cuenta y pinta <router-outlet>
@@ -299,7 +310,7 @@ features/accounts/
 
 features/transactions/
 ├── pages/
-│   └── account-transactions/    la sección /cuentas/:id/movimientos
+│   └── transactions/            la sección /cuentas/:id/movimientos
 ├── components/                  lista y formularios, internos
 └── index.ts                     exporta la página
 
@@ -334,7 +345,15 @@ Si el armazón cargara los movimientos _y_ los planificados, habrías movido el
 problema de sitio en vez de resolverlo. El armazón carga la cuenta —lo único
 que es realmente suyo— y cada sección se ocupa de lo demás.
 
-**4. Sale gratis un beneficio de rendimiento.**
+**4. El layout necesita un nivel más.**
+
+`.page-container` y `.page-content` daban por hecho una página por pantalla, y
+una sección anidada no es una página: no debe repetir el padding, solo pasar la
+altura hacia dentro. Para eso está `.page-section`, que es lo que el armazón
+pone en el hueco. Sin ella la sección mide todo su contenido, el armazón lo
+recorta con su `overflow: hidden` y la lista no se puede scrollear.
+
+**5. Sale gratis un beneficio de rendimiento.**
 
 Al ser rutas hijas, Angular puede cargarlas de forma **diferida** (_lazy
 loading_): el navegador solo se descarga el código de la sección que abres. Los
@@ -350,10 +369,10 @@ Una feature puede usar otra, pero **solo por su puerta principal**:
 
 ```ts
 // bien
-import { AccountTransactions } from '../../transactions';
+import { Transactions } from '../../transactions';
 
 // mal: entra en las tripas
-import { AccountTransactions } from '../../transactions/pages/account-transactions/account-transactions';
+import { Transactions } from '../../transactions/pages/transactions/transactions';
 ```
 
 La puerta es `features/<nombre>/index.ts`, un fichero que reexporta lo público.
@@ -422,6 +441,18 @@ El grupo es **ambiente**: se elige una vez y se queda. Por eso no existe
 aplicación móvil donde casi siempre trabajas en el mismo grupo, repetirlo en
 cada URL es ruido.
 
+Se elige en un solo sitio, el menú del avatar, que llega a todas las pantallas
+sin gastar sitio permanente. `/grupos` solo gestiona: crear, renombrar,
+archivar, miembros e invitaciones. Son dos trabajos distintos sobre la misma
+entidad, y tenerlos separados es lo que evita que la lista de gestión lleve un
+selector dentro.
+
+**Cambiar de grupo obliga a revisar dónde estás.** Si la URL nombra una entidad
+que pertenece a un grupo, deja de ser válida y hay que salir; si no, te quedas.
+`/cuentas/:id` vuelve a `/cuentas`, mientras que `/cuentas`, `/categorias` y
+`/grupos/:id` se quedan donde están. No se navega "atrás", que es historial y
+puede ser cualquier cosa, sino a la raíz de la sección, que existe siempre.
+
 La cuenta sí va en la URL porque cambias de cuenta constantemente y quieres
 poder volver a una concreta.
 
@@ -466,6 +497,12 @@ disuasorio, no un candado: el guardia real es el comprobador.
 
 ## Estado actual
 
-- El detalle de cuenta todavía no está partido en armazón y secciones.
-- `features/accounts` sigue en esqueleto, sin adaptar al estilo del resto.
-- `features/payment-plans` no existe todavía; su servicio en `core` sí.
+- `features/payment-plans` no existe todavía; su servicio en `core` sí. El
+  armazón del detalle de cuenta ya está listo para recibirla como sección.
+- Los servicios no descartan respuestas obsoletas. Como las respuestas llegan
+  en el orden que quiere la red y la signal se sobrescribe sin comprobar nada,
+  una carga vieja puede pisar a una nueva y enseñar datos del grupo o de la
+  cuenta equivocados, sin dar ningún error. Se nota más desde que el grupo se
+  puede cambiar en cualquier pantalla.
+- `bottom-nav` sigue montado sobre `mat-toolbar` sobreescribiéndole casi todo,
+  como estaba `top-bar` antes de pasar a un `<header>` propio.
