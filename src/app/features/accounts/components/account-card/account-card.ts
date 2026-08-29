@@ -15,6 +15,9 @@ import { ColorIcon } from '../../../../shared/ui/color-icon/color-icon';
 export class AccountCard {
   readonly account = input.required<AccountRead>();
 
+  /** Editar es gobierno del grupo; ver la cuenta, no. */
+  readonly canManage = input(false);
+
   readonly editClick = output<AccountRead>();
   readonly viewClick = output<AccountRead>();
 }

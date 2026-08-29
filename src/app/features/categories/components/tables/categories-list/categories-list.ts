@@ -15,6 +15,9 @@ export class CategoriesList {
   /** Categorías que no se pueden archivar ni desarchivar ahora mismo. */
   readonly blockedIds = input<ReadonlySet<string>>(new Set());
 
+  /** Si quien mira puede gestionar categorías, o solo verlas. */
+  readonly canManage = input(false);
+
   readonly editClick = output<CategoryRead>();
   readonly toggleActive = output<CategoryRead>();
 

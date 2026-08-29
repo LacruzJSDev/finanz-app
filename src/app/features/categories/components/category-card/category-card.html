@@ -21,15 +21,17 @@
       @if (hasChildren()) {
         <span class="child-count">{{ children().length }}</span>
       }
-      <button matIconButton (click)="editClick.emit(category())">
-        <mat-icon>edit</mat-icon>
-      </button>
-      <mat-slide-toggle
-        class="toggle-sm"
-        [checked]="category().is_active"
-        [disabled]="isBlocked(category())"
-        (change)="toggleActive.emit(category())"
-      />
+      @if (canManage()) {
+        <button matIconButton (click)="editClick.emit(category())">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <mat-slide-toggle
+          class="toggle-sm"
+          [checked]="category().is_active"
+          [disabled]="isBlocked(category())"
+          (change)="toggleActive.emit(category())"
+        />
+      }
     </div>
   </mat-expansion-panel-header>
 
@@ -38,15 +40,17 @@
       <app-color-icon [icon]="child.icon" [color]="child.color" />
       <span class="category-name">{{ child.name }}</span>
       <div class="category-actions">
-        <button matIconButton (click)="editClick.emit(child)">
-          <mat-icon>edit</mat-icon>
-        </button>
-        <mat-slide-toggle
-          class="toggle-sm"
-          [checked]="child.is_active"
-          [disabled]="isBlocked(child)"
-          (change)="toggleActive.emit(child)"
-        />
+        @if (canManage()) {
+          <button matIconButton (click)="editClick.emit(child)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <mat-slide-toggle
+            class="toggle-sm"
+            [checked]="child.is_active"
+            [disabled]="isBlocked(child)"
+            (change)="toggleActive.emit(child)"
+          />
+        }
       </div>
     </div>
   }

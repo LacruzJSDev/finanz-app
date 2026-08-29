@@ -1,4 +1,4 @@
-import { AccountGroupMemberRoleEnum, GroupMemberRead } from '../models';
+import { AccountGroupMemberRoleEnum, GroupMemberRead, GroupRead } from '../models';
 
 // Las reglas de rol del backend, en un solo sitio. Aquí solo sirven para no
 // enseñar botones que van a fallar: quien decide de verdad es el servidor.
@@ -8,6 +8,19 @@ import { AccountGroupMemberRoleEnum, GroupMemberRead } from '../models';
 // presupuestos. Y no pueden vivir en shared, que no conoce el dominio.
 
 const { Owner, Admin } = AccountGroupMemberRoleEnum;
+
+/**
+ * Tu rol dentro de un grupo concreto, que no tiene por qué ser el de trabajo:
+ * la pantalla de un grupo gestiona cualquiera, y ahí manda el rol que tengas
+ * en ese, no en el activo.
+ */
+export function roleInGroup(
+  group: GroupRead | undefined,
+  userId: string | undefined,
+): AccountGroupMemberRoleEnum | null {
+  if (!userId) return null;
+  return group?.members?.find((member) => member.user_id === userId)?.role ?? null;
+}
 
 /**
  * Gestionar es gobierno del grupo; participar, no. Crear, editar y archivar

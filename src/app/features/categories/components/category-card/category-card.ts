@@ -19,6 +19,9 @@ export class CategoryCard {
   /** Categorías que no se pueden archivar ni desarchivar ahora mismo. */
   readonly blockedIds = input<ReadonlySet<string>>(new Set());
 
+  /** Editar y archivar son gobierno del grupo; ver el árbol, no. */
+  readonly canManage = input(false);
+
   protected readonly hasChildren = computed(() => this.children().length > 0);
 
   private readonly openedByUser = signal(false);

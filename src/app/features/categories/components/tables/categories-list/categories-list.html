@@ -3,6 +3,7 @@
     [category]="category"
     [children]="childrenOf(category.id)"
     [blockedIds]="blockedIds()"
+    [canManage]="canManage()"
     (editClick)="editClick.emit($event)"
     (toggleActive)="toggleActive.emit($event)"
   />

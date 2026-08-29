@@ -12,6 +12,7 @@
     @for (account of visibleAccounts(); track account.id) {
       <app-account-card
         [account]="account"
+        [canManage]="canManage()"
         (editClick)="openUpdateAccountForm($event)"
         (viewClick)="showAccountDetail($event.id)"
       />

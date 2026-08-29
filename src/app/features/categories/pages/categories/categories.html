@@ -12,6 +12,7 @@
     <app-categories-list
       [categories]="visibleCategories()"
       [blockedIds]="blockedIds()"
+      [canManage]="canManage()"
       (editClick)="openUpdateCategoryForm($event)"
       (toggleActive)="toggleCategoryActive($event)"
     />

@@ -2,6 +2,7 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { AccountGroupsService } from '../account-groups/account-groups.service';
 import { AuthService } from '../auth/auth.service';
 import { AccountGroupMemberRoleEnum } from '../models';
+import { roleInGroup } from '../account-groups/permissions';
 
 const ACTIVE_GROUP_ID_KEY = 'activeGroupId';
 
@@ -20,11 +21,9 @@ export class GroupContextService {
   // categorías, planes y presupuestos. Sale del propio grupo, que ya trae sus
   // miembros: preguntarlo aparte en cada pantalla sería una petición por
   // pantalla para un dato que ya está.
-  readonly activeRole = computed<AccountGroupMemberRoleEnum | null>(() => {
-    const userId = this.authService.currentUser()?.id;
-    if (!userId) return null;
-    return this.activeGroup()?.members?.find((m) => m.user_id === userId)?.role ?? null;
-  });
+  readonly activeRole = computed<AccountGroupMemberRoleEnum | null>(() =>
+    roleInGroup(this.activeGroup(), this.authService.currentUser()?.id),
+  );
 
   constructor() {
     this.setActiveGroupId(sessionStorage.getItem(ACTIVE_GROUP_ID_KEY));

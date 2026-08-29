@@ -14,6 +14,7 @@ import {
 } from '../../components/forms/update-category-form/update-category-form';
 import { PageContextService } from '../../../../core/ui/page-context.service';
 import { GroupContextService } from '../../../../core/ui/group-context.service';
+import { canManageGroupData } from '../../../../core/account-groups/permissions';
 import { Router } from '@angular/router';
 import { PageContent } from '../../../../shared/ui/page-content/page-content';
 import { PageLoader } from '../../../../shared/ui/page-loader/page-loader';
@@ -42,6 +43,12 @@ export class Categories {
   protected readonly categories = this.categoriesService.categories;
 
   protected readonly filter = signal<CategoryFilter>('active');
+
+  // Mismo corte que en cuentas: gestionarlas exige owner o admin, consultarlas
+  // está abierto a cualquier rol.
+  protected readonly canManage = computed(() =>
+    canManageGroupData(this.groupContextService.activeRole()),
+  );
 
   protected readonly visibleCategories = computed(() => {
     const wantActive = this.filter() === 'active';
@@ -82,9 +89,10 @@ export class Categories {
       this.categoriesService.getCategories(groupId).subscribe();
     });
     this.pageContextService.setTitle('Categorías');
-    this.pageContextService.setAction({
-      onClick: () => this.openCreateCategoryForm(),
-      icon: 'add',
+    effect(() => {
+      this.pageContextService.setAction(
+        this.canManage() ? { onClick: () => this.openCreateCategoryForm(), icon: 'add' } : null,
+      );
     });
   }
 

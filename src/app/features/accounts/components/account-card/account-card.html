@@ -6,7 +6,9 @@
     <span class="account-balance">{{ account().balance | centsToEuros: account().currency }}</span>
   </div>
 
-  <button matIconButton (click)="$event.stopPropagation(); editClick.emit(account())">
-    <mat-icon>edit</mat-icon>
-  </button>
+  @if (canManage()) {
+    <button matIconButton (click)="$event.stopPropagation(); editClick.emit(account())">
+      <mat-icon>edit</mat-icon>
+    </button>
+  }
 </mat-card>

@@ -7,6 +7,8 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { PageContextService } from '../../../../core/ui/page-context.service';
 import { AccountGroupsService } from '../../../../core/account-groups/account-groups.service';
 import { GroupContextService } from '../../../../core/ui/group-context.service';
+import { AuthService } from '../../../../core/auth/auth.service';
+import { canManageGroupData, roleInGroup } from '../../../../core/account-groups/permissions';
 import {
   UpdateAccountGroupForm,
   UpdateAccountGroupFormData,
@@ -23,6 +25,7 @@ export class AccountGroupDetail {
   protected readonly accountGroupsService = inject(AccountGroupsService);
   protected readonly pageContextService = inject(PageContextService);
   private readonly groupContextService = inject(GroupContextService);
+  private readonly authService = inject(AuthService);
   protected readonly router = inject(Router);
   protected readonly route = inject(ActivatedRoute);
 
@@ -32,6 +35,13 @@ export class AccountGroupDetail {
 
   protected readonly group = computed(() =>
     this.accountGroupsService.groups().find((g) => g.id === this.id()),
+  );
+
+  // El rol que cuenta aquí es el de este grupo, no el del de trabajo: esta
+  // pantalla gestiona cualquiera, y puedes ser owner del activo y simple
+  // miembro del que estás mirando.
+  private readonly canManage = computed(() =>
+    canManageGroupData(roleInGroup(this.group(), this.authService.currentUser()?.id)),
   );
 
   private childPath = () => this.route.snapshot.firstChild?.routeConfig?.path;
@@ -70,7 +80,9 @@ export class AccountGroupDetail {
     });
 
     effect(() => {
-      this.pageContextService.setAction({ onClick: () => this.updateAccountGroup(), icon: 'edit' });
+      this.pageContextService.setAction(
+        this.canManage() ? { onClick: () => this.updateAccountGroup(), icon: 'edit' } : null,
+      );
     });
   }
 

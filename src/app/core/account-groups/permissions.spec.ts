@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { AccountGroupMemberRoleEnum, GroupMemberRead } from '../models';
-import { canChangeRole, canManageGroupData, canRemoveMember } from './permissions';
+import { AccountGroupMemberRoleEnum, GroupMemberRead, GroupRead } from '../models';
+import { canChangeRole, canManageGroupData, canRemoveMember, roleInGroup } from './permissions';
 
 const { Owner, Admin, Member } = AccountGroupMemberRoleEnum;
 
@@ -73,5 +73,20 @@ describe('canRemove', () => {
 
   it('con otro owner detrás, el owner sí puede irse', () => {
     expect(canRemoveMember([dueño, otroDueño, socio], dueño, dueño)).toBe(true);
+  });
+});
+
+describe('roleInGroup', () => {
+  const grupo = { id: 'g', members: [dueño, socio] } as unknown as GroupRead;
+
+  it('encuentra tu rol dentro del grupo', () => {
+    expect(roleInGroup(grupo, 'dueño')).toBe(Owner);
+    expect(roleInGroup(grupo, 'socio')).toBe(Member);
+  });
+
+  it('sin grupo, sin usuario o sin pertenencia no hay rol', () => {
+    expect(roleInGroup(grupo, 'ajeno')).toBe(null);
+    expect(roleInGroup(grupo, undefined)).toBe(null);
+    expect(roleInGroup(undefined, 'dueño')).toBe(null);
   });
 });

@@ -1,5 +1,6 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { GroupContextService } from '../../../../core/ui/group-context.service';
+import { canManageGroupData } from '../../../../core/account-groups/permissions';
 import { AccountsService } from '../../../../core/accounts/accounts.service';
 import { Router } from '@angular/router';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
@@ -41,6 +42,12 @@ export class Accounts {
 
   protected readonly filter = signal<GroupFilter>('active');
 
+  // Crear, editar y archivar cuentas es gobierno del grupo. Quien solo participa
+  // no ve esos botones: pulsarlos solo le daría un 403.
+  protected readonly canManage = computed(() =>
+    canManageGroupData(this.groupContextService.activeRole()),
+  );
+
   protected readonly visibleAccounts = computed(() => {
     const wantActive = this.filter() === 'active';
     return this.accounts().filter((account) => account.is_active === wantActive);
@@ -56,7 +63,11 @@ export class Accounts {
       this.accountsService.getAccounts(groupId).subscribe();
     });
     this.pageContextService.setTitle('Cuentas');
-    this.pageContextService.setAction({ onClick: () => this.openCreateAccountForm(), icon: 'add' });
+    effect(() => {
+      this.pageContextService.setAction(
+        this.canManage() ? { onClick: () => this.openCreateAccountForm(), icon: 'add' } : null,
+      );
+    });
   }
 
   openCreateAccountForm(): void {
