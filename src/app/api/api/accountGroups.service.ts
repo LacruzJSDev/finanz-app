@@ -28,6 +28,8 @@ import { CollectionResponseGroupMemberRead } from '../model/collectionResponseGr
 // @ts-ignore
 import { CollectionResponseGroupRead } from '../model/collectionResponseGroupRead';
 // @ts-ignore
+import { CollectionResponseInvitationRead } from '../model/collectionResponseInvitationRead';
+// @ts-ignore
 import { CreateGroupRequest } from '../model/createGroupRequest';
 // @ts-ignore
 import { CreateInvitationRequest } from '../model/createInvitationRequest';
@@ -36,7 +38,11 @@ import { ErrorResponse } from '../model/errorResponse';
 // @ts-ignore
 import { GroupMemberRead } from '../model/groupMemberRead';
 // @ts-ignore
+import { GroupOverviewRead } from '../model/groupOverviewRead';
+// @ts-ignore
 import { GroupRead } from '../model/groupRead';
+// @ts-ignore
+import { InvitationDetailRead } from '../model/invitationDetailRead';
 // @ts-ignore
 import { InvitationRead } from '../model/invitationRead';
 // @ts-ignore
@@ -598,6 +604,103 @@ export class AccountGroupsService extends BaseService {
   }
 
   /**
+   * Get Group Invitations
+   * Invitaciones del grupo en cualquier estado, con su código
+   * @endpoint get /api/v1/account-groups/{group_id}/invitations
+   * @param groupId
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   * @param options additional options
+   */
+  public getGroupInvitationsApiV1AccountGroupsGroupIdInvitationsGet(
+    groupId: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<CollectionResponseInvitationRead>;
+  public getGroupInvitationsApiV1AccountGroupsGroupIdInvitationsGet(
+    groupId: string,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpResponse<CollectionResponseInvitationRead>>;
+  public getGroupInvitationsApiV1AccountGroupsGroupIdInvitationsGet(
+    groupId: string,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpEvent<CollectionResponseInvitationRead>>;
+  public getGroupInvitationsApiV1AccountGroupsGroupIdInvitationsGet(
+    groupId: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any> {
+    if (groupId === null || groupId === undefined) {
+      throw new Error(
+        'Required parameter groupId was null or undefined when calling getGroupInvitationsApiV1AccountGroupsGroupIdInvitationsGet.',
+      );
+    }
+
+    let localVarHeaders = this.defaultHeaders;
+
+    // authentication (AccessTokenCookie) required
+
+    const localVarHttpHeaderAcceptSelected: string | undefined =
+      options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept(['application/json']);
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+    }
+
+    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+    const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
+    }
+
+    let localVarPath = `/api/v1/account-groups/${this.configuration.encodeParam({ name: 'groupId', value: groupId, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: 'uuid' })}/invitations`;
+    const { basePath, withCredentials } = this.configuration;
+    return this.httpClient.request<CollectionResponseInvitationRead>(
+      'get',
+      `${basePath}${localVarPath}`,
+      {
+        context: localVarHttpContext,
+        responseType: <any>responseType_,
+        ...(withCredentials ? { withCredentials } : {}),
+        headers: localVarHeaders,
+        observe: observe,
+        ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+        reportProgress: reportProgress,
+      },
+    );
+  }
+
+  /**
    * Get Group Members
    * Obtiene los miembros de un grupo de cuentas
    * @endpoint get /api/v1/account-groups/{group_id}/members
@@ -695,6 +798,99 @@ export class AccountGroupsService extends BaseService {
   }
 
   /**
+   * Get Group Overview
+   * Resumen del grupo: saldo, gasto de hoy y previsión hasta el cobro
+   * @endpoint get /api/v1/account-groups/{group_id}/overview
+   * @param groupId
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   * @param options additional options
+   */
+  public getGroupOverviewApiV1AccountGroupsGroupIdOverviewGet(
+    groupId: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<GroupOverviewRead>;
+  public getGroupOverviewApiV1AccountGroupsGroupIdOverviewGet(
+    groupId: string,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpResponse<GroupOverviewRead>>;
+  public getGroupOverviewApiV1AccountGroupsGroupIdOverviewGet(
+    groupId: string,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpEvent<GroupOverviewRead>>;
+  public getGroupOverviewApiV1AccountGroupsGroupIdOverviewGet(
+    groupId: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any> {
+    if (groupId === null || groupId === undefined) {
+      throw new Error(
+        'Required parameter groupId was null or undefined when calling getGroupOverviewApiV1AccountGroupsGroupIdOverviewGet.',
+      );
+    }
+
+    let localVarHeaders = this.defaultHeaders;
+
+    // authentication (AccessTokenCookie) required
+
+    const localVarHttpHeaderAcceptSelected: string | undefined =
+      options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept(['application/json']);
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+    }
+
+    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+    const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
+    }
+
+    let localVarPath = `/api/v1/account-groups/${this.configuration.encodeParam({ name: 'groupId', value: groupId, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: 'uuid' })}/overview`;
+    const { basePath, withCredentials } = this.configuration;
+    return this.httpClient.request<GroupOverviewRead>('get', `${basePath}${localVarPath}`, {
+      context: localVarHttpContext,
+      responseType: <any>responseType_,
+      ...(withCredentials ? { withCredentials } : {}),
+      headers: localVarHeaders,
+      observe: observe,
+      ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+      reportProgress: reportProgress,
+    });
+  }
+
+  /**
    * Get Invitation
    * @endpoint get /api/v1/account-groups/invitations/{code}
    * @param code
@@ -711,7 +907,7 @@ export class AccountGroupsService extends BaseService {
       context?: HttpContext;
       transferCache?: boolean;
     },
-  ): Observable<InvitationRead>;
+  ): Observable<InvitationDetailRead>;
   public getInvitationApiV1AccountGroupsInvitationsCodeGet(
     code: string,
     observe?: 'response',
@@ -721,7 +917,7 @@ export class AccountGroupsService extends BaseService {
       context?: HttpContext;
       transferCache?: boolean;
     },
-  ): Observable<HttpResponse<InvitationRead>>;
+  ): Observable<HttpResponse<InvitationDetailRead>>;
   public getInvitationApiV1AccountGroupsInvitationsCodeGet(
     code: string,
     observe?: 'events',
@@ -731,7 +927,7 @@ export class AccountGroupsService extends BaseService {
       context?: HttpContext;
       transferCache?: boolean;
     },
-  ): Observable<HttpEvent<InvitationRead>>;
+  ): Observable<HttpEvent<InvitationDetailRead>>;
   public getInvitationApiV1AccountGroupsInvitationsCodeGet(
     code: string,
     observe: any = 'body',
@@ -775,7 +971,7 @@ export class AccountGroupsService extends BaseService {
 
     let localVarPath = `/api/v1/account-groups/invitations/${this.configuration.encodeParam({ name: 'code', value: code, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: undefined })}`;
     const { basePath, withCredentials } = this.configuration;
-    return this.httpClient.request<InvitationRead>('get', `${basePath}${localVarPath}`, {
+    return this.httpClient.request<InvitationDetailRead>('get', `${basePath}${localVarPath}`, {
       context: localVarHttpContext,
       responseType: <any>responseType_,
       ...(withCredentials ? { withCredentials } : {}),
@@ -870,6 +1066,109 @@ export class AccountGroupsService extends BaseService {
         reportProgress: reportProgress,
       },
     );
+  }
+
+  /**
+   * Revoke Invitation
+   * Revoca una invitación no aceptada
+   * @endpoint delete /api/v1/account-groups/{group_id}/invitations/{invitation_id}
+   * @param groupId
+   * @param invitationId
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   * @param options additional options
+   */
+  public revokeInvitationApiV1AccountGroupsGroupIdInvitationsInvitationIdDelete(
+    groupId: string,
+    invitationId: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any>;
+  public revokeInvitationApiV1AccountGroupsGroupIdInvitationsInvitationIdDelete(
+    groupId: string,
+    invitationId: string,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpResponse<any>>;
+  public revokeInvitationApiV1AccountGroupsGroupIdInvitationsInvitationIdDelete(
+    groupId: string,
+    invitationId: string,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpEvent<any>>;
+  public revokeInvitationApiV1AccountGroupsGroupIdInvitationsInvitationIdDelete(
+    groupId: string,
+    invitationId: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any> {
+    if (groupId === null || groupId === undefined) {
+      throw new Error(
+        'Required parameter groupId was null or undefined when calling revokeInvitationApiV1AccountGroupsGroupIdInvitationsInvitationIdDelete.',
+      );
+    }
+    if (invitationId === null || invitationId === undefined) {
+      throw new Error(
+        'Required parameter invitationId was null or undefined when calling revokeInvitationApiV1AccountGroupsGroupIdInvitationsInvitationIdDelete.',
+      );
+    }
+
+    let localVarHeaders = this.defaultHeaders;
+
+    // authentication (AccessTokenCookie) required
+
+    const localVarHttpHeaderAcceptSelected: string | undefined =
+      options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept(['application/json']);
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+    }
+
+    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+    const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
+    }
+
+    let localVarPath = `/api/v1/account-groups/${this.configuration.encodeParam({ name: 'groupId', value: groupId, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: 'uuid' })}/invitations/${this.configuration.encodeParam({ name: 'invitationId', value: invitationId, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: 'uuid' })}`;
+    const { basePath, withCredentials } = this.configuration;
+    return this.httpClient.request<any>('delete', `${basePath}${localVarPath}`, {
+      context: localVarHttpContext,
+      responseType: <any>responseType_,
+      ...(withCredentials ? { withCredentials } : {}),
+      headers: localVarHeaders,
+      observe: observe,
+      ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+      reportProgress: reportProgress,
+    });
   }
 
   /**

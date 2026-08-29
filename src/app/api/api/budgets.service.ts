@@ -22,15 +22,15 @@ import { Observable } from 'rxjs';
 import { OpenApiHttpParams, QueryParamStyle } from '../query.params';
 
 // @ts-ignore
-import { CollectionResponsePaymentPlanRead } from '../model/collectionResponsePaymentPlanRead';
+import { BudgetRead } from '../model/budgetRead';
 // @ts-ignore
-import { CreatePaymentPlanRequest } from '../model/createPaymentPlanRequest';
+import { CollectionResponseBudgetProgressRead } from '../model/collectionResponseBudgetProgressRead';
+// @ts-ignore
+import { CollectionResponseBudgetRead } from '../model/collectionResponseBudgetRead';
 // @ts-ignore
 import { ErrorResponse } from '../model/errorResponse';
 // @ts-ignore
-import { PaymentPlanRead } from '../model/paymentPlanRead';
-// @ts-ignore
-import { UpdatePaymentPlanRequest } from '../model/updatePaymentPlanRequest';
+import { SetBudgetRequest } from '../model/setBudgetRequest';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS } from '../variables';
@@ -40,7 +40,7 @@ import { BaseService } from '../api.base.service';
 @Injectable({
   providedIn: 'root',
 })
-export class PaymentPlansService extends BaseService {
+export class BudgetsService extends BaseService {
   constructor(
     protected httpClient: HttpClient,
     @Optional() @Inject(BASE_PATH) basePath: string | string[],
@@ -50,17 +50,15 @@ export class PaymentPlansService extends BaseService {
   }
 
   /**
-   * Create Payment Plan
-   * @endpoint post /api/v1/accounts/{account_id}/payment-plans/
-   * @param accountId
-   * @param createPaymentPlanRequest
+   * Delete Budget
+   * @endpoint delete /api/v1/budgets/{category_id}
+   * @param categoryId
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    * @param options additional options
    */
-  public createPaymentPlanApiV1AccountsAccountIdPaymentPlansPost(
-    accountId: string,
-    createPaymentPlanRequest: CreatePaymentPlanRequest,
+  public deleteBudgetApiV1BudgetsCategoryIdDelete(
+    categoryId: string,
     observe?: 'body',
     reportProgress?: boolean,
     options?: {
@@ -68,10 +66,9 @@ export class PaymentPlansService extends BaseService {
       context?: HttpContext;
       transferCache?: boolean;
     },
-  ): Observable<PaymentPlanRead>;
-  public createPaymentPlanApiV1AccountsAccountIdPaymentPlansPost(
-    accountId: string,
-    createPaymentPlanRequest: CreatePaymentPlanRequest,
+  ): Observable<any>;
+  public deleteBudgetApiV1BudgetsCategoryIdDelete(
+    categoryId: string,
     observe?: 'response',
     reportProgress?: boolean,
     options?: {
@@ -79,10 +76,9 @@ export class PaymentPlansService extends BaseService {
       context?: HttpContext;
       transferCache?: boolean;
     },
-  ): Observable<HttpResponse<PaymentPlanRead>>;
-  public createPaymentPlanApiV1AccountsAccountIdPaymentPlansPost(
-    accountId: string,
-    createPaymentPlanRequest: CreatePaymentPlanRequest,
+  ): Observable<HttpResponse<any>>;
+  public deleteBudgetApiV1BudgetsCategoryIdDelete(
+    categoryId: string,
     observe?: 'events',
     reportProgress?: boolean,
     options?: {
@@ -90,10 +86,9 @@ export class PaymentPlansService extends BaseService {
       context?: HttpContext;
       transferCache?: boolean;
     },
-  ): Observable<HttpEvent<PaymentPlanRead>>;
-  public createPaymentPlanApiV1AccountsAccountIdPaymentPlansPost(
-    accountId: string,
-    createPaymentPlanRequest: CreatePaymentPlanRequest,
+  ): Observable<HttpEvent<any>>;
+  public deleteBudgetApiV1BudgetsCategoryIdDelete(
+    categoryId: string,
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: {
@@ -102,125 +97,9 @@ export class PaymentPlansService extends BaseService {
       transferCache?: boolean;
     },
   ): Observable<any> {
-    if (accountId === null || accountId === undefined) {
+    if (categoryId === null || categoryId === undefined) {
       throw new Error(
-        'Required parameter accountId was null or undefined when calling createPaymentPlanApiV1AccountsAccountIdPaymentPlansPost.',
-      );
-    }
-    if (createPaymentPlanRequest === null || createPaymentPlanRequest === undefined) {
-      throw new Error(
-        'Required parameter createPaymentPlanRequest was null or undefined when calling createPaymentPlanApiV1AccountsAccountIdPaymentPlansPost.',
-      );
-    }
-
-    let localVarHeaders = this.defaultHeaders;
-
-    // authentication (AccessTokenCookie) required
-
-    const localVarHttpHeaderAcceptSelected: string | undefined =
-      options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept(['application/json']);
-    if (localVarHttpHeaderAcceptSelected !== undefined) {
-      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-    }
-
-    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
-
-    const localVarTransferCache: boolean = options?.transferCache ?? true;
-
-    // to determine the Content-Type header
-    const consumes: string[] = ['application/json'];
-    const httpContentTypeSelected: string | undefined =
-      this.configuration.selectHeaderContentType(consumes);
-    if (httpContentTypeSelected !== undefined) {
-      localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
-    }
-
-    let responseType_: 'text' | 'json' | 'blob' = 'json';
-    if (localVarHttpHeaderAcceptSelected) {
-      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-        responseType_ = 'text';
-      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-        responseType_ = 'json';
-      } else {
-        responseType_ = 'blob';
-      }
-    }
-
-    let localVarPath = `/api/v1/accounts/${this.configuration.encodeParam({ name: 'accountId', value: accountId, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: 'uuid' })}/payment-plans/`;
-    const { basePath, withCredentials } = this.configuration;
-    return this.httpClient.request<PaymentPlanRead>('post', `${basePath}${localVarPath}`, {
-      context: localVarHttpContext,
-      body: createPaymentPlanRequest,
-      responseType: <any>responseType_,
-      ...(withCredentials ? { withCredentials } : {}),
-      headers: localVarHeaders,
-      observe: observe,
-      ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
-      reportProgress: reportProgress,
-    });
-  }
-
-  /**
-   * Get Payment Plan
-   * @endpoint get /api/v1/accounts/{account_id}/payment-plans/{payment_plan_id}
-   * @param accountId
-   * @param paymentPlanId
-   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-   * @param reportProgress flag to report request and response progress.
-   * @param options additional options
-   */
-  public getPaymentPlanApiV1AccountsAccountIdPaymentPlansPaymentPlanIdGet(
-    accountId: string,
-    paymentPlanId: string,
-    observe?: 'body',
-    reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: 'application/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    },
-  ): Observable<PaymentPlanRead>;
-  public getPaymentPlanApiV1AccountsAccountIdPaymentPlansPaymentPlanIdGet(
-    accountId: string,
-    paymentPlanId: string,
-    observe?: 'response',
-    reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: 'application/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    },
-  ): Observable<HttpResponse<PaymentPlanRead>>;
-  public getPaymentPlanApiV1AccountsAccountIdPaymentPlansPaymentPlanIdGet(
-    accountId: string,
-    paymentPlanId: string,
-    observe?: 'events',
-    reportProgress?: boolean,
-    options?: {
-      httpHeaderAccept?: 'application/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    },
-  ): Observable<HttpEvent<PaymentPlanRead>>;
-  public getPaymentPlanApiV1AccountsAccountIdPaymentPlansPaymentPlanIdGet(
-    accountId: string,
-    paymentPlanId: string,
-    observe: any = 'body',
-    reportProgress: boolean = false,
-    options?: {
-      httpHeaderAccept?: 'application/json';
-      context?: HttpContext;
-      transferCache?: boolean;
-    },
-  ): Observable<any> {
-    if (accountId === null || accountId === undefined) {
-      throw new Error(
-        'Required parameter accountId was null or undefined when calling getPaymentPlanApiV1AccountsAccountIdPaymentPlansPaymentPlanIdGet.',
-      );
-    }
-    if (paymentPlanId === null || paymentPlanId === undefined) {
-      throw new Error(
-        'Required parameter paymentPlanId was null or undefined when calling getPaymentPlanApiV1AccountsAccountIdPaymentPlansPaymentPlanIdGet.',
+        'Required parameter categoryId was null or undefined when calling deleteBudgetApiV1BudgetsCategoryIdDelete.',
       );
     }
 
@@ -249,9 +128,9 @@ export class PaymentPlansService extends BaseService {
       }
     }
 
-    let localVarPath = `/api/v1/accounts/${this.configuration.encodeParam({ name: 'accountId', value: accountId, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: 'uuid' })}/payment-plans/${this.configuration.encodeParam({ name: 'paymentPlanId', value: paymentPlanId, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: 'uuid' })}`;
+    let localVarPath = `/api/v1/budgets/${this.configuration.encodeParam({ name: 'categoryId', value: categoryId, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: 'uuid' })}`;
     const { basePath, withCredentials } = this.configuration;
-    return this.httpClient.request<PaymentPlanRead>('get', `${basePath}${localVarPath}`, {
+    return this.httpClient.request<any>('delete', `${basePath}${localVarPath}`, {
       context: localVarHttpContext,
       responseType: <any>responseType_,
       ...(withCredentials ? { withCredentials } : {}),
@@ -263,15 +142,15 @@ export class PaymentPlansService extends BaseService {
   }
 
   /**
-   * Get Payment Plans
-   * @endpoint get /api/v1/accounts/{account_id}/payment-plans/
-   * @param accountId
+   * Get Budget History
+   * @endpoint get /api/v1/budgets/{category_id}/history
+   * @param categoryId
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    * @param options additional options
    */
-  public getPaymentPlansApiV1AccountsAccountIdPaymentPlansGet(
-    accountId: string,
+  public getBudgetHistoryApiV1BudgetsCategoryIdHistoryGet(
+    categoryId: string,
     observe?: 'body',
     reportProgress?: boolean,
     options?: {
@@ -279,9 +158,9 @@ export class PaymentPlansService extends BaseService {
       context?: HttpContext;
       transferCache?: boolean;
     },
-  ): Observable<CollectionResponsePaymentPlanRead>;
-  public getPaymentPlansApiV1AccountsAccountIdPaymentPlansGet(
-    accountId: string,
+  ): Observable<CollectionResponseBudgetRead>;
+  public getBudgetHistoryApiV1BudgetsCategoryIdHistoryGet(
+    categoryId: string,
     observe?: 'response',
     reportProgress?: boolean,
     options?: {
@@ -289,9 +168,9 @@ export class PaymentPlansService extends BaseService {
       context?: HttpContext;
       transferCache?: boolean;
     },
-  ): Observable<HttpResponse<CollectionResponsePaymentPlanRead>>;
-  public getPaymentPlansApiV1AccountsAccountIdPaymentPlansGet(
-    accountId: string,
+  ): Observable<HttpResponse<CollectionResponseBudgetRead>>;
+  public getBudgetHistoryApiV1BudgetsCategoryIdHistoryGet(
+    categoryId: string,
     observe?: 'events',
     reportProgress?: boolean,
     options?: {
@@ -299,9 +178,9 @@ export class PaymentPlansService extends BaseService {
       context?: HttpContext;
       transferCache?: boolean;
     },
-  ): Observable<HttpEvent<CollectionResponsePaymentPlanRead>>;
-  public getPaymentPlansApiV1AccountsAccountIdPaymentPlansGet(
-    accountId: string,
+  ): Observable<HttpEvent<CollectionResponseBudgetRead>>;
+  public getBudgetHistoryApiV1BudgetsCategoryIdHistoryGet(
+    categoryId: string,
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: {
@@ -310,9 +189,9 @@ export class PaymentPlansService extends BaseService {
       transferCache?: boolean;
     },
   ): Observable<any> {
-    if (accountId === null || accountId === undefined) {
+    if (categoryId === null || categoryId === undefined) {
       throw new Error(
-        'Required parameter accountId was null or undefined when calling getPaymentPlansApiV1AccountsAccountIdPaymentPlansGet.',
+        'Required parameter categoryId was null or undefined when calling getBudgetHistoryApiV1BudgetsCategoryIdHistoryGet.',
       );
     }
 
@@ -341,9 +220,9 @@ export class PaymentPlansService extends BaseService {
       }
     }
 
-    let localVarPath = `/api/v1/accounts/${this.configuration.encodeParam({ name: 'accountId', value: accountId, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: 'uuid' })}/payment-plans/`;
+    let localVarPath = `/api/v1/budgets/${this.configuration.encodeParam({ name: 'categoryId', value: categoryId, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: 'uuid' })}/history`;
     const { basePath, withCredentials } = this.configuration;
-    return this.httpClient.request<CollectionResponsePaymentPlanRead>(
+    return this.httpClient.request<CollectionResponseBudgetRead>(
       'get',
       `${basePath}${localVarPath}`,
       {
@@ -359,17 +238,17 @@ export class PaymentPlansService extends BaseService {
   }
 
   /**
-   * Get Upcoming Payment Plans
-   * @endpoint get /api/v1/payment-plans/upcoming
+   * Get Budgets
+   * @endpoint get /api/v1/budgets/
    * @param groupId
-   * @param until Fecha límite, inclusiva
+   * @param month Cualquier fecha del mes consultado
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    * @param options additional options
    */
-  public getUpcomingPaymentPlansApiV1PaymentPlansUpcomingGet(
+  public getBudgetsApiV1BudgetsGet(
     groupId: string,
-    until: string,
+    month?: string,
     observe?: 'body',
     reportProgress?: boolean,
     options?: {
@@ -377,10 +256,10 @@ export class PaymentPlansService extends BaseService {
       context?: HttpContext;
       transferCache?: boolean;
     },
-  ): Observable<CollectionResponsePaymentPlanRead>;
-  public getUpcomingPaymentPlansApiV1PaymentPlansUpcomingGet(
+  ): Observable<CollectionResponseBudgetProgressRead>;
+  public getBudgetsApiV1BudgetsGet(
     groupId: string,
-    until: string,
+    month?: string,
     observe?: 'response',
     reportProgress?: boolean,
     options?: {
@@ -388,10 +267,10 @@ export class PaymentPlansService extends BaseService {
       context?: HttpContext;
       transferCache?: boolean;
     },
-  ): Observable<HttpResponse<CollectionResponsePaymentPlanRead>>;
-  public getUpcomingPaymentPlansApiV1PaymentPlansUpcomingGet(
+  ): Observable<HttpResponse<CollectionResponseBudgetProgressRead>>;
+  public getBudgetsApiV1BudgetsGet(
     groupId: string,
-    until: string,
+    month?: string,
     observe?: 'events',
     reportProgress?: boolean,
     options?: {
@@ -399,10 +278,10 @@ export class PaymentPlansService extends BaseService {
       context?: HttpContext;
       transferCache?: boolean;
     },
-  ): Observable<HttpEvent<CollectionResponsePaymentPlanRead>>;
-  public getUpcomingPaymentPlansApiV1PaymentPlansUpcomingGet(
+  ): Observable<HttpEvent<CollectionResponseBudgetProgressRead>>;
+  public getBudgetsApiV1BudgetsGet(
     groupId: string,
-    until: string,
+    month?: string,
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: {
@@ -413,12 +292,7 @@ export class PaymentPlansService extends BaseService {
   ): Observable<any> {
     if (groupId === null || groupId === undefined) {
       throw new Error(
-        'Required parameter groupId was null or undefined when calling getUpcomingPaymentPlansApiV1PaymentPlansUpcomingGet.',
-      );
-    }
-    if (until === null || until === undefined) {
-      throw new Error(
-        'Required parameter until was null or undefined when calling getUpcomingPaymentPlansApiV1PaymentPlansUpcomingGet.',
+        'Required parameter groupId was null or undefined when calling getBudgetsApiV1BudgetsGet.',
       );
     }
 
@@ -434,8 +308,8 @@ export class PaymentPlansService extends BaseService {
 
     localVarQueryParameters = this.addToHttpParams(
       localVarQueryParameters,
-      'until',
-      <any>until,
+      'month',
+      <any>month,
       QueryParamStyle.Form,
       true,
     );
@@ -465,9 +339,9 @@ export class PaymentPlansService extends BaseService {
       }
     }
 
-    let localVarPath = `/api/v1/payment-plans/upcoming`;
+    let localVarPath = `/api/v1/budgets/`;
     const { basePath, withCredentials } = this.configuration;
-    return this.httpClient.request<CollectionResponsePaymentPlanRead>(
+    return this.httpClient.request<CollectionResponseBudgetProgressRead>(
       'get',
       `${basePath}${localVarPath}`,
       {
@@ -484,19 +358,17 @@ export class PaymentPlansService extends BaseService {
   }
 
   /**
-   * Update Payment Plan
-   * @endpoint patch /api/v1/accounts/{account_id}/payment-plans/{payment_plan_id}
-   * @param accountId
-   * @param paymentPlanId
-   * @param updatePaymentPlanRequest
+   * Set Budget
+   * @endpoint put /api/v1/budgets/{category_id}
+   * @param categoryId
+   * @param setBudgetRequest
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    * @param options additional options
    */
-  public updatePaymentPlanApiV1AccountsAccountIdPaymentPlansPaymentPlanIdPatch(
-    accountId: string,
-    paymentPlanId: string,
-    updatePaymentPlanRequest: UpdatePaymentPlanRequest,
+  public setBudgetApiV1BudgetsCategoryIdPut(
+    categoryId: string,
+    setBudgetRequest: SetBudgetRequest,
     observe?: 'body',
     reportProgress?: boolean,
     options?: {
@@ -504,11 +376,10 @@ export class PaymentPlansService extends BaseService {
       context?: HttpContext;
       transferCache?: boolean;
     },
-  ): Observable<PaymentPlanRead>;
-  public updatePaymentPlanApiV1AccountsAccountIdPaymentPlansPaymentPlanIdPatch(
-    accountId: string,
-    paymentPlanId: string,
-    updatePaymentPlanRequest: UpdatePaymentPlanRequest,
+  ): Observable<BudgetRead>;
+  public setBudgetApiV1BudgetsCategoryIdPut(
+    categoryId: string,
+    setBudgetRequest: SetBudgetRequest,
     observe?: 'response',
     reportProgress?: boolean,
     options?: {
@@ -516,11 +387,10 @@ export class PaymentPlansService extends BaseService {
       context?: HttpContext;
       transferCache?: boolean;
     },
-  ): Observable<HttpResponse<PaymentPlanRead>>;
-  public updatePaymentPlanApiV1AccountsAccountIdPaymentPlansPaymentPlanIdPatch(
-    accountId: string,
-    paymentPlanId: string,
-    updatePaymentPlanRequest: UpdatePaymentPlanRequest,
+  ): Observable<HttpResponse<BudgetRead>>;
+  public setBudgetApiV1BudgetsCategoryIdPut(
+    categoryId: string,
+    setBudgetRequest: SetBudgetRequest,
     observe?: 'events',
     reportProgress?: boolean,
     options?: {
@@ -528,11 +398,10 @@ export class PaymentPlansService extends BaseService {
       context?: HttpContext;
       transferCache?: boolean;
     },
-  ): Observable<HttpEvent<PaymentPlanRead>>;
-  public updatePaymentPlanApiV1AccountsAccountIdPaymentPlansPaymentPlanIdPatch(
-    accountId: string,
-    paymentPlanId: string,
-    updatePaymentPlanRequest: UpdatePaymentPlanRequest,
+  ): Observable<HttpEvent<BudgetRead>>;
+  public setBudgetApiV1BudgetsCategoryIdPut(
+    categoryId: string,
+    setBudgetRequest: SetBudgetRequest,
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: {
@@ -541,19 +410,14 @@ export class PaymentPlansService extends BaseService {
       transferCache?: boolean;
     },
   ): Observable<any> {
-    if (accountId === null || accountId === undefined) {
+    if (categoryId === null || categoryId === undefined) {
       throw new Error(
-        'Required parameter accountId was null or undefined when calling updatePaymentPlanApiV1AccountsAccountIdPaymentPlansPaymentPlanIdPatch.',
+        'Required parameter categoryId was null or undefined when calling setBudgetApiV1BudgetsCategoryIdPut.',
       );
     }
-    if (paymentPlanId === null || paymentPlanId === undefined) {
+    if (setBudgetRequest === null || setBudgetRequest === undefined) {
       throw new Error(
-        'Required parameter paymentPlanId was null or undefined when calling updatePaymentPlanApiV1AccountsAccountIdPaymentPlansPaymentPlanIdPatch.',
-      );
-    }
-    if (updatePaymentPlanRequest === null || updatePaymentPlanRequest === undefined) {
-      throw new Error(
-        'Required parameter updatePaymentPlanRequest was null or undefined when calling updatePaymentPlanApiV1AccountsAccountIdPaymentPlansPaymentPlanIdPatch.',
+        'Required parameter setBudgetRequest was null or undefined when calling setBudgetApiV1BudgetsCategoryIdPut.',
       );
     }
 
@@ -590,11 +454,11 @@ export class PaymentPlansService extends BaseService {
       }
     }
 
-    let localVarPath = `/api/v1/accounts/${this.configuration.encodeParam({ name: 'accountId', value: accountId, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: 'uuid' })}/payment-plans/${this.configuration.encodeParam({ name: 'paymentPlanId', value: paymentPlanId, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: 'uuid' })}`;
+    let localVarPath = `/api/v1/budgets/${this.configuration.encodeParam({ name: 'categoryId', value: categoryId, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: 'uuid' })}`;
     const { basePath, withCredentials } = this.configuration;
-    return this.httpClient.request<PaymentPlanRead>('patch', `${basePath}${localVarPath}`, {
+    return this.httpClient.request<BudgetRead>('put', `${basePath}${localVarPath}`, {
       context: localVarHttpContext,
-      body: updatePaymentPlanRequest,
+      body: setBudgetRequest,
       responseType: <any>responseType_,
       ...(withCredentials ? { withCredentials } : {}),
       headers: localVarHeaders,

@@ -54,7 +54,7 @@ export class HealthService extends BaseService {
       context?: HttpContext;
       transferCache?: boolean;
     },
-  ): Observable<{ [key: string]: string }>;
+  ): Observable<{ [key: string]: string | null }>;
   public healthHealthGet(
     observe?: 'response',
     reportProgress?: boolean,
@@ -63,7 +63,7 @@ export class HealthService extends BaseService {
       context?: HttpContext;
       transferCache?: boolean;
     },
-  ): Observable<HttpResponse<{ [key: string]: string }>>;
+  ): Observable<HttpResponse<{ [key: string]: string | null }>>;
   public healthHealthGet(
     observe?: 'events',
     reportProgress?: boolean,
@@ -72,7 +72,7 @@ export class HealthService extends BaseService {
       context?: HttpContext;
       transferCache?: boolean;
     },
-  ): Observable<HttpEvent<{ [key: string]: string }>>;
+  ): Observable<HttpEvent<{ [key: string]: string | null }>>;
   public healthHealthGet(
     observe: any = 'body',
     reportProgress: boolean = false,
@@ -107,14 +107,18 @@ export class HealthService extends BaseService {
 
     let localVarPath = `/health`;
     const { basePath, withCredentials } = this.configuration;
-    return this.httpClient.request<{ [key: string]: string }>('get', `${basePath}${localVarPath}`, {
-      context: localVarHttpContext,
-      responseType: <any>responseType_,
-      ...(withCredentials ? { withCredentials } : {}),
-      headers: localVarHeaders,
-      observe: observe,
-      ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
-      reportProgress: reportProgress,
-    });
+    return this.httpClient.request<{ [key: string]: string | null }>(
+      'get',
+      `${basePath}${localVarPath}`,
+      {
+        context: localVarHttpContext,
+        responseType: <any>responseType_,
+        ...(withCredentials ? { withCredentials } : {}),
+        headers: localVarHeaders,
+        observe: observe,
+        ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+        reportProgress: reportProgress,
+      },
+    );
   }
 }

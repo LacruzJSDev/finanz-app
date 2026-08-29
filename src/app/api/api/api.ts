@@ -4,6 +4,8 @@ export * from './accounts.service';
 import { AccountsService } from './accounts.service';
 export * from './auth.service';
 import { AuthService } from './auth.service';
+export * from './budgets.service';
+import { BudgetsService } from './budgets.service';
 export * from './categories.service';
 import { CategoriesService } from './categories.service';
 export * from './health.service';
@@ -18,6 +20,7 @@ export const APIS = [
   AccountGroupsService,
   AccountsService,
   AuthService,
+  BudgetsService,
   CategoriesService,
   HealthService,
   PaymentPlansService,

@@ -22,13 +22,19 @@ import { Observable } from 'rxjs';
 import { OpenApiHttpParams, QueryParamStyle } from '../query.params';
 
 // @ts-ignore
+import { CollectionResponseCategorySummaryRead } from '../model/collectionResponseCategorySummaryRead';
+// @ts-ignore
 import { CreateTransactionRequest } from '../model/createTransactionRequest';
+// @ts-ignore
+import { DailySpendRead } from '../model/dailySpendRead';
 // @ts-ignore
 import { ErrorResponse } from '../model/errorResponse';
 // @ts-ignore
 import { PaginatedResponseTransactionRead } from '../model/paginatedResponseTransactionRead';
 // @ts-ignore
 import { TransactionRead } from '../model/transactionRead';
+// @ts-ignore
+import { TransactionTypeEnum } from '../model/transactionTypeEnum';
 // @ts-ignore
 import { UpdateTransactionRequest } from '../model/updateTransactionRequest';
 
@@ -263,6 +269,338 @@ export class TransactionsService extends BaseService {
   }
 
   /**
+   * Get Category Summary
+   * @endpoint get /api/v1/transactions/summary
+   * @param groupId
+   * @param accountId Restringe a una cuenta del grupo
+   * @param categoryId Una categoría raíz incluye sus subcategorías
+   * @param uncategorized Solo movimientos sin categoría
+   * @param type
+   * @param dateFrom Inclusivo
+   * @param dateTo Inclusivo
+   * @param q Subcadena a buscar en notes
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   * @param options additional options
+   */
+  public getCategorySummaryApiV1TransactionsSummaryGet(
+    groupId: string,
+    accountId?: string,
+    categoryId?: string,
+    uncategorized?: boolean,
+    type?: TransactionTypeEnum,
+    dateFrom?: string,
+    dateTo?: string,
+    q?: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<CollectionResponseCategorySummaryRead>;
+  public getCategorySummaryApiV1TransactionsSummaryGet(
+    groupId: string,
+    accountId?: string,
+    categoryId?: string,
+    uncategorized?: boolean,
+    type?: TransactionTypeEnum,
+    dateFrom?: string,
+    dateTo?: string,
+    q?: string,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpResponse<CollectionResponseCategorySummaryRead>>;
+  public getCategorySummaryApiV1TransactionsSummaryGet(
+    groupId: string,
+    accountId?: string,
+    categoryId?: string,
+    uncategorized?: boolean,
+    type?: TransactionTypeEnum,
+    dateFrom?: string,
+    dateTo?: string,
+    q?: string,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpEvent<CollectionResponseCategorySummaryRead>>;
+  public getCategorySummaryApiV1TransactionsSummaryGet(
+    groupId: string,
+    accountId?: string,
+    categoryId?: string,
+    uncategorized?: boolean,
+    type?: TransactionTypeEnum,
+    dateFrom?: string,
+    dateTo?: string,
+    q?: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any> {
+    if (groupId === null || groupId === undefined) {
+      throw new Error(
+        'Required parameter groupId was null or undefined when calling getCategorySummaryApiV1TransactionsSummaryGet.',
+      );
+    }
+
+    let localVarQueryParameters = new OpenApiHttpParams(this.encoder);
+
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      'group_id',
+      <any>groupId,
+      QueryParamStyle.Form,
+      true,
+    );
+
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      'account_id',
+      <any>accountId,
+      QueryParamStyle.Form,
+      true,
+    );
+
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      'category_id',
+      <any>categoryId,
+      QueryParamStyle.Form,
+      true,
+    );
+
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      'uncategorized',
+      <any>uncategorized,
+      QueryParamStyle.Form,
+      true,
+    );
+
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      'type',
+      <any>type,
+      QueryParamStyle.Form,
+      true,
+    );
+
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      'date_from',
+      <any>dateFrom,
+      QueryParamStyle.Form,
+      true,
+    );
+
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      'date_to',
+      <any>dateTo,
+      QueryParamStyle.Form,
+      true,
+    );
+
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      'q',
+      <any>q,
+      QueryParamStyle.Form,
+      true,
+    );
+
+    let localVarHeaders = this.defaultHeaders;
+
+    // authentication (AccessTokenCookie) required
+
+    const localVarHttpHeaderAcceptSelected: string | undefined =
+      options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept(['application/json']);
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+    }
+
+    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+    const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
+    }
+
+    let localVarPath = `/api/v1/transactions/summary`;
+    const { basePath, withCredentials } = this.configuration;
+    return this.httpClient.request<CollectionResponseCategorySummaryRead>(
+      'get',
+      `${basePath}${localVarPath}`,
+      {
+        context: localVarHttpContext,
+        params: localVarQueryParameters.toHttpParams(),
+        responseType: <any>responseType_,
+        ...(withCredentials ? { withCredentials } : {}),
+        headers: localVarHeaders,
+        observe: observe,
+        ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+        reportProgress: reportProgress,
+      },
+    );
+  }
+
+  /**
+   * Get Daily Spend
+   * @endpoint get /api/v1/transactions/daily
+   * @param groupId
+   * @param date Día consultado
+   * @param accountId Cuenta del grupo
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   * @param options additional options
+   */
+  public getDailySpendApiV1TransactionsDailyGet(
+    groupId: string,
+    date: string,
+    accountId?: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<DailySpendRead>;
+  public getDailySpendApiV1TransactionsDailyGet(
+    groupId: string,
+    date: string,
+    accountId?: string,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpResponse<DailySpendRead>>;
+  public getDailySpendApiV1TransactionsDailyGet(
+    groupId: string,
+    date: string,
+    accountId?: string,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpEvent<DailySpendRead>>;
+  public getDailySpendApiV1TransactionsDailyGet(
+    groupId: string,
+    date: string,
+    accountId?: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any> {
+    if (groupId === null || groupId === undefined) {
+      throw new Error(
+        'Required parameter groupId was null or undefined when calling getDailySpendApiV1TransactionsDailyGet.',
+      );
+    }
+    if (date === null || date === undefined) {
+      throw new Error(
+        'Required parameter date was null or undefined when calling getDailySpendApiV1TransactionsDailyGet.',
+      );
+    }
+
+    let localVarQueryParameters = new OpenApiHttpParams(this.encoder);
+
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      'group_id',
+      <any>groupId,
+      QueryParamStyle.Form,
+      true,
+    );
+
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      'date',
+      <any>date,
+      QueryParamStyle.Form,
+      true,
+    );
+
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      'account_id',
+      <any>accountId,
+      QueryParamStyle.Form,
+      true,
+    );
+
+    let localVarHeaders = this.defaultHeaders;
+
+    // authentication (AccessTokenCookie) required
+
+    const localVarHttpHeaderAcceptSelected: string | undefined =
+      options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept(['application/json']);
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+    }
+
+    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+    const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
+    }
+
+    let localVarPath = `/api/v1/transactions/daily`;
+    const { basePath, withCredentials } = this.configuration;
+    return this.httpClient.request<DailySpendRead>('get', `${basePath}${localVarPath}`, {
+      context: localVarHttpContext,
+      params: localVarQueryParameters.toHttpParams(),
+      responseType: <any>responseType_,
+      ...(withCredentials ? { withCredentials } : {}),
+      headers: localVarHeaders,
+      observe: observe,
+      ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+      reportProgress: reportProgress,
+    });
+  }
+
+  /**
    * Get Transaction
    * @endpoint get /api/v1/accounts/{account_id}/transactions/{transaction_id}
    * @param accountId
@@ -472,6 +810,230 @@ export class TransactionsService extends BaseService {
     }
 
     let localVarPath = `/api/v1/accounts/${this.configuration.encodeParam({ name: 'accountId', value: accountId, in: 'path', style: 'simple', explode: false, dataType: 'string', dataFormat: 'uuid' })}/transactions/`;
+    const { basePath, withCredentials } = this.configuration;
+    return this.httpClient.request<PaginatedResponseTransactionRead>(
+      'get',
+      `${basePath}${localVarPath}`,
+      {
+        context: localVarHttpContext,
+        params: localVarQueryParameters.toHttpParams(),
+        responseType: <any>responseType_,
+        ...(withCredentials ? { withCredentials } : {}),
+        headers: localVarHeaders,
+        observe: observe,
+        ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+        reportProgress: reportProgress,
+      },
+    );
+  }
+
+  /**
+   * Query Transactions
+   * @endpoint get /api/v1/transactions/
+   * @param groupId
+   * @param limit
+   * @param offset
+   * @param accountId Restringe a una cuenta del grupo
+   * @param categoryId Una categoría raíz incluye sus subcategorías
+   * @param uncategorized Solo movimientos sin categoría
+   * @param type
+   * @param dateFrom Inclusivo
+   * @param dateTo Inclusivo
+   * @param q Subcadena a buscar en notes
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   * @param options additional options
+   */
+  public queryTransactionsApiV1TransactionsGet(
+    groupId: string,
+    limit?: number,
+    offset?: number,
+    accountId?: string,
+    categoryId?: string,
+    uncategorized?: boolean,
+    type?: TransactionTypeEnum,
+    dateFrom?: string,
+    dateTo?: string,
+    q?: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<PaginatedResponseTransactionRead>;
+  public queryTransactionsApiV1TransactionsGet(
+    groupId: string,
+    limit?: number,
+    offset?: number,
+    accountId?: string,
+    categoryId?: string,
+    uncategorized?: boolean,
+    type?: TransactionTypeEnum,
+    dateFrom?: string,
+    dateTo?: string,
+    q?: string,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpResponse<PaginatedResponseTransactionRead>>;
+  public queryTransactionsApiV1TransactionsGet(
+    groupId: string,
+    limit?: number,
+    offset?: number,
+    accountId?: string,
+    categoryId?: string,
+    uncategorized?: boolean,
+    type?: TransactionTypeEnum,
+    dateFrom?: string,
+    dateTo?: string,
+    q?: string,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<HttpEvent<PaginatedResponseTransactionRead>>;
+  public queryTransactionsApiV1TransactionsGet(
+    groupId: string,
+    limit?: number,
+    offset?: number,
+    accountId?: string,
+    categoryId?: string,
+    uncategorized?: boolean,
+    type?: TransactionTypeEnum,
+    dateFrom?: string,
+    dateTo?: string,
+    q?: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: {
+      httpHeaderAccept?: 'application/json';
+      context?: HttpContext;
+      transferCache?: boolean;
+    },
+  ): Observable<any> {
+    if (groupId === null || groupId === undefined) {
+      throw new Error(
+        'Required parameter groupId was null or undefined when calling queryTransactionsApiV1TransactionsGet.',
+      );
+    }
+
+    let localVarQueryParameters = new OpenApiHttpParams(this.encoder);
+
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      'group_id',
+      <any>groupId,
+      QueryParamStyle.Form,
+      true,
+    );
+
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      'limit',
+      <any>limit,
+      QueryParamStyle.Form,
+      true,
+    );
+
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      'offset',
+      <any>offset,
+      QueryParamStyle.Form,
+      true,
+    );
+
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      'account_id',
+      <any>accountId,
+      QueryParamStyle.Form,
+      true,
+    );
+
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      'category_id',
+      <any>categoryId,
+      QueryParamStyle.Form,
+      true,
+    );
+
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      'uncategorized',
+      <any>uncategorized,
+      QueryParamStyle.Form,
+      true,
+    );
+
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      'type',
+      <any>type,
+      QueryParamStyle.Form,
+      true,
+    );
+
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      'date_from',
+      <any>dateFrom,
+      QueryParamStyle.Form,
+      true,
+    );
+
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      'date_to',
+      <any>dateTo,
+      QueryParamStyle.Form,
+      true,
+    );
+
+    localVarQueryParameters = this.addToHttpParams(
+      localVarQueryParameters,
+      'q',
+      <any>q,
+      QueryParamStyle.Form,
+      true,
+    );
+
+    let localVarHeaders = this.defaultHeaders;
+
+    // authentication (AccessTokenCookie) required
+
+    const localVarHttpHeaderAcceptSelected: string | undefined =
+      options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept(['application/json']);
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+    }
+
+    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+    const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
+    }
+
+    let localVarPath = `/api/v1/transactions/`;
     const { basePath, withCredentials } = this.configuration;
     return this.httpClient.request<PaginatedResponseTransactionRead>(
       'get',
