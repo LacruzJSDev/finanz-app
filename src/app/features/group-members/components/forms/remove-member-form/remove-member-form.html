@@ -1,0 +1,12 @@
+<h2>{{ title() }}</h2>
+<p>{{ message() }}</p>
+<div class="actions">
+  <button matButton (click)="cancel()" [disabled]="submitting()">Cancelar</button>
+  <button matButton="filled" class="remove-button" (click)="submit()" [disabled]="submitting()">
+    @if (submitting()) {
+      <mat-spinner diameter="20" />
+    } @else {
+      {{ confirmLabel() }}
+    }
+  </button>
+</div>

@@ -45,19 +45,13 @@
   text-overflow: ellipsis;
 }
 
-// 40px para que sea un objetivo táctil decente, no 32: el círculo es todo el
-// botón, así que el foco cae justo donde se ve.
-.avatar {
+// El botón mide exactamente lo que el avatar y no le añade padding, así que el
+// foco cae justo sobre el círculo que se ve.
+.avatar-button {
   justify-self: end;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
+  padding: 0;
   border-radius: 50%;
-  background: var(--mat-sys-primary);
-  color: var(--mat-sys-on-primary);
-  font: var(--mat-sys-label-large);
 
   &:focus-visible {
     outline: 2px solid var(--mat-sys-primary);

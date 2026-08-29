@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { Avatar } from '../../shared/ui/avatar/avatar';
 import { PageContextService } from '../../core/ui/page-context.service';
 import { GroupContextService } from '../../core/ui/group-context.service';
 import { AuthService } from '../../core/auth/auth.service';
@@ -12,7 +13,7 @@ const NO_GROUP_SELECTED = 'Grupo no seleccionado';
 
 @Component({
   selector: 'app-top-bar',
-  imports: [MatIconModule, MatMenuModule],
+  imports: [MatIconModule, MatMenuModule, Avatar],
   templateUrl: 'top-bar.html',
   styleUrl: 'top-bar.scss',
 })
@@ -43,9 +44,6 @@ export class TopBar {
     if (!this.showGroup()) return detail ?? '';
     return detail ? `${this.groupName()} · ${detail}` : this.groupName();
   });
-
-  /** UserRead no trae avatar: es la inicial del nombre, que es obligatorio. */
-  protected readonly initials = computed(() => this.user()?.name.charAt(0).toUpperCase() ?? '');
 
   openGroupSwitcher(): void {
     this.bottomSheet.open(GroupSwitcher);

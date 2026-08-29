@@ -1,0 +1,14 @@
+// El host es el círculo: quien lo use puede envolverlo en un botón sin que
+// quede descentrado, porque no hay caja interior que centrar.
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--mat-sys-primary);
+  color: var(--mat-sys-on-primary);
+  font: var(--mat-sys-label-large);
+}

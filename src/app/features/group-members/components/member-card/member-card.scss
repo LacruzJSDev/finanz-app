@@ -1,0 +1,60 @@
+@use '@angular/material' as mat;
+
+:host {
+  display: block;
+}
+
+mat-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+}
+
+.member-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.member-name {
+  font: var(--mat-sys-title-medium);
+}
+
+.member-you {
+  font: var(--mat-sys-body-small);
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.member-email,
+.member-role {
+  font: var(--mat-sys-body-small);
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.member-name,
+.member-email {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.member-role {
+  flex-shrink: 0;
+  padding: 0.25rem 0.625rem;
+  border-radius: var(--mat-sys-corner-full);
+  background: var(--mat-sys-surface-container-high);
+}
+
+// Salir o expulsar son destructivos, y el icono lo pinta Material con su
+// propio token, así que un `color` aquí no lo tocaría.
+.member-remove {
+  @include mat.icon-button-overrides(
+    (
+      icon-color: var(--mat-sys-error),
+      state-layer-color: var(--mat-sys-error),
+    )
+  );
+}

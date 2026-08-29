@@ -1,0 +1,32 @@
+<mat-card appearance="outlined">
+  <app-avatar [name]="member().name" />
+
+  <div class="member-info">
+    <span class="member-name">
+      {{ member().name }}
+      @if (isViewer()) {
+        <span class="member-you">(tú)</span>
+      }
+    </span>
+    <span class="member-email">{{ member().email }}</span>
+  </div>
+
+  <span class="member-role">{{ member().role | memberRoleLabel }}</span>
+
+  @if (canChangeRole()) {
+    <button matIconButton aria-label="Cambiar rol" (click)="roleClick.emit(member())">
+      <mat-icon>manage_accounts</mat-icon>
+    </button>
+  }
+
+  @if (canRemove()) {
+    <button
+      matIconButton
+      class="member-remove"
+      [attr.aria-label]="isViewer() ? 'Abandonar el grupo' : 'Expulsar del grupo'"
+      (click)="removeClick.emit(member())"
+    >
+      <mat-icon>{{ isViewer() ? 'logout' : 'person_remove' }}</mat-icon>
+    </button>
+  }
+</mat-card>

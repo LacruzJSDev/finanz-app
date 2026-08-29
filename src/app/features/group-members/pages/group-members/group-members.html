@@ -1,0 +1,18 @@
+<app-page-content>
+  @if (loading()) {
+    <app-page-loader />
+  } @else {
+    @for (member of members(); track member.id) {
+      <app-member-card
+        [member]="member"
+        [isViewer]="isViewer(member)"
+        [canChangeRole]="canChangeRole(member)"
+        [canRemove]="canRemove(member)"
+        (roleClick)="changeRole($event)"
+        (removeClick)="remove($event)"
+      />
+    } @empty {
+      <app-empty-state icon="group" message="Este grupo no tiene miembros." />
+    }
+  }
+</app-page-content>

@@ -10,8 +10,8 @@
   <!-- El botón es el círculo. Con matIconButton no encajaba: mide 40px con 8px
        de padding para un icono de 24, así que un círculo de 32 se salía por la
        derecha y por abajo, y el foco seguía la caja del botón, no el círculo. -->
-  <button class="avatar" type="button" [matMenuTriggerFor]="userMenu" aria-label="Tu cuenta">
-    {{ initials() }}
+  <button class="avatar-button" type="button" [matMenuTriggerFor]="userMenu" aria-label="Tu cuenta">
+    <app-avatar [name]="user()?.name ?? ''" />
   </button>
 </header>
 
