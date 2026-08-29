@@ -68,10 +68,9 @@ export class AccountDetail {
     effect(() => {
       const account = this.account();
       if (account) {
-        this.pageContextService.setTitle(
-          account.name,
-          formatMoney(account.balance, account.currency),
-        );
+        this.pageContextService.setTitle(account.name, {
+          detail: formatMoney(account.balance, account.currency),
+        });
       }
     });
   }

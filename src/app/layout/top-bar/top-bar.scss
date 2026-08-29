@@ -29,9 +29,10 @@
   font-weight: 600;
 }
 
-// Ya no hace falta reservar el hueco: el grupo siempre está, así que la línea
-// nunca se queda vacía y el alto no puede saltar.
+// Reserva su línea siempre: las pantallas que gestionan grupos la dejan vacía,
+// y sin altura mínima la barra encogería justo en esas.
 .identity__context {
+  min-height: 1.25rem;
   font: var(--mat-sys-body-medium);
   font-variant-numeric: tabular-nums;
   color: var(--mat-sys-on-surface-variant);

@@ -25,7 +25,8 @@ export class TopBar {
   protected readonly groupContextService = inject(GroupContextService);
 
   protected readonly title = this.pageContextService.title;
-  protected readonly subtitle = this.pageContextService.subtitle;
+  protected readonly detail = this.pageContextService.detail;
+  protected readonly showGroup = this.pageContextService.showGroup;
   // De AuthService y no de UsersService: este se actualiza al hacer login,
   // mientras que UsersService solo se llena con getMe() en el arranque.
   protected readonly user = this.authService.currentUser;
@@ -38,7 +39,8 @@ export class TopBar {
   // aporta su propio dato. Si no hay, queda el grupo solo y la línea nunca
   // se vacía, que es lo que mantenía el alto estable.
   protected readonly contextLine = computed(() => {
-    const detail = this.subtitle();
+    const detail = this.detail();
+    if (!this.showGroup()) return detail ?? '';
     return detail ? `${this.groupName()} · ${detail}` : this.groupName();
   });
 
