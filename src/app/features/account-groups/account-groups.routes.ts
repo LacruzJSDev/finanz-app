@@ -12,6 +12,17 @@ export const GROUP_ACCOUNTS_ROUTES: Routes = [
     path: ':id',
     loadComponent: () =>
       import('./pages/account-group-detail/account-group-detail').then((m) => m.AccountGroupDetail),
-    canActivate: [authGuard],
+    children: [
+      {
+        path: '',
+        redirectTo: 'miembros',
+        pathMatch: 'full',
+      },
+      {
+        path: 'miembros',
+        loadComponent: () => import('../group-members').then((m) => m.GroupMembers),
+        canActivate: [authGuard],
+      },
+    ],
   },
 ];

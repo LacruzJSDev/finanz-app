@@ -1,18 +1,20 @@
 import { Component, computed, effect, inject, input } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { filter, map } from 'rxjs';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { PageContextService } from '../../../../core/ui/page-context.service';
 import { AccountGroupsService } from '../../../../core/account-groups/account-groups.service';
+import { GroupContextService } from '../../../../core/ui/group-context.service';
 import {
   UpdateAccountGroupForm,
   UpdateAccountGroupFormData,
 } from '../../components/forms/update-account-group-form/update-account-group-form';
-import { Router } from '@angular/router';
-import { PageContent } from '../../../../shared/ui/page-content/page-content';
-import { PageLoader } from '../../../../shared/ui/page-loader/page-loader';
 
 @Component({
   selector: 'app-account-group-detail',
-  imports: [PageContent, PageLoader],
+  imports: [RouterOutlet, MatButtonToggleModule],
   templateUrl: './account-group-detail.html',
   host: { class: 'page-container' },
 })
@@ -20,13 +22,26 @@ export class AccountGroupDetail {
   private readonly bottomSheet = inject(MatBottomSheet);
   protected readonly accountGroupsService = inject(AccountGroupsService);
   protected readonly pageContextService = inject(PageContextService);
-  private readonly router = inject(Router);
+  private readonly groupContextService = inject(GroupContextService);
+  protected readonly router = inject(Router);
+  protected readonly route = inject(ActivatedRoute);
+
+  readonly id = input.required<string>();
 
   protected readonly loading = this.accountGroupsService.loading;
 
-  readonly id = input.required<string>();
   protected readonly group = computed(() =>
     this.accountGroupsService.groups().find((g) => g.id === this.id()),
+  );
+
+  private childPath = () => this.route.snapshot.firstChild?.routeConfig?.path;
+
+  protected readonly section = toSignal(
+    this.router.events.pipe(
+      filter((e) => e instanceof NavigationEnd),
+      map(() => this.childPath()),
+    ),
+    { initialValue: this.childPath() },
   );
 
   constructor() {
@@ -40,10 +55,22 @@ export class AccountGroupDetail {
       }
     });
 
-    this.pageContextService.setTitle('Grupo');
-    this.pageContextService.setAction({
-      onClick: () => this.updateAccountGroup(),
-      icon: 'edit',
+    // El subtítulo dice en qué estado está este grupo, no cuál es el de trabajo:
+    // es la información que importa mientras se gestiona, y estás mirando un
+    // grupo que puede no ser el activo.
+    effect(() => {
+      const group = this.group();
+      if (!group) return;
+      const state = !group.is_active
+        ? 'Archivado'
+        : this.groupContextService.activeGroupId() === group.id
+          ? 'En uso'
+          : 'Activo';
+      this.pageContextService.setTitle(group.name, { detail: state, showGroup: false });
+    });
+
+    effect(() => {
+      this.pageContextService.setAction({ onClick: () => this.updateAccountGroup(), icon: 'edit' });
     });
   }
 

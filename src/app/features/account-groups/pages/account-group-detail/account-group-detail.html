@@ -1,9 +1,9 @@
-<app-page-content>
-  @if (group(); as g) {
-    <h1>{{ g.name }}</h1>
-    <p>{{ g.is_active ? 'Activo' : 'Archivado' }}</p>
-    <p [style.backgroundColor]="g.color">{{ g.color ? 'color' : 'Sin color' }}</p>
-  } @else {
-    <app-page-loader />
-  }
-</app-page-content>
+<div class="segmented-track">
+  <mat-button-toggle-group
+    [value]="section()"
+    (change)="router.navigate([$event.value], { relativeTo: route })"
+  >
+    <mat-button-toggle value="miembros">Miembros</mat-button-toggle>
+  </mat-button-toggle-group>
+</div>
+<router-outlet />
