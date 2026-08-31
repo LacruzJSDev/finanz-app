@@ -1,0 +1,56 @@
+@use '@angular/material' as mat;
+
+:host {
+  display: block;
+}
+
+mat-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+}
+
+.invitation-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.invitation-role {
+  font: var(--mat-sys-title-medium);
+}
+
+.invitation-meta {
+  font: var(--mat-sys-body-small);
+  color: var(--mat-sys-on-surface-variant);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.invitation-status {
+  flex-shrink: 0;
+  padding: 0.25rem 0.625rem;
+  border-radius: var(--mat-sys-corner-full);
+  font: var(--mat-sys-label-small);
+  background: var(--mat-sys-surface-container-high);
+  color: var(--mat-sys-on-surface-variant);
+}
+
+// Solo la pendiente sirve para algo, así que es la única que destaca.
+.invitation-status--pending {
+  background: var(--mat-sys-secondary-container);
+  color: var(--mat-sys-on-secondary-container);
+}
+
+.invitation-revoke {
+  @include mat.icon-button-overrides(
+    (
+      icon-color: var(--mat-sys-error),
+      state-layer-color: var(--mat-sys-error),
+    )
+  );
+}

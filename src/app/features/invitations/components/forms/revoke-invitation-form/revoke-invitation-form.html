@@ -1,0 +1,15 @@
+<h2>Revocar la invitación</h2>
+<p>
+  El código dejará de funcionar. Si alguien lo tenía guardado, ya no podrá entrar con él; tendrás
+  que crear otra invitación.
+</p>
+<div class="actions">
+  <button matButton (click)="cancel()" [disabled]="submitting()">Cancelar</button>
+  <button matButton="filled" class="revoke-button" (click)="submit()" [disabled]="submitting()">
+    @if (submitting()) {
+      <mat-spinner diameter="20" />
+    } @else {
+      Revocar
+    }
+  </button>
+</div>

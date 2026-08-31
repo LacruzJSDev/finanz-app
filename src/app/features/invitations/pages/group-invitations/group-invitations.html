@@ -1,0 +1,22 @@
+<app-page-content>
+  @if (!canManage()) {
+    <app-empty-state icon="lock" message="Solo quien administra el grupo ve sus invitaciones." />
+  } @else if (loading()) {
+    <app-page-loader />
+  } @else {
+    @for (invitation of invitations(); track invitation.id) {
+      <app-invitation-card
+        [invitation]="invitation"
+        [canManage]="canManage()"
+        (copyClick)="copy($event)"
+        (revokeClick)="revoke($event)"
+      />
+    } @empty {
+      <app-empty-state
+        icon="mail"
+        message="No has invitado a nadie todavía."
+        hint="Crea la primera invitación con el botón +."
+      />
+    }
+  }
+</app-page-content>

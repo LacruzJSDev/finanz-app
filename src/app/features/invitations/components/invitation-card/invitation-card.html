@@ -1,0 +1,34 @@
+<mat-card appearance="outlined">
+  <div class="invitation-info">
+    <span class="invitation-role">{{ invitation().role | memberRoleLabel }}</span>
+    <span class="invitation-meta">
+      @if (invitation().invited_by; as by) {
+        Invitó {{ by.name }}
+      } @else {
+        Quien invitó ya no está
+      }
+    </span>
+  </div>
+
+  <span class="invitation-status" [class]="statusClass()">
+    {{ invitation().status | invitationStatusLabel }}
+  </span>
+
+  <!-- El código solo se comparte mientras la invitación sirva para algo. -->
+  @if (canManage() && isPending()) {
+    <button matIconButton aria-label="Copiar el código" (click)="copyClick.emit(invitation())">
+      <mat-icon>content_copy</mat-icon>
+    </button>
+  }
+
+  @if (canRevoke()) {
+    <button
+      matIconButton
+      class="invitation-revoke"
+      aria-label="Revocar la invitación"
+      (click)="revokeClick.emit(invitation())"
+    >
+      <mat-icon>link_off</mat-icon>
+    </button>
+  }
+</mat-card>

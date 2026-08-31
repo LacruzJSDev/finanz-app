@@ -13,6 +13,7 @@ import {
   UpdateAccountGroupForm,
   UpdateAccountGroupFormData,
 } from '../../components/forms/update-account-group-form/update-account-group-form';
+import { CreateInvitationForm, CreateInvitationFormData } from '../../../invitations';
 
 @Component({
   selector: 'app-account-group-detail',
@@ -79,10 +80,25 @@ export class AccountGroupDetail {
       this.pageContextService.setTitle(group.name, { detail: state, showGroup: false });
     });
 
+    // Cada sección tiene su acción propia. La abre el armazón porque es quien
+    // pone la acción de la página, y llega al formulario de invitaciones por la
+    // puerta de esa feature, igual que llega a su sección.
     effect(() => {
+      if (!this.canManage()) {
+        this.pageContextService.setAction(null);
+        return;
+      }
       this.pageContextService.setAction(
-        this.canManage() ? { onClick: () => this.updateAccountGroup(), icon: 'edit' } : null,
+        this.section() === 'invitaciones'
+          ? { onClick: () => this.createInvitation(), icon: 'add' }
+          : { onClick: () => this.updateAccountGroup(), icon: 'edit' },
       );
+    });
+  }
+
+  createInvitation(): void {
+    this.bottomSheet.open<CreateInvitationForm, CreateInvitationFormData>(CreateInvitationForm, {
+      data: { groupId: this.id() },
     });
   }
 

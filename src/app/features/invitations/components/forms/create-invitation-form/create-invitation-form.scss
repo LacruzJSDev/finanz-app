@@ -1,0 +1,30 @@
+.invite-hint {
+  font: var(--mat-sys-body-small);
+  color: var(--mat-sys-on-surface-variant);
+  text-align: center;
+}
+
+// El código es lo único que hay que llevarse de aquí, así que se lee de lejos
+// y se puede seleccionar a mano si el portapapeles falla.
+.invite-code {
+  margin: 1rem 0;
+  padding: 1rem;
+  border-radius: var(--mat-sys-corner-large);
+  background: var(--mat-sys-surface-container-high);
+  font-family: ui-monospace, monospace;
+  font-size: 1.25rem;
+  letter-spacing: 0.08em;
+  text-align: center;
+  word-break: break-all;
+  user-select: all;
+}
+
+.invite-copy {
+  width: 100%;
+  height: 52px;
+  margin-bottom: 0.5rem;
+}
+
+.invite-copy + button {
+  width: 100%;
+}

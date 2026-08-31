@@ -23,6 +23,11 @@ export const GROUP_ACCOUNTS_ROUTES: Routes = [
         loadComponent: () => import('../group-members').then((m) => m.GroupMembers),
         canActivate: [authGuard],
       },
+      {
+        path: 'invitaciones',
+        loadComponent: () => import('../invitations').then((m) => m.GroupInvitations),
+        canActivate: [authGuard],
+      },
     ],
   },
 ];

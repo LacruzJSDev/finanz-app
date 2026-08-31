@@ -1,0 +1,42 @@
+@if (code(); as code) {
+  <h2>Invitación creada</h2>
+  <p class="invite-hint">
+    Comparte este código con quien quieras que entre. Puedes volver a copiarlo desde la lista
+    mientras nadie lo use.
+  </p>
+
+  <p class="invite-code">{{ code }}</p>
+
+  <button matButton="filled" class="invite-copy" (click)="copy()">
+    <mat-icon>{{ copied() ? 'check' : 'content_copy' }}</mat-icon>
+    {{ copied() ? 'Copiado' : 'Copiar código' }}
+  </button>
+  <button matButton (click)="close()">Cerrar</button>
+} @else {
+  <h2>Invitar al grupo</h2>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="grouped-card">
+      <mat-form-field>
+        <mat-label>Rol con el que entrará</mat-label>
+        <mat-select formControlName="role">
+          @for (role of roles; track role) {
+            <mat-option [value]="role">{{ role | memberRoleLabel }}</mat-option>
+          }
+        </mat-select>
+        <mat-error>
+          {{ form.controls.role.getError('server') ?? 'El rol es obligatorio.' }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <p class="form-error">{{ formError() }}</p>
+
+    <button matButton="filled" type="submit" [disabled]="submitting()">
+      @if (submitting()) {
+        <mat-spinner diameter="20" />
+      } @else {
+        Crear invitación
+      }
+    </button>
+  </form>
+}
