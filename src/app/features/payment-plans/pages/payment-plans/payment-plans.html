@@ -1,0 +1,38 @@
+<app-page-content>
+  @if (loading()) {
+    <app-page-loader />
+  } @else {
+    @if (activePlans().length) {
+      <app-payment-plans-list
+        [plans]="activePlans()"
+        [categories]="categories()"
+        [accounts]="otherAccounts()"
+        [canManage]="canManage()"
+        (editClick)="openUpdateForm($event)"
+      />
+    } @else {
+      <app-empty-state
+        icon="event_repeat"
+        message="Esta cuenta no tiene planes activos."
+        hint="Crea el primero con el botón +."
+      />
+    }
+
+    @if (archivedPlans().length; as archivedCount) {
+      <button type="button" class="archived-toggle" (click)="showArchived.set(!showArchived())">
+        <mat-icon>{{ showArchived() ? 'expand_less' : 'expand_more' }}</mat-icon>
+        {{ archivedCount === 1 ? '1 plan archivado' : archivedCount + ' planes archivados' }}
+      </button>
+
+      @if (showArchived()) {
+        <app-payment-plans-list
+          [plans]="archivedPlans()"
+          [categories]="categories()"
+          [accounts]="otherAccounts()"
+          [canManage]="canManage()"
+          (editClick)="openUpdateForm($event)"
+        />
+      }
+    }
+  }
+</app-page-content>

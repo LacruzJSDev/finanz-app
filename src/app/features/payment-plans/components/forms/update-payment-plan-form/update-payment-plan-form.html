@@ -1,0 +1,98 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <div class="head-form">
+    <h2>Editar plan</h2>
+    <mat-slide-toggle formControlName="is_active" labelPosition="before">{{
+      form.controls.is_active.value ? 'Activo' : 'Archivado'
+    }}</mat-slide-toggle>
+  </div>
+
+  <app-toggle-transaction-type [control]="form.controls.type" [options]="transactionTypes" />
+  <app-amount-input [control]="form.controls.amount" [type]="type()" />
+
+  <div class="grouped-card">
+    <mat-form-field>
+      <mat-label>Concepto</mat-label>
+      <input matInput type="text" formControlName="description" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Próximo vencimiento</mat-label>
+      <input matInput [matDatepicker]="due" formControlName="next_due_date" (click)="due.open()" />
+      <mat-datepicker-toggle matIconSuffix [for]="due" />
+      <mat-datepicker #due />
+      <mat-error>
+        {{ form.controls.next_due_date.getError('server') ?? 'La fecha es obligatoria.' }}
+      </mat-error>
+    </mat-form-field>
+
+    @if (!isTransfer) {
+      <mat-form-field>
+        <mat-label>Categoría</mat-label>
+        <mat-select formControlName="category_id">
+          <mat-select-trigger>
+            <app-color-icon [icon]="selectedCategory()?.icon" [color]="selectedCategory()?.color" />
+            {{ selectedCategory()?.name ?? 'Sin categoría' }}
+          </mat-select-trigger>
+          <mat-option value="">
+            <app-color-icon />
+            Sin categoría
+          </mat-option>
+          @for (category of data.categories; track category.id) {
+            <mat-option [value]="category.id">
+              <app-color-icon [icon]="category.icon" [color]="category.color" />
+              {{ category.name }}
+            </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    }
+  </div>
+
+  <div class="grouped-card">
+    <mat-slide-toggle
+      class="mat-slide-toggle-full-width"
+      formControlName="is_recurring"
+      labelPosition="before"
+    >
+      Se repite
+    </mat-slide-toggle>
+
+    @if (recurring()) {
+      <div class="field-pair">
+        <mat-form-field>
+          <mat-label>Cada</mat-label>
+          <input matInput type="number" min="1" step="1" formControlName="frequency_interval" />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Periodo</mat-label>
+          <mat-select formControlName="frequency_unit">
+            @for (unit of frequencyUnits; track unit) {
+              <mat-option [value]="unit">{{ unit | frequencyUnitLabel }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <mat-form-field>
+        <mat-label>Termina el (opcional)</mat-label>
+        <input matInput [matDatepicker]="end" formControlName="end_date" (click)="end.open()" />
+        <mat-datepicker-toggle matIconSuffix [for]="end" />
+        <mat-datepicker #end />
+        <mat-error>
+          {{ form.controls.end_date.getError('server') ?? 'No puede ser antes del vencimiento.' }}
+        </mat-error>
+      </mat-form-field>
+    }
+  </div>
+
+  <p class="form-error">{{ formError() }}</p>
+
+  <button matButton="filled" type="submit" [disabled]="submitting()">
+    @if (submitting()) {
+      <mat-spinner diameter="20" />
+    } @else {
+      Guardar
+    }
+  </button>
+</form>

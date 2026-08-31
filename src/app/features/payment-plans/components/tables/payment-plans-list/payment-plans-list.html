@@ -1,0 +1,9 @@
+@for (plan of sorted(); track plan.id) {
+  <app-payment-plan-card
+    [plan]="plan"
+    [categories]="categories()"
+    [accounts]="accounts()"
+    [canManage]="canManage()"
+    (editClick)="editClick.emit($event)"
+  />
+}

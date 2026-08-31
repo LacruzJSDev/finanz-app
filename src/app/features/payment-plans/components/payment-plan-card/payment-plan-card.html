@@ -1,0 +1,26 @@
+<mat-card appearance="outlined">
+  <app-color-icon
+    [icon]="category()?.icon ?? null"
+    [color]="category()?.color ?? null"
+    [size]="40"
+  />
+
+  <div class="plan-info">
+    <span class="plan-title">{{ title() }}</span>
+    <span class="plan-meta">{{ plan() | planFrequency }} · {{ nextDue() | date: 'd MMM' }}</span>
+  </div>
+
+  <span class="plan-amount" [class]="'plan-amount--' + plan().type">
+    {{ sign() }}{{ plan().amount | centsToEuros }}
+  </span>
+
+  @if (canManage()) {
+    <button
+      matIconButton
+      aria-label="Editar el plan"
+      (click)="$event.stopPropagation(); editClick.emit(plan())"
+    >
+      <mat-icon>edit</mat-icon>
+    </button>
+  }
+</mat-card>

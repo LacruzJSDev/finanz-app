@@ -1,0 +1,49 @@
+:host {
+  display: block;
+}
+
+mat-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+}
+
+.plan-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.plan-title {
+  font: var(--mat-sys-title-medium);
+}
+
+.plan-meta {
+  font: var(--mat-sys-body-small);
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.plan-title,
+.plan-meta {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.plan-amount {
+  font: var(--mat-sys-title-medium);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.plan-amount--expense {
+  color: var(--mat-sys-error);
+}
+
+.plan-amount--income {
+  color: var(--mat-sys-tertiary);
+}
