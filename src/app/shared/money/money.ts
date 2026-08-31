@@ -14,3 +14,30 @@ export function formatMoney(cents: number, currency = 'EUR'): string {
     centsToEuros(cents),
   );
 }
+
+/**
+ * El importe partido en sus piezas, para poder pintar los céntimos más
+ * pequeños que los euros. Sale de `formatToParts`, así que respeta el separador
+ * y la posición del símbolo del idioma en vez de suponerlos.
+ */
+export function moneyParts(
+  cents: number,
+  currency = 'EUR',
+): { whole: string; fraction: string; symbol: string } {
+  const parts = new Intl.NumberFormat('es-ES', { style: 'currency', currency }).formatToParts(
+    centsToEuros(cents),
+  );
+  // En el orden en que vienen: el separador de miles va entre dos grupos de
+  // dígitos, así que juntar por tipo lo dejaría al final.
+  const join = (...types: Intl.NumberFormatPartTypes[]) =>
+    parts
+      .filter((part) => types.includes(part.type))
+      .map((part) => part.value)
+      .join('');
+
+  return {
+    whole: join('minusSign', 'integer', 'group'),
+    fraction: join('decimal', 'fraction'),
+    symbol: join('currency'),
+  };
+}
