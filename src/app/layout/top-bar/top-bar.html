@@ -27,6 +27,11 @@
     <span>Grupo: {{ groupName() }}</span>
   </button>
 
+  <button mat-menu-item (click)="joinGroup()">
+    <mat-icon>group_add</mat-icon>
+    <span>Unirme a un grupo</span>
+  </button>
+
   <button mat-menu-item (click)="logout()">
     <mat-icon>logout</mat-icon>
     <span>Cerrar sesión</span>

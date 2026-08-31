@@ -2,6 +2,7 @@
 // aquí, nunca de sus carpetas internas: esto es el contrato, y todo lo que se
 // añada aquí es coste que pagan los demás.
 export { GroupInvitations } from './pages/group-invitations/group-invitations';
+export { AcceptInvitation } from './pages/accept-invitation/accept-invitation';
 
 // La abre el armazón de /grupos/:id, que es quien pone la acción de la página.
 export {

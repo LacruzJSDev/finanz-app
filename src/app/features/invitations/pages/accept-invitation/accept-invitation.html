@@ -1,0 +1,50 @@
+<app-page-content>
+  @if (looking()) {
+    <app-page-loader />
+  } @else if (invitation(); as invitation) {
+    <div class="invite-found">
+      <app-color-icon [icon]="invitation.group.icon" [color]="invitation.group.color" [size]="64" />
+
+      <h2>{{ invitation.group.name }}</h2>
+      <p class="invite-by">
+        @if (invitation.invited_by; as by) {
+          {{ by.name }} te ha invitado como {{ invitation.role | memberRoleLabel | lowercase }}
+        } @else {
+          Te han invitado como {{ invitation.role | memberRoleLabel | lowercase }}
+        }
+      </p>
+    </div>
+
+    @if (invitation.status === Pending) {
+      <button matButton="filled" class="invite-submit" (click)="accept()" [disabled]="accepting()">
+        @if (accepting()) {
+          <mat-spinner diameter="20" />
+        } @else {
+          Unirme al grupo
+        }
+      </button>
+    } @else {
+      <p class="form-error">
+        Esta invitación ya no sirve. Pide a quien administra el grupo que te mande otra.
+      </p>
+    }
+  } @else {
+    <form [formGroup]="form" (ngSubmit)="submitCode()">
+      <p class="invite-hint">Pega el código que te hayan pasado para ver a qué grupo te unes.</p>
+
+      <div class="grouped-card">
+        <mat-form-field>
+          <mat-label>Código de invitación</mat-label>
+          <input matInput formControlName="code" autocapitalize="off" autocomplete="off" />
+          <!-- Corto: el subscript reserva una línea y un texto que la pase
+               ensancha el campo. Lo que falle en el servidor lo cuenta él. -->
+          <mat-error>El código es obligatorio.</mat-error>
+        </mat-form-field>
+      </div>
+
+      <button matButton="filled" class="invite-submit" type="submit" [disabled]="looking()">
+        Buscar
+      </button>
+    </form>
+  }
+</app-page-content>

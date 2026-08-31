@@ -45,6 +45,10 @@ export class TopBar {
     return detail ? `${this.groupName()} · ${detail}` : this.groupName();
   });
 
+  joinGroup(): void {
+    this.router.navigateByUrl('/invitaciones');
+  }
+
   openGroupSwitcher(): void {
     this.bottomSheet.open(GroupSwitcher);
   }
