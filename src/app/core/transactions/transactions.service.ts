@@ -1,6 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { finalize, tap } from 'rxjs';
 import {
+  CategorySummaryRead,
   TransactionsService as TransactionsApi,
   TransactionRead,
   UpdateTransactionRequest,
@@ -29,6 +30,15 @@ export class TransactionsService {
   // en vez de invalidarla. Empezar de cero es lo que abre una lista nueva.
   private readonly listRequest = new LatestRequest();
 
+  // El resumen por categoría es otra pregunta sobre los mismos movimientos: en
+  // qué se va el dinero, no cuáles son. Va aparte porque se pide con otros
+  // filtros, se recarga por su cuenta y a quien lo mira no le importa la lista.
+  private readonly summarySignal = signal<CategorySummaryRead[]>([]);
+  readonly summary = this.summarySignal.asReadonly();
+  private readonly summaryLoadingSignal = signal(false);
+  readonly summaryLoading = this.summaryLoadingSignal.asReadonly();
+  private readonly summaryRequest = new LatestRequest();
+
   getTransactions(accountId: string, limit = 20, offset = 0) {
     const isFirstPage = offset === 0;
     const token = isFirstPage ? this.listRequest.next() : this.listRequest.current();
@@ -53,6 +63,31 @@ export class TransactionsService {
           // encendido bloquearía el scroll para siempre.
           if (!isFirstPage) this.loadingMoreSignal.set(false);
           else if (this.listRequest.isCurrent(token)) this.loadingSignal.set(false);
+        }),
+      );
+  }
+
+  /** El grupo es obligatorio; la cuenta y las fechas acotan lo que se resume. */
+  getCategorySummary(groupId: string, accountId?: string, dateFrom?: string, dateTo?: string) {
+    const token = this.summaryRequest.next();
+    this.summaryLoadingSignal.set(true);
+    return this.api
+      .getCategorySummaryApiV1TransactionsSummaryGet(
+        groupId,
+        accountId,
+        undefined,
+        undefined,
+        undefined,
+        dateFrom,
+        dateTo,
+      )
+      .pipe(
+        tap((res) => {
+          if (!this.summaryRequest.isCurrent(token)) return;
+          this.summarySignal.set(res.items);
+        }),
+        finalize(() => {
+          if (this.summaryRequest.isCurrent(token)) this.summaryLoadingSignal.set(false);
         }),
       );
   }
