@@ -1,0 +1,100 @@
+:host {
+  display: block;
+}
+
+mat-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.breakdown-label {
+  font: var(--mat-sys-label-medium);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--mat-sys-on-surface-variant);
+  margin-bottom: 0.5rem;
+}
+
+// Las columnas se declaran para la lista entera: así el importe más largo fija
+// su columna y todo cae en la misma vertical, fila a fila.
+.breakdown-rows {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  column-gap: 0.75rem;
+  padding: 0;
+}
+
+.breakdown-row {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+  align-items: baseline;
+  padding: 0.625rem 0;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--mat-sys-outline-variant);
+  }
+}
+
+.breakdown-row__name {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+// El porcentaje sustituye al recuento de movimientos: dice lo mismo que la
+// barra en número, y sí se puede atribuir a un signo.
+.breakdown-row__percent {
+  text-align: right;
+  font: var(--mat-sys-body-small);
+  font-variant-numeric: tabular-nums;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.breakdown-row__amount {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+// La barra cruza las tres columnas, bajo la fila: es la misma información que
+// el importe, en forma de proporción.
+.breakdown-row__bar {
+  grid-column: 1 / -1;
+  height: 4px;
+  margin-top: 0.5rem;
+  border-radius: 999px;
+  background: var(--mat-sys-surface-container-high);
+}
+
+.breakdown-row__fill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+}
+
+// El color lo decide la tarjeta, no la fila: es lo único que distingue las dos.
+.breakdown--expense {
+  .breakdown-row__amount,
+  .breakdown-row__fill {
+    color: var(--mat-sys-error);
+    background: currentcolor;
+  }
+
+  .breakdown-row__amount {
+    background: none;
+  }
+}
+
+.breakdown--income {
+  .breakdown-row__amount,
+  .breakdown-row__fill {
+    color: var(--mat-sys-tertiary);
+    background: currentcolor;
+  }
+
+  .breakdown-row__amount {
+    background: none;
+  }
+}

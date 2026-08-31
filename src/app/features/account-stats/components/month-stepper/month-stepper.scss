@@ -1,0 +1,20 @@
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+// El mes ocupa un ancho fijo para que las flechas no se muevan al cambiar de
+// «mayo» a «septiembre».
+.stepper-label {
+  min-width: 11rem;
+  text-align: center;
+  font: var(--mat-sys-title-medium);
+}
+
+// Solo la primera letra: `capitalize` habría puesto también «De» en mayúscula,
+// porque actúa sobre cada palabra.
+.stepper-label::first-letter {
+  text-transform: uppercase;
+}

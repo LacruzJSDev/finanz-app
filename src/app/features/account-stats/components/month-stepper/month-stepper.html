@@ -1,0 +1,9 @@
+<button matIconButton aria-label="Mes anterior" (click)="previous()">
+  <mat-icon>chevron_left</mat-icon>
+</button>
+
+<span class="stepper-label">{{ label() }}</span>
+
+<button matIconButton aria-label="Mes siguiente" [disabled]="!canGoForward()" (click)="next()">
+  <mat-icon>chevron_right</mat-icon>
+</button>

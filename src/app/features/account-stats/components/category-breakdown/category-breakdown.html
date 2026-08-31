@@ -1,0 +1,20 @@
+<mat-card appearance="outlined" [class]="'breakdown--' + kind()">
+  <span class="breakdown-label">{{ title() }}</span>
+
+  @if (rows().length) {
+    <ul class="breakdown-rows">
+      @for (row of rows(); track row.id) {
+        <li class="breakdown-row">
+          <span class="breakdown-row__name">{{ row.name }}</span>
+          <span class="breakdown-row__percent">{{ row.percent }}</span>
+          <span class="breakdown-row__amount">{{ sign() }}{{ row.amount }}</span>
+          <span class="breakdown-row__bar" aria-hidden="true">
+            <span class="breakdown-row__fill" [style.width.%]="row.share"></span>
+          </span>
+        </li>
+      }
+    </ul>
+  } @else {
+    <app-empty-state icon="savings" [message]="emptyMessage()" />
+  }
+</mat-card>
