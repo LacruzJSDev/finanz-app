@@ -1,37 +1,46 @@
-export const AVAILABLE_COLORS = [
-  '#f44336',
-  '#e91e63',
-  '#9c27b0',
-  '#673ab7',
-  '#3f51b5',
-  '#2196f3',
-  '#03a9f4',
-  '#009688',
-  '#4caf50',
-  '#8bc34a',
-  '#ffc107',
-  '#ff9800',
-  '#795548',
-  '#607d8b',
-  '#000000',
+/**
+ * La paleta, ordenada por familias para que el desplegable se lea como un
+ * espectro y no como una lista de nombres sueltos.
+ *
+ * Todos son tonos medios u oscuros a propósito: el color se usa tal cual para
+ * el icono y al 18% para su fondo, y un pastel deja las dos cosas ilegibles.
+ */
+const COLORS = [
+  { value: '#f44336', label: 'Rojo' },
+  { value: '#b71c1c', label: 'Rojo oscuro' },
+  { value: '#ff5722', label: 'Teja' },
+  { value: '#e91e63', label: 'Rosa' },
+  { value: '#880e4f', label: 'Rosa oscuro' },
+  { value: '#9c27b0', label: 'Morado' },
+  { value: '#4a148c', label: 'Morado oscuro' },
+  { value: '#673ab7', label: 'Violeta' },
+  { value: '#3f51b5', label: 'Índigo' },
+  { value: '#1a237e', label: 'Azul marino' },
+  { value: '#2196f3', label: 'Azul' },
+  { value: '#0d47a1', label: 'Azul oscuro' },
+  { value: '#03a9f4', label: 'Celeste' },
+  { value: '#00bcd4', label: 'Turquesa' },
+  { value: '#006064', label: 'Turquesa oscuro' },
+  { value: '#009688', label: 'Verde azulado' },
+  { value: '#4caf50', label: 'Verde' },
+  { value: '#1b5e20', label: 'Verde oscuro' },
+  { value: '#8bc34a', label: 'Verde claro' },
+  { value: '#827717', label: 'Oliva' },
+  { value: '#ffc107', label: 'Ámbar' },
+  { value: '#ff9800', label: 'Naranja' },
+  { value: '#e65100', label: 'Naranja oscuro' },
+  { value: '#795548', label: 'Marrón' },
+  { value: '#3e2723', label: 'Chocolate' },
+  { value: '#607d8b', label: 'Gris azulado' },
+  { value: '#263238', label: 'Pizarra' },
+  { value: '#9e9e9e', label: 'Gris' },
+  { value: '#000000', label: 'Negro' },
 ] as const;
 
-export type ColorName = (typeof AVAILABLE_COLORS)[number];
+export type ColorName = (typeof COLORS)[number]['value'];
 
-export const COLOR_LABELS: Record<ColorName, string> = {
-  '#f44336': 'Rojo',
-  '#e91e63': 'Rosa',
-  '#9c27b0': 'Morado',
-  '#673ab7': 'Índigo',
-  '#3f51b5': 'Azul oscuro',
-  '#2196f3': 'Azul',
-  '#03a9f4': 'Celeste',
-  '#009688': 'Verde azulado',
-  '#4caf50': 'Verde',
-  '#8bc34a': 'Verde claro',
-  '#ffc107': 'Ámbar',
-  '#ff9800': 'Naranja',
-  '#795548': 'Marrón',
-  '#607d8b': 'Gris azulado',
-  '#000000': 'Negro',
-};
+export const AVAILABLE_COLORS: readonly ColorName[] = COLORS.map((color) => color.value);
+
+export const COLOR_LABELS = Object.fromEntries(
+  COLORS.map((color) => [color.value, color.label]),
+) as Record<ColorName, string>;
