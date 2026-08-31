@@ -1,11 +1,12 @@
 import { Injectable, inject, signal } from '@angular/core';
-import { tap } from 'rxjs';
+import { finalize, tap } from 'rxjs';
 import {
   PaymentPlansService as PaymentPlansApi,
   CreatePaymentPlanRequest,
   PaymentPlanRead,
   UpdatePaymentPlanRequest,
 } from '../../api';
+import { LatestRequest } from '../http/latest-request';
 
 @Injectable({ providedIn: 'root' })
 export class PaymentPlansService {
@@ -15,11 +16,21 @@ export class PaymentPlansService {
   readonly paymentPlans = this.paymentPlansSignal.asReadonly();
   private readonly paymentPlanSignal = signal<PaymentPlanRead | null>(null);
   readonly paymentPlan = this.paymentPlanSignal.asReadonly();
+  private readonly loadingSignal = signal(false);
+  readonly loading = this.loadingSignal.asReadonly();
+
+  private readonly plansRequest = new LatestRequest();
 
   getPaymentPlans(accountId: string) {
+    const token = this.plansRequest.next();
+    this.loadingSignal.set(true);
     return this.api.getPaymentPlansApiV1AccountsAccountIdPaymentPlansGet(accountId).pipe(
       tap((res) => {
+        if (!this.plansRequest.isCurrent(token)) return;
         this.paymentPlansSignal.set(res.items);
+      }),
+      finalize(() => {
+        if (this.plansRequest.isCurrent(token)) this.loadingSignal.set(false);
       }),
     );
   }
