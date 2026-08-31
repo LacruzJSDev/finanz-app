@@ -1,0 +1,83 @@
+:host {
+  display: block;
+}
+
+mat-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.pending-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.pending-label {
+  font: var(--mat-sys-label-medium);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.pending-total {
+  font: var(--mat-sys-title-medium);
+  font-variant-numeric: tabular-nums;
+  color: var(--mat-sys-error);
+}
+
+// Las tres columnas se declaran para la lista entera, no para cada fila: así
+// el importe más largo fija el ancho de esa columna y todas las fechas caen en
+// la misma vertical. Con una fila resuelta por su cuenta, cada importe movía
+// su fecha.
+//
+// El reset quita los bullets pero no el sangrado que el navegador le pone a
+// una lista, y aquí las filas van a ras de la tarjeta.
+.pending-rows {
+  display: grid;
+  // `minmax(0, 1fr)` y no `1fr`: una pista `1fr` no baja de su contenido
+  // mínimo, así que un concepto largo la ensancharía y volvería a arrastrar la
+  // fecha en vez de recortarse.
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  column-gap: 0.75rem;
+  padding: 0;
+}
+
+// `subgrid` deja que la fila conserve su caja —y con ella su línea inferior—
+// mientras sus hijos se alinean a las columnas de la lista.
+.pending-row {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+  align-items: baseline;
+  padding: 0.625rem 0;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--mat-sys-outline-variant);
+  }
+}
+
+.pending-row__title {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+// A la derecha, no a la izquierda: el día tiene una o dos cifras, así que
+// alineado al principio el borde irregular queda del lado del importe y la
+// separación entre los dos cambia en cada fila. Alineado al final, la distancia
+// es siempre la misma.
+.pending-row__due {
+  text-align: right;
+  font: var(--mat-sys-body-small);
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.pending-row__amount {
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}

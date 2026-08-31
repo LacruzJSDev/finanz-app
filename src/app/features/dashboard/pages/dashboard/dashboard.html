@@ -1,7 +1,44 @@
 <app-page-content>
-  <app-empty-state
-    icon="dashboard"
-    message="Aquí irá el resumen de tus cuentas."
-    hint="Todavía no hay nada que mostrar."
-  />
+  @if (loading() && !overview()) {
+    <app-page-loader />
+  } @else if (overview(); as overview) {
+    <app-real-balance-card [overview]="overview" />
+
+    <div class="tiles">
+      <app-stat-tile
+        label="Gastado hoy"
+        [value]="spentToday()"
+        [note]="
+          overview.transaction_count_today === 1
+            ? '1 movimiento hoy'
+            : overview.transaction_count_today + ' movimientos hoy'
+        "
+        [highlight]="overview.spent_today > 0"
+      />
+      <app-stat-tile
+        label="Patrimonio"
+        [value]="netWorth()"
+        [note]="overview.account_count === 1 ? '1 cuenta' : overview.account_count + ' cuentas'"
+      />
+    </div>
+
+    @if (overview.pending_fixed_expenses.length) {
+      <app-pending-expenses-card
+        [expenses]="overview.pending_fixed_expenses"
+        [total]="overview.pending_fixed_expenses_total"
+      />
+    }
+
+    <!-- Sin ancla de cobro no hay curva: el resto del resumen sí llega, así que
+         la pantalla se queda sin esta tarjeta en vez de sin nada. -->
+    @if (overview.projection; as projection) {
+      <app-projection-card [points]="projection" [payday]="overview.payday" />
+    }
+  } @else {
+    <app-empty-state
+      icon="insights"
+      message="Todavía no hay nada que resumir."
+      hint="Añade una cuenta y sus movimientos para ver el resumen."
+    />
+  }
 </app-page-content>

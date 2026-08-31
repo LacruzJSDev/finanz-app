@@ -1,0 +1,19 @@
+<div class="meter-head">
+  <span class="meter-label">Gasto diario seguro</span>
+  <span class="meter-figures" [class.meter-figures--over]="overLimit()">
+    {{ spent() }} / {{ limit() }}
+  </span>
+</div>
+
+<mat-progress-bar mode="determinate" [value]="progress()" [class.meter-bar--over]="overLimit()" />
+
+<div class="meter-foot">
+  @if (daysRemaining(); as days) {
+    <span>{{ days }} {{ days === 1 ? 'día restante' : 'días restantes' }}</span>
+  } @else {
+    <span></span>
+  }
+  @if (overLimit()) {
+    <span class="meter-over">Límite alcanzado</span>
+  }
+</div>

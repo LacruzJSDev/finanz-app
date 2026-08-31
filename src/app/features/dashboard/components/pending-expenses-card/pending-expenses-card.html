@@ -1,0 +1,16 @@
+<mat-card appearance="outlined">
+  <div class="pending-head">
+    <span class="pending-label">Próximos compromisos</span>
+    <span class="pending-total">{{ totalAmount() }}</span>
+  </div>
+
+  <ul class="pending-rows">
+    @for (row of rows(); track row.id) {
+      <li class="pending-row">
+        <span class="pending-row__title">{{ row.title }}</span>
+        <span class="pending-row__due">{{ row.due | date: 'd MMM' }}</span>
+        <span class="pending-row__amount">−{{ row.amount }}</span>
+      </li>
+    }
+  </ul>
+</mat-card>

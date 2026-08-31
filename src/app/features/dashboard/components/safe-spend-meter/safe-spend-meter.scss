@@ -1,0 +1,62 @@
+@use '@angular/material' as mat;
+
+// Vive dentro de la tarjeta oscura, así que sus colores salen de ella y no del
+// tema: aquí el fondo es oscuro y `on-surface` no se leería.
+:host {
+  display: block;
+  padding: 1rem;
+  border-radius: var(--mat-sys-corner-large);
+  background: rgb(255 255 255 / 8%);
+}
+
+.meter-head,
+.meter-foot {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.meter-label {
+  font: var(--mat-sys-body-medium);
+  color: rgb(255 255 255 / 75%);
+}
+
+.meter-figures {
+  font: var(--mat-sys-title-medium);
+  font-variant-numeric: tabular-nums;
+}
+
+.meter-figures--over,
+.meter-over {
+  color: var(--mat-sys-error);
+}
+
+.meter-foot {
+  margin-top: 0.5rem;
+  font: var(--mat-sys-body-small);
+  color: rgb(255 255 255 / 60%);
+}
+
+mat-progress-bar {
+  margin: 0.75rem 0 0;
+
+  @include mat.progress-bar-overrides(
+    (
+      track-height: 6px,
+      active-indicator-height: 6px,
+      track-shape: 999px,
+      track-color: rgb(255 255 255 / 15%),
+      active-indicator-color: var(--mat-sys-tertiary),
+    )
+  );
+}
+
+// Pasado el límite la barra deja de ser informativa y pasa a ser un aviso.
+.meter-bar--over {
+  @include mat.progress-bar-overrides(
+    (
+      active-indicator-color: var(--mat-sys-error),
+    )
+  );
+}

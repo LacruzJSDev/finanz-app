@@ -1,0 +1,27 @@
+<div class="balance-head">
+  <span class="balance-label">Saldo real</span>
+  @if (paydayDate(); as date) {
+    <span class="balance-horizon">Hasta el {{ date | date: 'd MMM' }}</span>
+  }
+</div>
+
+<p class="balance-amount">
+  {{ amount().whole }}<span class="balance-fraction">{{ amount().fraction }}</span>
+  <span class="balance-symbol">{{ amount().symbol }}</span>
+</p>
+
+<p class="balance-breakdown">
+  @if (hasPendingExpenses()) {
+    {{ available() }} disponible − {{ fixed() }} en fijos
+  } @else {
+    {{ available() }} disponible
+  }
+</p>
+
+@if (safeSpend(); as safeSpend) {
+  <app-safe-spend-meter
+    [spentToday]="overview().spent_today"
+    [dailySafeSpend]="safeSpend"
+    [daysRemaining]="overview().days_remaining"
+  />
+}

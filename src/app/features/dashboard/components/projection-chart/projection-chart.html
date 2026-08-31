@@ -1,0 +1,7 @@
+<svg [attr.viewBox]="viewBox" role="img" aria-label="Evolución del saldo hasta el cobro">
+  <path class="chart-area" [attr.d]="area()" />
+  <path class="chart-line" [attr.d]="line()" />
+  @for (mark of marks(); track $index) {
+    <circle class="chart-mark" [attr.cx]="mark.x" [attr.cy]="mark.y" r="3" />
+  }
+</svg>

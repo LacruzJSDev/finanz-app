@@ -1,0 +1,26 @@
+<mat-card appearance="outlined">
+  <div class="projection-head">
+    <div>
+      <h2>Proyección hasta el cobro</h2>
+      <p class="projection-note">
+        @if (paydayDate(); as date) {
+          {{ date | date: 'd MMM' }}
+          @if (paydayAmount(); as amount) {
+            · entran {{ amount }}
+          }
+        } @else {
+          Descontando los gastos fijos pendientes
+        }
+      </p>
+    </div>
+
+    @if (arrival(); as arrival) {
+      <div class="projection-arrival">
+        <span class="projection-arrival__label">Al llegar</span>
+        <span class="projection-arrival__value">{{ arrival }}</span>
+      </div>
+    }
+  </div>
+
+  <app-projection-chart [points]="points()" />
+</mat-card>

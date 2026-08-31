@@ -1,0 +1,26 @@
+:host {
+  display: block;
+}
+
+svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+
+.chart-area {
+  fill: color-mix(in oklab, var(--mat-sys-tertiary) 14%, transparent);
+}
+
+.chart-line {
+  fill: none;
+  stroke: var(--mat-sys-tertiary);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.chart-mark {
+  fill: var(--mat-sys-tertiary);
+}

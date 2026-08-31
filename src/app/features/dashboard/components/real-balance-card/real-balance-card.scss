@@ -1,0 +1,53 @@
+// Oscura a propósito: es la única de la pantalla, y eso la convierte en lo
+// primero que se mira sin necesidad de hacerla más grande.
+:host {
+  display: block;
+  padding: 1.25rem;
+  border-radius: var(--mat-sys-corner-extra-large);
+  background: var(--mat-sys-inverse-surface);
+  color: var(--mat-sys-inverse-on-surface);
+}
+
+.balance-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.balance-label {
+  font: var(--mat-sys-label-medium);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.balance-horizon {
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--mat-sys-corner-full);
+  background: rgb(255 255 255 / 12%);
+  font: var(--mat-sys-label-medium);
+}
+
+.balance-amount {
+  margin: 0.75rem 0 0;
+  font-family: var(--mat-sys-display-large-font);
+  font-size: 3rem;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+// Céntimos y símbolo acompañan a la cifra, no compiten con ella.
+.balance-fraction,
+.balance-symbol {
+  font-size: 1.75rem;
+  opacity: 0.55;
+}
+
+.balance-breakdown {
+  margin: 0.5rem 0 1rem;
+  font: var(--mat-sys-body-medium);
+  opacity: 0.7;
+}

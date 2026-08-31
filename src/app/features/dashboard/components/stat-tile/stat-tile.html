@@ -1,0 +1,14 @@
+<mat-card appearance="outlined">
+  <span class="tile-label">{{ label() }}</span>
+
+  <p class="tile-value" [class.tile-value--highlight]="highlight()">
+    {{ value() }}
+    @if (unit(); as unit) {
+      <span class="tile-unit">{{ unit }}</span>
+    }
+  </p>
+
+  @if (note(); as note) {
+    <span class="tile-note">{{ note }}</span>
+  }
+</mat-card>

@@ -1,0 +1,6 @@
+// Dos cifras de contexto, del mismo peso: ninguna manda sobre la otra.
+.tiles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
