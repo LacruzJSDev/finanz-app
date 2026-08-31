@@ -19,14 +19,24 @@ import { Router } from '@angular/router';
 import { PageContent } from '../../../../shared/ui/page-content/page-content';
 import { PageLoader } from '../../../../shared/ui/page-loader/page-loader';
 import { EmptyState } from '../../../../shared/ui/empty-state/empty-state';
+import { StarterCategories } from '../../components/starter-categories/starter-categories';
+import { pendingStarterCategories } from '../../starter-categories';
 
 /** Las archivadas se listan aparte para no estorbar en el uso diario. */
 type CategoryFilter = 'active' | 'archived';
 
 @Component({
   selector: 'app-categories',
-  imports: [CategoriesList, MatButtonToggleModule, PageContent, PageLoader, EmptyState],
+  imports: [
+    CategoriesList,
+    MatButtonToggleModule,
+    PageContent,
+    PageLoader,
+    EmptyState,
+    StarterCategories,
+  ],
   templateUrl: './categories.html',
+  styleUrl: './categories.scss',
   host: { class: 'page-container' },
 })
 export class Categories {
@@ -44,10 +54,28 @@ export class Categories {
 
   protected readonly filter = signal<CategoryFilter>('active');
 
+  protected readonly creatingStarters = signal(false);
+
   // Mismo corte que en cuentas: gestionarlas exige owner o admin, consultarlas
   // está abierto a cualquier rol.
   protected readonly canManage = computed(() =>
     canManageGroupData(this.groupContextService.activeRole()),
+  );
+
+  // Sobre la lista entera, archivadas incluidas: una «Vivienda» archivada
+  // sigue siendo la misma categoría, y volver a crearla la duplicaría.
+  protected readonly pendingStarters = computed(() => pendingStarterCategories(this.categories()));
+
+  // Solo en las activas: las sugeridas nacen activas, y ofrecerlas desde la
+  // lista de archivadas sería crear en un sitio lo que no se ve en él. Y solo
+  // mientras quede algo por crear, con lo que el botón desaparece solo en
+  // cuanto el paquete está puesto; en marcha se queda para no dejar el spinner
+  // a medias cuando la última raíz ya está creada.
+  protected readonly canOfferStarters = computed(
+    () =>
+      this.canManage() &&
+      this.filter() === 'active' &&
+      (this.creatingStarters() || this.pendingStarters().length > 0),
   );
 
   protected readonly visibleCategories = computed(() => {
@@ -115,6 +143,22 @@ export class Categories {
         rootCategories: categories.filter((c) => c.parent_id === null && c.id !== category.id),
         hasChildren: categories.some((c) => c.parent_id === category.id),
       },
+    });
+  }
+
+  createStarterCategories(): void {
+    const groupId = this.activeGroupId();
+    // Solo las que faltan, así que repetir la operación tras un fallo a medias
+    // termina el paquete en vez de duplicar lo que ya se creó.
+    const pending = this.pendingStarters();
+    if (!groupId || !pending.length || this.creatingStarters()) return;
+
+    this.creatingStarters.set(true);
+    this.categoriesService.createCategoriesFromTemplates(groupId, pending).subscribe({
+      // Del fallo ya avisa el interceptor; aquí solo queda soltar el botón,
+      // con lo que se haya creado hasta ese punto ya en la lista.
+      error: () => this.creatingStarters.set(false),
+      complete: () => this.creatingStarters.set(false),
     });
   }
 

@@ -16,12 +16,30 @@
       (editClick)="openUpdateCategoryForm($event)"
       (toggleActive)="toggleCategoryActive($event)"
     />
+
+    @if (canOfferStarters()) {
+      <app-starter-categories
+        [count]="pendingStarters().length"
+        [creating]="creatingStarters()"
+        (create)="createStarterCategories()"
+      />
+    }
   } @else if (filter() === 'active') {
-    <app-empty-state
-      icon="category"
-      message="No hay categorías activas."
-      hint="Crea la primera con el botón +."
-    />
+    <div class="categories-empty">
+      <app-empty-state
+        icon="category"
+        message="No hay categorías activas."
+        hint="Crea la primera con el botón +."
+      />
+
+      @if (canOfferStarters()) {
+        <app-starter-categories
+          [count]="pendingStarters().length"
+          [creating]="creatingStarters()"
+          (create)="createStarterCategories()"
+        />
+      }
+    </div>
   } @else {
     <app-empty-state
       icon="category"

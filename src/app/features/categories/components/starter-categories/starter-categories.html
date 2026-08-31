@@ -1,0 +1,11 @@
+<button matButton type="button" [disabled]="creating()" (click)="create.emit()">
+  @if (creating()) {
+    <mat-spinner diameter="20" />
+  } @else {
+    <mat-icon>playlist_add</mat-icon>
+  }
+  {{ creating() ? 'Creando categorías…' : 'Añadir categorías sugeridas' }}
+</button>
+<p class="starter-categories__hint">
+  {{ summary() }} Luego se editan o se archivan como cualquier otra.
+</p>
