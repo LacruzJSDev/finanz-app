@@ -10,6 +10,29 @@
   gap: 0.5rem;
 }
 
+// Manda sobre las cabeceras de día: más oscuro, más grande y con una línea
+// debajo. Sin él, pasar de agosto a julio solo se notaba en el «AGO»/«JUL» de
+// la esquina, que es donde nadie mira.
+.transaction-month {
+  display: flex;
+  // Centrada, no sobre la línea base: alineada al texto, en vez de caer a la
+  // altura del pie de las letras.
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0 0.5rem;
+  font: var(--mat-sys-title-small);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--mat-sys-on-surface);
+
+  &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--mat-sys-outline-variant);
+  }
+}
+
 // Cabecera del día: etiqueta a la izquierda, fecha corta a la derecha.
 .transaction-day__header {
   display: flex;

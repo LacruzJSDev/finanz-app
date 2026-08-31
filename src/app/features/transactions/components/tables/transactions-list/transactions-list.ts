@@ -10,14 +10,28 @@ interface TransactionDayGroup {
   label: string;
   /** La fecha corta a la derecha, p.ej. «27 AGO». */
   date: string;
+  /**
+   * Solo en el primer día de cada mes: abre su bloque. El resto lo llevan a
+   * `null`, así que el cambio de mes se ve una vez y no en cada día.
+   */
+  monthLabel: string | null;
   transactions: TransactionRead[];
 }
 
 const WEEKDAY_FMT = new Intl.DateTimeFormat('es-ES', { weekday: 'long' });
 const SHORT_DATE_FMT = new Intl.DateTimeFormat('es-ES', { day: 'numeric', month: 'short' });
+const MONTH_FMT = new Intl.DateTimeFormat('es-ES', { month: 'long' });
+const MONTH_YEAR_FMT = new Intl.DateTimeFormat('es-ES', { month: 'long', year: 'numeric' });
 
 function startOfDay(date: Date): number {
   return new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
+}
+
+// El año solo cuando no es el corriente: dentro de este año es ruido, y al
+// cruzar a diciembre del anterior es justo lo que hace falta saber.
+function monthLabel(date: Date): string {
+  const fmt = date.getFullYear() === new Date().getFullYear() ? MONTH_FMT : MONTH_YEAR_FMT;
+  return fmt.format(date);
 }
 
 function dayLabel(date: Date): string {
@@ -51,16 +65,22 @@ export class TransactionsList {
       return b.created_at.localeCompare(a.created_at);
     });
     const groups = new Map<string, TransactionDayGroup>();
+    // El mes del grupo anterior, para saber cuál es el primer día de cada uno.
+    let previousMonth = '';
+
     for (const transaction of sorted) {
       let group = groups.get(transaction.date);
       if (!group) {
         const date = isoToDate(transaction.date);
+        const month = transaction.date.slice(0, 7);
         group = {
           key: transaction.date,
           label: dayLabel(date),
           date: SHORT_DATE_FMT.format(date).replace('.', '').toUpperCase(),
+          monthLabel: month === previousMonth ? null : monthLabel(date),
           transactions: [],
         };
+        previousMonth = month;
         groups.set(transaction.date, group);
       }
       group.transactions.push(transaction);

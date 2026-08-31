@@ -1,4 +1,8 @@
 @for (group of groups(); track group.key) {
+  @if (group.monthLabel; as month) {
+    <h2 class="transaction-month">{{ month }}</h2>
+  }
+
   <section class="transaction-day">
     <header class="transaction-day__header">
       <span class="transaction-day__label">{{ group.label }}</span>
