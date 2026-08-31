@@ -16,3 +16,29 @@
     }
   }
 }
+
+// Dos campos que se leen como una frase —«cada 2 semanas»— y por eso comparten
+// fila en vez de ocupar dos. El primero guarda un número de una o dos cifras,
+// así que se queda con lo justo y el segundo se lleva el resto.
+.grouped-card .field-pair {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+
+  mat-form-field:first-child {
+    flex: none;
+    width: 5rem;
+  }
+
+  mat-form-field:last-child {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+// Un interruptor como fila propia. Los campos traen su propio sangrado, pero un
+// interruptor no, así que se lo pone la tarjeta para que quede a la altura de
+// los demás. El estirado y el reparto los resuelve `mat-slide-toggle-full-width`.
+.grouped-card > mat-slide-toggle {
+  padding: 0.75rem 1rem;
+}
