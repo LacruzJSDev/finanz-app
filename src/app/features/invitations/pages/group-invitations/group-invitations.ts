@@ -9,7 +9,7 @@ import { InvitationRead } from '../../../../core/models';
 import { PageContent } from '../../../../shared/ui/page-content/page-content';
 import { PageLoader } from '../../../../shared/ui/page-loader/page-loader';
 import { EmptyState } from '../../../../shared/ui/empty-state/empty-state';
-import { InvitationCard } from '../../components/invitation-card/invitation-card';
+import { InvitationsList } from '../../components/tables/invitations-list/invitations-list';
 import {
   RevokeInvitationForm,
   RevokeInvitationFormData,
@@ -17,7 +17,7 @@ import {
 
 @Component({
   selector: 'app-group-invitations',
-  imports: [InvitationCard, PageContent, PageLoader, EmptyState],
+  imports: [InvitationsList, PageContent, PageLoader, EmptyState],
   templateUrl: './group-invitations.html',
   host: { class: 'page-section' },
 })

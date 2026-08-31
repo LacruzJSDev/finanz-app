@@ -7,8 +7,7 @@ import { GroupMemberRead } from '../../../../core/models';
 import { PageContent } from '../../../../shared/ui/page-content/page-content';
 import { PageLoader } from '../../../../shared/ui/page-loader/page-loader';
 import { EmptyState } from '../../../../shared/ui/empty-state/empty-state';
-import { MemberCard } from '../../components/member-card/member-card';
-import { canChangeRole, canRemoveMember } from '../../../../core/account-groups/permissions';
+import { MembersList } from '../../components/tables/members-list/members-list';
 import {
   ChangeMemberRoleForm,
   ChangeMemberRoleFormData,
@@ -20,7 +19,7 @@ import {
 
 @Component({
   selector: 'app-group-members',
-  imports: [MemberCard, PageContent, PageLoader, EmptyState],
+  imports: [MembersList, PageContent, PageLoader, EmptyState],
   templateUrl: './group-members.html',
   host: { class: 'page-section' },
 })
@@ -49,18 +48,6 @@ export class GroupMembers {
     });
   }
 
-  isViewer(member: GroupMemberRead): boolean {
-    return member.user_id === this.viewer()?.user_id;
-  }
-
-  canChangeRole(member: GroupMemberRead): boolean {
-    return canChangeRole(this.members(), this.viewer(), member);
-  }
-
-  canRemove(member: GroupMemberRead): boolean {
-    return canRemoveMember(this.members(), this.viewer(), member);
-  }
-
   changeRole(member: GroupMemberRead): void {
     this.bottomSheet.open<ChangeMemberRoleForm, ChangeMemberRoleFormData>(ChangeMemberRoleForm, {
       data: { groupId: this.id(), member },
@@ -69,7 +56,11 @@ export class GroupMembers {
 
   remove(member: GroupMemberRead): void {
     const ref = this.bottomSheet.open<RemoveMemberForm, RemoveMemberFormData>(RemoveMemberForm, {
-      data: { groupId: this.id(), member, isViewer: this.isViewer(member) },
+      data: {
+        groupId: this.id(),
+        member,
+        isViewer: member.user_id === this.viewer()?.user_id,
+      },
     });
 
     // Si te has ido, esta pantalla ya no es tuya: quedarte en ella solo daría

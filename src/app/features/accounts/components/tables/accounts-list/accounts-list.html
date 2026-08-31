@@ -1,0 +1,8 @@
+@for (account of accounts(); track account.id) {
+  <app-account-card
+    [account]="account"
+    [canManage]="canManage()"
+    (editClick)="editClick.emit($event)"
+    (viewClick)="viewClick.emit($event)"
+  />
+}

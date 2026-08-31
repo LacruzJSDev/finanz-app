@@ -1,0 +1,10 @@
+@for (member of members(); track member.id) {
+  <app-member-card
+    [member]="member"
+    [isViewer]="isViewer(member)"
+    [canChangeRole]="canChangeRole(member)"
+    [canRemove]="canRemove(member)"
+    (roleClick)="roleClick.emit($event)"
+    (removeClick)="removeClick.emit($event)"
+  />
+}

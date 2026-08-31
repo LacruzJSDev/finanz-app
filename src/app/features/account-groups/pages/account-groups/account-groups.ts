@@ -5,7 +5,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { AccountGroupsService } from '../../../../core/account-groups/account-groups.service';
 import { CreateAccountGroupForm } from '../../components/forms/create-account-group-form/create-account-group-form';
 import { PageContextService } from '../../../../core/ui/page-context.service';
-import { AccountGroupCard } from '../../components/account-group-card/account-group-card';
+import { AccountGroupsList } from '../../components/tables/account-groups-list/account-groups-list';
 import { GroupContextService } from '../../../../core/ui/group-context.service';
 import { PageContent } from '../../../../shared/ui/page-content/page-content';
 import { PageLoader } from '../../../../shared/ui/page-loader/page-loader';
@@ -16,7 +16,7 @@ type GroupFilter = 'active' | 'archived';
 
 @Component({
   selector: 'app-account-groups',
-  imports: [AccountGroupCard, MatButtonToggleModule, PageContent, PageLoader, EmptyState],
+  imports: [AccountGroupsList, MatButtonToggleModule, PageContent, PageLoader, EmptyState],
   templateUrl: './account-groups.html',
   host: { class: 'page-container' },
 })

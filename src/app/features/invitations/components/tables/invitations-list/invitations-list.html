@@ -1,0 +1,8 @@
+@for (invitation of invitations(); track invitation.id) {
+  <app-invitation-card
+    [invitation]="invitation"
+    [canManage]="canManage()"
+    (copyClick)="copyClick.emit($event)"
+    (revokeClick)="revokeClick.emit($event)"
+  />
+}

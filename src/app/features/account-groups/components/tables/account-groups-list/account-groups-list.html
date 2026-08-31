@@ -1,0 +1,7 @@
+@for (accountGroup of accountGroups(); track accountGroup.id) {
+  <app-account-group-card
+    [accountGroup]="accountGroup"
+    [activeGroupId]="activeGroupId()"
+    (showClick)="showClick.emit($event)"
+  />
+}

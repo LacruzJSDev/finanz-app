@@ -14,7 +14,7 @@ import {
   UpdateAccountFormData,
 } from '../../components/forms/update-account-form/update-account-form';
 import { PageContextService } from '../../../../core/ui/page-context.service';
-import { AccountCard } from '../../components/account-card/account-card';
+import { AccountsList } from '../../components/tables/accounts-list/accounts-list';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { PageContent } from '../../../../shared/ui/page-content/page-content';
 import { PageLoader } from '../../../../shared/ui/page-loader/page-loader';
@@ -24,7 +24,7 @@ type GroupFilter = 'active' | 'archived';
 
 @Component({
   selector: 'app-accounts',
-  imports: [AccountCard, MatButtonToggleModule, PageContent, PageLoader, EmptyState],
+  imports: [AccountsList, MatButtonToggleModule, PageContent, PageLoader, EmptyState],
   templateUrl: 'accounts.html',
   host: { class: 'page-container' },
 })

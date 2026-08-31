@@ -8,20 +8,18 @@
 <app-page-content>
   @if (loading()) {
     <app-page-loader />
+  } @else if (visibleAccounts().length) {
+    <app-accounts-list
+      [accounts]="visibleAccounts()"
+      [canManage]="canManage()"
+      (editClick)="openUpdateAccountForm($event)"
+      (viewClick)="showAccountDetail($event.id)"
+    />
   } @else {
-    @for (account of visibleAccounts(); track account.id) {
-      <app-account-card
-        [account]="account"
-        [canManage]="canManage()"
-        (editClick)="openUpdateAccountForm($event)"
-        (viewClick)="showAccountDetail($event.id)"
-      />
-    } @empty {
-      <app-empty-state
-        icon="account_balance_wallet"
-        message="No hay cuentas en este grupo."
-        hint="Crea la primera con el botón +."
-      />
-    }
+    <app-empty-state
+      icon="account_balance_wallet"
+      message="No hay cuentas en este grupo."
+      hint="Crea la primera con el botón +."
+    />
   }
 </app-page-content>

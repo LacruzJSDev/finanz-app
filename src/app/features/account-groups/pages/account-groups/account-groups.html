@@ -8,27 +8,23 @@
 <app-page-content>
   @if (loading()) {
     <app-page-loader />
+  } @else if (visibleGroups().length) {
+    <app-account-groups-list
+      [accountGroups]="visibleGroups()"
+      [activeGroupId]="activeGroupId()"
+      (showClick)="showDetail($event.id)"
+    />
+  } @else if (filter() === 'active') {
+    <app-empty-state
+      icon="groups"
+      message="No hay grupos activos."
+      hint="Crea el primero con el botón +."
+    />
   } @else {
-    @for (group of visibleGroups(); track group.id) {
-      <app-account-group-card
-        [accountGroup]="group"
-        [activeGroupId]="activeGroupId()"
-        (showClick)="showDetail($event.id)"
-      />
-    } @empty {
-      @if (filter() === 'active') {
-        <app-empty-state
-          icon="groups"
-          message="No hay grupos activos."
-          hint="Crea el primero con el botón +."
-        />
-      } @else {
-        <app-empty-state
-          icon="groups"
-          message="No hay grupos archivados."
-          hint="Los grupos que archives aparecerán aquí."
-        />
-      }
-    }
+    <app-empty-state
+      icon="groups"
+      message="No hay grupos archivados."
+      hint="Los grupos que archives aparecerán aquí."
+    />
   }
 </app-page-content>
