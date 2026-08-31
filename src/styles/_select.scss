@@ -4,3 +4,13 @@
 .mat-mdc-select-panel {
   border-radius: var(--mat-sys-corner-medium) !important;
 }
+
+// La marca (icono, color o ambos) delante del texto de una opción o del valor
+// elegido. Centrarla es cosa suya —son inline-flex con vertical-align: middle—
+// pero la separación no puede quedarse en el espacio en blanco de la
+// plantilla, que mide lo que mida la fuente. Va aquí y no en cada marca porque
+// fuera del select van dentro de contenedores flex que ya ponen su propio gap.
+.mat-mdc-option .field-mark,
+.mat-mdc-select-trigger .field-mark {
+  margin-inline-end: 0.5rem;
+}

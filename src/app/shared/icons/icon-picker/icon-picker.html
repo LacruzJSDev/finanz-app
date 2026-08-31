@@ -3,15 +3,19 @@
   <mat-select [value]="selected()" (selectionChange)="iconChange.emit($event.value)">
     <mat-select-trigger>
       @if (selected(); as icon) {
-        <mat-icon>{{ icon }}</mat-icon>
+        <app-icon-mark [icon]="icon" />
         {{ labels[icon] }}
       }
     </mat-select-trigger>
-    @for (icon of icons; track icon) {
-      <mat-option [value]="icon">
-        <mat-icon>{{ icon }}</mat-icon>
-        {{ labels[icon] }}
-      </mat-option>
+    @for (group of groups; track group.label) {
+      <mat-optgroup [label]="group.label">
+        @for (icon of group.icons; track icon.name) {
+          <mat-option [value]="icon.name">
+            <app-icon-mark [icon]="icon.name" />
+            {{ icon.label }}
+          </mat-option>
+        }
+      </mat-optgroup>
     }
   </mat-select>
 </mat-form-field>

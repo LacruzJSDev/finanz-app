@@ -1,0 +1,14 @@
+// Mismo motivo que en icon-mark: centrado sobre el texto sin pasar por la
+// línea base.
+:host {
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+// El borde hace falta con los colores claros, que sobre el fondo del panel
+// desaparecen y dejan el círculo sin contorno.
+.color-mark {
+  border-radius: 50%;
+  border: 1px solid var(--mat-sys-outline-variant);
+  flex-shrink: 0;
+}

@@ -1,5 +1,9 @@
+// `inline-flex` con `vertical-align: middle` en vez de `inline-block`: la
+// línea base de un inline-block sale de su contenido, y dentro de una opción
+// de select eso dejaba la marca 2,5px por debajo del texto.
 :host {
-  display: inline-block;
+  display: inline-flex;
+  vertical-align: middle;
 }
 
 .color-icon {

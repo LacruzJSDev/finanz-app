@@ -1,0 +1,13 @@
+// `inline-flex` y no `inline-block`: la línea base de un inline-block la
+// decide su contenido, y con `overflow: hidden` mat-icon la pone en el borde
+// de abajo, así que el icono quedaba 6px por encima del texto. Con
+// `vertical-align: middle` el centro de la caja va al centro óptico de la
+// línea, sin depender de las métricas de la fuente.
+:host {
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+mat-icon {
+  margin: 0;
+}

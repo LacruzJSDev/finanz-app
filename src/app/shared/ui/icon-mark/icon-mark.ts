@@ -2,22 +2,21 @@ import { Component, computed, input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { resolveIcon } from '../../icons/icons';
 
-/** Icono sobre un fondo teñido con su color. */
+/**
+ * El icono solo, sin fondo ni color: es el icono como valor que se elige, no
+ * la marca de identidad de una cuenta o una categoría. Para eso está
+ * [ColorIcon](../color-icon/color-icon.ts).
+ */
 @Component({
-  selector: 'app-color-icon',
+  selector: 'app-icon-mark',
   imports: [MatIconModule],
-  templateUrl: './color-icon.html',
-  styleUrl: './color-icon.scss',
+  templateUrl: './icon-mark.html',
+  styleUrl: './icon-mark.scss',
   host: { class: 'field-mark' },
 })
-export class ColorIcon {
+export class IconMark {
   readonly icon = input<string | null>();
-  readonly color = input<string | null>();
   readonly size = input(20);
 
   protected readonly resolvedIcon = computed(() => resolveIcon(this.icon()));
-
-  protected readonly resolvedColor = computed(
-    () => this.color() ?? 'var(--mat-sys-on-surface-variant)',
-  );
 }

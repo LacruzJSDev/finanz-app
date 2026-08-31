@@ -3,13 +3,13 @@
   <mat-select [value]="selected()" (selectionChange)="colorChange.emit($event.value)">
     <mat-select-trigger>
       @if (selected(); as color) {
-        <span class="color-swatch" [style.background-color]="color"></span>
+        <app-color-mark [color]="color" />
         {{ labels[color] }}
       }
     </mat-select-trigger>
     @for (color of colors; track color) {
       <mat-option [value]="color">
-        <span class="color-swatch" [style.background-color]="color"></span>
+        <app-color-mark [color]="color" />
         {{ labels[color] }}
       </mat-option>
     }
