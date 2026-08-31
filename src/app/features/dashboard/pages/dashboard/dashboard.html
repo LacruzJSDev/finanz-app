@@ -13,7 +13,7 @@
             ? '1 movimiento hoy'
             : overview.transaction_count_today + ' movimientos hoy'
         "
-        [highlight]="overview.spent_today > 0"
+        [tone]="overview.spent_today > 0 ? 'negative' : 'neutral'"
       />
       <app-stat-tile
         label="Patrimonio"

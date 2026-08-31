@@ -24,8 +24,12 @@ mat-card {
   letter-spacing: -0.02em;
 }
 
-.tile-value--highlight {
+.tile-value--negative {
   color: var(--mat-sys-error);
+}
+
+.tile-value--positive {
+  color: var(--mat-sys-tertiary);
 }
 
 // La unidad acompaña, no compite: mismo color, mucho menor.

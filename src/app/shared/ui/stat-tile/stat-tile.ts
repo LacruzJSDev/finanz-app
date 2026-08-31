@@ -18,6 +18,10 @@ export class StatTile {
   /** De qué se compone la cifra: "6 cuentas", "1 movimiento hoy". */
   readonly note = input<string>();
 
-  /** Para las cifras que conviene mirar, como el gasto del día. */
-  readonly highlight = input(false);
+  /**
+   * Qué signo tiene la cifra para quien la lee: lo que sale, lo que entra, o
+   * ninguno de los dos. Un booleano solo sabía decir «míralo», y eso pintaba de
+   * rojo un ingreso.
+   */
+  readonly tone = input<'neutral' | 'negative' | 'positive'>('neutral');
 }

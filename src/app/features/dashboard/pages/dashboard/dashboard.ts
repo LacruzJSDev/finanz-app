@@ -8,7 +8,7 @@ import { PageContent } from '../../../../shared/ui/page-content/page-content';
 import { PageLoader } from '../../../../shared/ui/page-loader/page-loader';
 import { EmptyState } from '../../../../shared/ui/empty-state/empty-state';
 import { RealBalanceCard } from '../../components/real-balance-card/real-balance-card';
-import { StatTile } from '../../components/stat-tile/stat-tile';
+import { StatTile } from '../../../../shared/ui/stat-tile/stat-tile';
 import { PendingExpensesCard } from '../../components/pending-expenses-card/pending-expenses-card';
 import { ProjectionCard } from '../../components/projection-card/projection-card';
 
