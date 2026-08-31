@@ -99,8 +99,11 @@ export class UpdateTransactionForm {
       type: raw.type,
       amount: eurosToCents(raw.amount),
       date: dateToIso(raw.date),
-      notes: raw.notes || undefined,
-      category_id: isTransfer ? undefined : raw.category_id || undefined,
+      // `null` y no `undefined`: al serializar el cuerpo se pierden las claves
+      // `undefined`, así que el campo no viajaría y el PATCH lo dejaría como
+      // estaba. Vaciar el concepto o quitar la categoría no llegaba nunca.
+      notes: raw.notes || null,
+      category_id: isTransfer ? null : raw.category_id || null,
     };
 
     this.transactionsService
