@@ -2,6 +2,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import {
   ApplicationConfig,
   inject,
+  isDevMode,
   provideAppInitializer,
   provideBrowserGlobalErrorListeners,
 } from '@angular/core';
@@ -10,6 +11,7 @@ import { MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/cor
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { MAT_BUTTON_TOGGLE_DEFAULT_OPTIONS } from '@angular/material/button-toggle';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
+import { provideServiceWorker } from '@angular/service-worker';
 
 import { routes } from './app.routes';
 import { provideApi } from './api/provide-api';
@@ -18,6 +20,7 @@ import { firstValueFrom } from 'rxjs';
 import { AuthService } from './core/auth/auth.service';
 import { authRefreshInterceptor } from './core/auth/auth-refresh.interceptors';
 import { apiErrorInterceptor } from './core/http/api-error.interceptor';
+import { AppUpdateService } from './core/pwa/app-update.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -34,6 +37,11 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([apiErrorInterceptor, authRefreshInterceptor])),
     provideApi({ basePath: environment.apiUrl, withCredentials: true }),
     provideAppInitializer(() => firstValueFrom(inject(AuthService).bootstrap())),
+    provideAppInitializer(() => inject(AppUpdateService).listen()),
+    provideServiceWorker('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000',
+    }),
     provideNativeDateAdapter(),
     { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
     {
