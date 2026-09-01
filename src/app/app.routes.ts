@@ -25,9 +25,13 @@ export const routes: Routes = [
     path: '',
     loadChildren: () => import('./features/auth/auth.routes').then((m) => m.AUTH_ROUTES),
   },
+  // Todo lo que cuelga del armazón exige sesión. Va en el padre y no en cada
+  // hijo: si se pone abajo, la que se añada mañana nace sin guard, que es
+  // justo lo que pasó con estas cuatro.
   {
     path: '',
     component: Shell,
+    canActivate: [authGuard],
     children: [
       {
         path: 'dashboard',
@@ -57,12 +61,10 @@ export const routes: Routes = [
       {
         path: 'invitaciones',
         loadComponent: () => import('./features/invitations').then((m) => m.AcceptInvitation),
-        canActivate: [authGuard],
       },
       {
         path: 'invitaciones/:code',
         loadComponent: () => import('./features/invitations').then((m) => m.AcceptInvitation),
-        canActivate: [authGuard],
       },
     ],
   },
