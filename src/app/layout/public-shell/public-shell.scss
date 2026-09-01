@@ -1,0 +1,8 @@
+// Al contrario que el armazón privado, este no fija la altura ni recorta el
+// desbordamiento: la parte pública se recorre con el scroll del documento, no
+// con una caja interior.
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}

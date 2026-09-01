@@ -1,0 +1,143 @@
+// La portada se recorre entera con el scroll del documento, así que no hereda
+// nada de .page-container: aquí no hay caja interior que scrollee.
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+// Un ancho de lectura común a todas las secciones. Sin él, en escritorio las
+// líneas se estiran de lado a lado y dejan de leerse.
+%container {
+  width: 100%;
+  max-width: 60rem;
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+
+.hero {
+  @extend %container;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding-block: 4rem 3rem;
+  text-align: center;
+
+  h1 {
+    font: var(--mat-sys-display-small);
+    max-width: 18ch;
+  }
+}
+
+.hero__subtitle {
+  font: var(--mat-sys-body-large);
+  color: var(--mat-sys-on-surface-variant);
+  max-width: 46ch;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+
+  a {
+    height: 48px;
+  }
+}
+
+.features {
+  @extend %container;
+
+  padding-block: 2rem 3rem;
+
+  h2 {
+    font: var(--mat-sys-title-large);
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+}
+
+// `auto-fit` con un mínimo: una columna en el móvil, y las que quepan a partir
+// de ahí, sin puntos de ruptura escritos a mano.
+.features__grid {
+  // El reset quita los bullets pero no el padding con el que el navegador deja
+  // sitio para ellos. Sin esto la rejilla arranca 40px adentro y las tarjetas
+  // quedan descentradas: 64px de aire a la izquierda contra 24 a la derecha.
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 1rem;
+}
+
+.feature-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.25rem;
+
+  h3 {
+    font: var(--mat-sys-title-small);
+  }
+
+  p {
+    font: var(--mat-sys-body-medium);
+    color: var(--mat-sys-on-surface-variant);
+  }
+}
+
+.feature-card__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 0.25rem;
+  border-radius: var(--mat-sys-corner-small);
+  background: var(--mat-sys-secondary-container);
+  color: var(--mat-sys-on-secondary-container);
+}
+
+.closing {
+  @extend %container;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding-block: 3rem 4rem;
+  text-align: center;
+
+  h2 {
+    font: var(--mat-sys-headline-small);
+  }
+
+  p {
+    font: var(--mat-sys-body-large);
+    color: var(--mat-sys-on-surface-variant);
+    max-width: 40ch;
+  }
+
+  a {
+    height: 48px;
+    margin-top: 0.5rem;
+  }
+}
+
+.site-footer {
+  @extend %container;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: auto;
+  padding-block: 1.5rem;
+  border-top: 1px solid var(--mat-sys-outline-variant);
+  font: var(--mat-sys-body-small);
+  color: var(--mat-sys-on-surface-variant);
+}

@@ -1,8 +1,26 @@
 import { Routes } from '@angular/router';
 import { Shell } from './layout/shell/shell';
 import { authGuard } from './core/auth/auth.guard';
+import { guestGuard } from './core/auth/guest.guard';
+import { PublicShell } from './layout/public-shell/public-shell';
 
 export const routes: Routes = [
+  // La portada. Cuelga del armazón público para que la cabecera la ponga la
+  // ruta: una feature no puede importar de layout, igual que ninguna página
+  // privada importa la barra superior.
+  {
+    path: '',
+    component: PublicShell,
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        canActivate: [guestGuard],
+        loadComponent: () =>
+          import('./features/landing/pages/landing/landing').then((m) => m.Landing),
+      },
+    ],
+  },
   {
     path: '',
     loadChildren: () => import('./features/auth/auth.routes').then((m) => m.AUTH_ROUTES),

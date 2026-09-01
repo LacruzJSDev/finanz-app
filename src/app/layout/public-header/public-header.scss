@@ -1,0 +1,68 @@
+:host {
+  display: block;
+  // Pegada arriba: en una página que se recorre entera, las dos acciones que
+  // justifican la página no pueden quedarse en el primer pantallazo.
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.public-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 64px;
+  padding: 0.5rem 1rem;
+  background: var(--mat-sys-surface-container-lowest);
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.brand__mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border-radius: var(--mat-sys-corner-small);
+  background: var(--mat-sys-primary-container);
+  color: var(--mat-sys-on-primary-container);
+
+  mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.brand__name {
+  font: var(--mat-sys-title-medium);
+  font-family: var(--mat-sys-brand-font-family, inherit);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.public-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+// Medido: la marca entera con los dos botones pide 372px, así que por debajo
+// de eso hay que soltar algo. Se suelta la palabra y se queda el anagrama, que
+// sigue llevando al inicio. Antes se iba el "Entrar", y eso costaba una de las
+// dos puertas de entrada para ahorrar un adorno.
+@media (max-width: 26rem) {
+  .brand__name {
+    display: none;
+  }
+}
