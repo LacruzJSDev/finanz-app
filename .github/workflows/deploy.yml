@@ -1,0 +1,147 @@
+# Copia de la plantilla canónica de entramaes-infra (docs/deploy.yml.template).
+# Lo único propio es el bloque `verify` y las dos variables de `env`.
+#
+# Por qué cada pieza está aquí: entramaes-infra/docs/DESPLIEGUE.md
+
+name: deploy
+
+on:
+  push:
+    branches: [main]
+  # En PR se verifica pero NO se despliega, para ver una rama en verde antes
+  # de fusionarla.
+  pull_request:
+  # Para poder relanzar un despliegue sin inventarse un commit vacío.
+  workflow_dispatch:
+
+# Permiso mínimo por defecto para todos los jobs. Sin esto, `verify` hereda lo
+# que diga la configuración del repo, que puede ser de escritura: y `verify` es
+# el único job que corre código de un PR ajeno en un repo público.
+permissions:
+  contents: read
+
+concurrency:
+  # Dos despliegues a la vez sobre el mismo VPS se pisan. El nuevo gana; el
+  # viejo se cancela antes de tocar nada.
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  IMAGE: ghcr.io/lacruzjsdev/finanz-app
+  # Carpeta dentro de entramaes-infra en el VPS. Separada de `finanzapp`, que
+  # es la API: son dos imágenes con dos líneas de versión.
+  APP_DIR: /opt/entramaes/infra/apps/finanzapp-web
+
+jobs:
+  # EL ORDEN IMPORTA: verify es dependencia de build, y build de deploy. Un
+  # despliegue que sale antes de que terminen los tests es un despliegue sin
+  # tests, y en algún momento saldrá con ellos en rojo.
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Formato
+        run: npx prettier --check "src/**/*.{ts,html,scss}"
+
+      # La dirección de las dependencias entre capas no la comprueba ni el
+      # compilador ni los tests: se rompe sin que nada se ponga rojo.
+      - name: Fronteras entre capas
+        run: npm run lint:boundaries
+
+      - name: Tests
+        run: npm test
+
+      # El build de producción hace de puerta además de los tests: aquí es
+      # donde saltan los presupuestos de tamaño de bundle y los errores de
+      # plantilla, que la compilación de desarrollo no mira igual.
+      - name: Build de producción
+        run: npx ng build --configuration production
+
+  build:
+    needs: verify
+    # En un pull request no se publica imagen: no hay nada que desplegar
+    # todavía y publicarla ensuciaría el registro.
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          # GITHUB_TOKEN basta con `packages: write`: no hace falta un PAT.
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Construir y publicar
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          # DOS ETIQUETAS, y la del SHA no es decorativa: es lo que permite
+          # volver a una versión anterior sin reconstruir nada, poniendo
+          # IMAGE_TAG=<sha> en el .env del servidor.
+          tags: |
+            ${{ env.IMAGE }}:latest
+            ${{ env.IMAGE }}:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  deploy:
+    needs: build
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Desplegar por SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          # MISMOS NOMBRES EN LOS TRES REPOS. Si divergen, el día que rotes la
+          # clave tienes que acordarte de varios sitios distintos.
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            set -e
+            cd ${{ env.APP_DIR }}
+            docker compose pull
+            docker compose up -d
+            # Las imágenes viejas se acumulan y llenan el disco del VPS.
+            docker image prune -f
+
+  # GitHub Free da 500 MB de almacenamiento de paquetes. El `docker image
+  # prune` de arriba limpia el daemon del VPS, no el registro.
+  #
+  # OJO: min-versions-to-keep cuenta TODAS las versiones, incluidas las que no
+  # llevan etiqueta, así que la profundidad real de rollback es menor.
+  #
+  # Va DESPUÉS del deploy y no bloquea, para que un problema aquí nunca deje un
+  # despliegue a medias.
+  podar-registro:
+    needs: deploy
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    permissions:
+      packages: write
+    steps:
+      - uses: actions/delete-package-versions@v5
+        with:
+          owner: lacruzjsdev
+          package-name: finanz-app
+          package-type: container
+          min-versions-to-keep: 10
+          # Nunca borrar la que está en producción.
+          ignore-versions: '^latest$'

@@ -1,0 +1,16 @@
+# Todo lo que no hace falta para construir el bundle. Adelgaza el contexto que
+# se manda al daemon y, sobre todo, evita que se cuele nada del entorno local
+# dentro de la imagen.
+.git
+.github
+# El contexto de build acaba en la caché de Actions (cache-to: type=gha).
+# La imagen final solo copia /srv, pero la capa intermedia sí lo llevaría.
+.env
+.env.*
+.claude
+.angular
+.vscode
+node_modules
+dist
+coverage
+*.log

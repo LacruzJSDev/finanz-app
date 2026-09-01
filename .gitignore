@@ -42,3 +42,9 @@ __screenshots__/
 # System files
 .DS_Store
 Thumbs.db
+
+# Repo público: un `git add .` despistado publicaría cualquiera de estos.
+.env
+.env.*
+!.env.example
+.claude/
