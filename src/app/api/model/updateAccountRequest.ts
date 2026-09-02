@@ -13,7 +13,7 @@ import { AccountTypeEnum } from './accountTypeEnum';
  * Cuerpo de PATCH /accounts
  */
 export interface UpdateAccountRequest {
-  name: string | null;
+  name?: string | null;
   type?: AccountTypeEnum | null;
   color?: string | null;
   icon?: string | null;
