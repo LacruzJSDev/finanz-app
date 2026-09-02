@@ -1,0 +1,41 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "openai/gpt-5.6-sol",
+  "small_model": "openai/gpt-5.6-luna-fast",
+  "default_agent": "frontend-orchestrator",
+  "subagent_depth": 1,
+  "instructions": [
+    "AGENTS.md",
+    "specs/constitution/CONSTITUTION.md"
+  ],
+  "references": {
+    "api-contract": {
+      "repository": "LacruzJSDev/finanz-app-fast-api",
+      "branch": "dev",
+      "description": "Read-only API contract reference. Never modify this repository from the frontend workflow.",
+      "hidden": true
+    }
+  },
+  "mcp": {
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp",
+      "enabled": true,
+      "headers": {
+        "Authorization": "Bearer {env:CONTEXT7_API_KEY}"
+      },
+      "timeout": 30000
+    }
+  },
+  "permission": {
+    "bash": {
+      "git status --short && git branch --show-current && git worktree list": "allow",
+      "git status*": "allow",
+      "git diff*": "allow",
+      "git log*": "allow",
+      "git branch --show-current*": "allow",
+      "git worktree list*": "allow",
+      "*": "ask"
+    }
+  }
+}
