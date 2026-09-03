@@ -1,6 +1,22 @@
 // Pie de la lista: centinela del scroll infinito, y donde se ve que llega la
 // página siguiente o que ya no queda nada. Altura fija para que el spinner no
 // empuje la lista al aparecer.
+.transaction-filters {
+  background: var(--mat-sys-surface-container-lowest);
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: var(--mat-sys-corner-large);
+  padding: 0.5rem 0.5rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.filtered-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .load-more {
   display: flex;
   align-items: center;

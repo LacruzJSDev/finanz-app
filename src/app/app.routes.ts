@@ -51,9 +51,9 @@ export const routes: Routes = [
           import('./features/accounts/accounts.routes').then((m) => m.ACCOUNTS_ROUTES),
       },
       {
-        path: 'categorias',
+        path: 'presupuestos',
         loadChildren: () =>
-          import('./features/categories/categories.routes').then((m) => m.CATEGORIES_ROUTES),
+          import('./features/budgets/budgets.routes').then((m) => m.BUDGETS_ROUTES),
       },
       // Suelta y no bajo /grupos: quien la usa todavía no pertenece al grupo,
       // así que no puede colgar de una URL que ya lo da por hecho. Con código

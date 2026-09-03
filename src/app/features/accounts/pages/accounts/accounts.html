@@ -14,6 +14,7 @@
       [canManage]="canManage()"
       (editClick)="openUpdateAccountForm($event)"
       (viewClick)="showAccountDetail($event.id)"
+      (analysisClick)="showAnalysis($event.id)"
     />
   } @else {
     <app-empty-state

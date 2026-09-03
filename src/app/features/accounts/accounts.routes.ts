@@ -23,7 +23,7 @@ export const ACCOUNTS_ROUTES: Routes = [
         canActivate: [authGuard],
       },
       {
-        path: 'estadisticas',
+        path: 'analisis',
         loadComponent: () => import('../account-stats').then((m) => m.AccountStats),
         canActivate: [authGuard],
       },

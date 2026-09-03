@@ -20,4 +20,10 @@ export class AccountCard {
 
   readonly editClick = output<AccountRead>();
   readonly viewClick = output<AccountRead>();
+  readonly analysisClick = output<AccountRead>();
+
+  showAnalysis(event: MouseEvent): void {
+    event.stopPropagation();
+    this.analysisClick.emit(this.account());
+  }
 }

@@ -11,4 +11,11 @@
       <mat-icon>edit</mat-icon>
     </button>
   }
+  <button
+    matIconButton
+    [attr.aria-label]="'Ver análisis de ' + account().name"
+    (click)="showAnalysis($event)"
+  >
+    <mat-icon>query_stats</mat-icon>
+  </button>
 </mat-card>

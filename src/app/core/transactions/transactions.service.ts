@@ -9,6 +9,14 @@ import {
 } from '../../api';
 import { LatestRequest } from '../http/latest-request';
 
+export interface TransactionListQuery {
+  groupId: string;
+  accountId: string;
+  categoryId?: string;
+  uncategorized?: boolean;
+  q?: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class TransactionsService {
   private readonly api = inject(TransactionsApi);
@@ -39,13 +47,24 @@ export class TransactionsService {
   readonly summaryLoading = this.summaryLoadingSignal.asReadonly();
   private readonly summaryRequest = new LatestRequest();
 
-  getTransactions(accountId: string, limit = 20, offset = 0) {
+  getTransactions(query: TransactionListQuery, limit = 20, offset = 0) {
     const isFirstPage = offset === 0;
     const token = isFirstPage ? this.listRequest.next() : this.listRequest.current();
     const busy = isFirstPage ? this.loadingSignal : this.loadingMoreSignal;
     busy.set(true);
     return this.api
-      .getTransactionsApiV1AccountsAccountIdTransactionsGet(accountId, limit, offset)
+      .queryTransactionsApiV1TransactionsGet(
+        query.groupId,
+        limit,
+        offset,
+        query.accountId,
+        query.categoryId,
+        query.uncategorized,
+        undefined,
+        undefined,
+        undefined,
+        query.q,
+      )
       .pipe(
         tap((res) => {
           // Una página de la lista anterior no se puede pegar a la de ahora:

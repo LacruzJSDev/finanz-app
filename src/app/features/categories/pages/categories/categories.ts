@@ -1,87 +1,74 @@
-import { Component, computed, effect, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatIconModule } from '@angular/material/icon';
 import { CategoriesService } from '../../../../core/categories/categories.service';
 import { CategoryRead } from '../../../../core/models';
 import { CategoriesList } from '../../components/tables/categories-list/categories-list';
 import {
-  CreateCategoryForm,
-  CreateCategoryFormData,
-} from '../../components/forms/create-category-form/create-category-form';
-import {
   UpdateCategoryForm,
   UpdateCategoryFormData,
 } from '../../components/forms/update-category-form/update-category-form';
-import { PageContextService } from '../../../../core/ui/page-context.service';
-import { GroupContextService } from '../../../../core/ui/group-context.service';
-import { canManageGroupData } from '../../../../core/account-groups/permissions';
-import { Router } from '@angular/router';
+import { AccountGroupsService } from '../../../../core/account-groups/account-groups.service';
+import { AuthService } from '../../../../core/auth/auth.service';
+import { canManageGroupData, roleInGroup } from '../../../../core/account-groups/permissions';
 import { PageContent } from '../../../../shared/ui/page-content/page-content';
 import { PageLoader } from '../../../../shared/ui/page-loader/page-loader';
 import { EmptyState } from '../../../../shared/ui/empty-state/empty-state';
 import { StarterCategories } from '../../components/starter-categories/starter-categories';
 import { pendingStarterCategories } from '../../starter-categories';
 
-/** Las archivadas se listan aparte para no estorbar en el uso diario. */
-type CategoryFilter = 'active' | 'archived';
-
 @Component({
   selector: 'app-categories',
-  imports: [
-    CategoriesList,
-    MatButtonToggleModule,
-    PageContent,
-    PageLoader,
-    EmptyState,
-    StarterCategories,
-  ],
+  imports: [CategoriesList, MatIconModule, PageContent, PageLoader, EmptyState, StarterCategories],
   templateUrl: './categories.html',
   styleUrl: './categories.scss',
-  host: { class: 'page-container' },
+  host: { class: 'page-section' },
 })
 export class Categories {
   private readonly bottomSheet = inject(MatBottomSheet);
   protected readonly categoriesService = inject(CategoriesService);
+  private readonly accountGroupsService = inject(AccountGroupsService);
+  private readonly authService = inject(AuthService);
 
   protected readonly loading = this.categoriesService.loading;
-  protected readonly pageContextService = inject(PageContextService);
-  protected readonly groupContextService = inject(GroupContextService);
-  protected readonly router = inject(Router);
-
-  protected activeGroupId = this.groupContextService.activeGroupId;
+  /** El id lo hereda del detalle del grupo, que puede no ser el de trabajo. */
+  readonly id = input.required<string>();
 
   protected readonly categories = this.categoriesService.categories;
 
-  protected readonly filter = signal<CategoryFilter>('active');
-
   protected readonly creatingStarters = signal(false);
+
+  protected readonly showArchived = signal(false);
 
   // Mismo corte que en cuentas: gestionarlas exige owner o admin, consultarlas
   // está abierto a cualquier rol.
   protected readonly canManage = computed(() =>
-    canManageGroupData(this.groupContextService.activeRole()),
+    canManageGroupData(
+      roleInGroup(
+        this.accountGroupsService.groups().find((group) => group.id === this.id()),
+        this.authService.currentUser()?.id,
+      ),
+    ),
   );
 
   // Sobre la lista entera, archivadas incluidas: una «Vivienda» archivada
   // sigue siendo la misma categoría, y volver a crearla la duplicaría.
   protected readonly pendingStarters = computed(() => pendingStarterCategories(this.categories()));
 
-  // Solo en las activas: las sugeridas nacen activas, y ofrecerlas desde la
-  // lista de archivadas sería crear en un sitio lo que no se ve en él. Y solo
-  // mientras quede algo por crear, con lo que el botón desaparece solo en
-  // cuanto el paquete está puesto; en marcha se queda para no dejar el spinner
-  // a medias cuando la última raíz ya está creada.
+  // Las sugeridas nacen activas. Solo se ofrecen mientras quede alguna, con lo
+  // que el botón desaparece en cuanto el paquete está completo; durante el
+  // alta se mantiene para que el spinner no desaparezca a mitad de operación.
   protected readonly canOfferStarters = computed(
-    () =>
-      this.canManage() &&
-      this.filter() === 'active' &&
-      (this.creatingStarters() || this.pendingStarters().length > 0),
+    () => this.canManage() && (this.creatingStarters() || this.pendingStarters().length > 0),
   );
 
-  protected readonly visibleCategories = computed(() => {
-    const wantActive = this.filter() === 'active';
-    return this.categories().filter((category) => category.is_active === wantActive);
-  });
+  protected readonly activeCategories = computed(() =>
+    this.categories().filter((category) => category.is_active),
+  );
+
+  protected readonly archivedCategories = computed(() =>
+    this.categories().filter((category) => !category.is_active),
+  );
 
   // Categorías cuyo archivado/desarchivado dejaría el árbol incoherente. Se
   // decide aquí porque hace falta ver la lista entera, no solo la del filtro.
@@ -109,29 +96,7 @@ export class Categories {
 
   constructor() {
     effect(() => {
-      const groupId = this.activeGroupId();
-      if (!groupId) {
-        this.router.navigateByUrl('grupos');
-        return;
-      }
-      this.categoriesService.getCategories(groupId).subscribe();
-    });
-    this.pageContextService.setTitle('Categorías');
-    effect(() => {
-      this.pageContextService.setAction(
-        this.canManage() ? { onClick: () => this.openCreateCategoryForm(), icon: 'add' } : null,
-      );
-    });
-  }
-
-  openCreateCategoryForm(): void {
-    const groupId = this.activeGroupId();
-    if (!groupId) return;
-    this.bottomSheet.open<CreateCategoryForm, CreateCategoryFormData>(CreateCategoryForm, {
-      data: {
-        groupId,
-        rootCategories: this.categories().filter((c) => c.parent_id === null),
-      },
+      this.categoriesService.getCategories(this.id()).subscribe();
     });
   }
 
@@ -147,7 +112,7 @@ export class Categories {
   }
 
   createStarterCategories(): void {
-    const groupId = this.activeGroupId();
+    const groupId = this.id();
     // Solo las que faltan, así que repetir la operación tras un fallo a medias
     // termina el paquete en vez de duplicar lo que ya se creó.
     const pending = this.pendingStarters();
