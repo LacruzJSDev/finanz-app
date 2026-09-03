@@ -7,17 +7,13 @@
 - Never modify `../api`, the API remote reference, or backend configuration.
 - Do not edit `src/app/api/` manually. Regenerate it only with `npm run generate:api` when the API contract changes.
 
-## Working Model
+## Model Selection
 
-- Use one primary agent for implementation. Do not delegate by default.
-- Use free models for exploration, documentation lookup, and narrow mechanical work.
-- Use Luna for normal implementation.
-- Do not use Fast unless the user explicitly requests it.
-- Escalate to Terra or another more expensive model only when the user requests it or the current model reaches a genuine blocker.
-- Reuse findings already obtained in the current task. Do not rediscover unchanged information.
-- Read only the minimum context required to make the next safe decision.
-- A concise user request is sufficient for a small change.
-- Create or maintain SDD documents only when they provide durable value for a multi-step feature or lasting decision.
+- Use the free model for exploration, documentation lookup, and mechanical repository inspection.
+- Use Luna for small, well-bounded implementation tasks with an established pattern and explicit scope.
+- Use Terra for feature-level implementation, SDD execution, cross-layer changes, architectural integration, or work requiring substantial repository context.
+- Use Sol only for genuinely difficult problems or when Terra is blocked.
+- Fast variants are opt-in only.
 
 ## Context Budget
 
@@ -194,3 +190,10 @@
 - Stop on a repeated blocker, materially ambiguous scope, required permission expansion, or untrustworthy validation.
 - Report evidence, remaining work, cost or risk, and concise options.
 - Wait for explicit user direction before repeating the blocker, relaxing permissions, or escalating to a more expensive model.
+
+## Repository Integration
+
+- Existing repository patterns are implementation constraints even when the SDD does not repeat them.
+- Before creating a new component, service, helper, abstraction, or UI pattern, inspect the closest existing equivalent and reuse or extend it when appropriate.
+- Prefer established naming, file placement, page composition, state handling, and UX patterns over introducing parallel structures.
+- A concise SDD defines required behavior; it does not grant permission to invent implementation conventions.
