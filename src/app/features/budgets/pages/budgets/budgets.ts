@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { Router } from '@angular/router';
 import { canManageGroupData } from '../../../../core/account-groups/permissions';
@@ -10,6 +10,8 @@ import { PageContextService } from '../../../../core/ui/page-context.service';
 import { EmptyState } from '../../../../shared/ui/empty-state/empty-state';
 import { PageContent } from '../../../../shared/ui/page-content/page-content';
 import { PageLoader } from '../../../../shared/ui/page-loader/page-loader';
+import { dateToIso, startOfMonth } from '../../../../shared/date/date';
+import { MonthStepper } from '../../../account-stats';
 import { BudgetCard } from '../../components/budget-card/budget-card';
 import { BudgetForm, BudgetFormData } from '../../components/budget-form/budget-form';
 import {
@@ -19,7 +21,7 @@ import {
 
 @Component({
   selector: 'app-budgets',
-  imports: [BudgetCard, EmptyState, PageContent, PageLoader],
+  imports: [BudgetCard, EmptyState, MonthStepper, PageContent, PageLoader],
   templateUrl: './budgets.html',
   styleUrl: './budgets.scss',
   host: { class: 'page-container' },
@@ -34,6 +36,7 @@ export class Budgets {
   protected readonly budgets = this.budgetsService.budgets;
   protected readonly loading = this.budgetsService.loading;
   protected readonly activeGroupId = this.groupContextService.activeGroupId;
+  protected readonly month = signal(startOfMonth(new Date()));
   protected readonly canManage = computed(() =>
     canManageGroupData(this.groupContextService.activeRole()),
   );
@@ -49,7 +52,7 @@ export class Budgets {
         this.router.navigateByUrl('grupos');
         return;
       }
-      this.budgetsService.getBudgets(groupId).subscribe();
+      this.budgetsService.getBudgets(groupId, dateToIso(this.month())).subscribe();
       this.categoriesService.getCategories(groupId).subscribe();
     });
     effect(() =>
@@ -68,6 +71,7 @@ export class Budgets {
         categories: this.activeCategories(),
         budgets: this.budgets(),
         categoryId: budget?.category_id,
+        month: dateToIso(this.month()),
       },
     });
   }
@@ -76,7 +80,12 @@ export class Budgets {
     const groupId = this.activeGroupId();
     if (!groupId || !this.canManage()) return;
     this.bottomSheet.open<DeleteBudgetForm, DeleteBudgetFormData>(DeleteBudgetForm, {
-      data: { groupId, categoryId: budget.category_id, categoryName: budget.category_name },
+      data: {
+        groupId,
+        categoryId: budget.category_id,
+        categoryName: budget.category_name,
+        month: dateToIso(this.month()),
+      },
     });
   }
 }

@@ -33,6 +33,12 @@ export const GROUP_ACCOUNTS_ROUTES: Routes = [
         loadComponent: () => import('../categories').then((m) => m.Categories),
         canActivate: [authGuard],
       },
+      {
+        path: 'analisis',
+        loadComponent: () =>
+          import('./pages/group-analysis/group-analysis').then((m) => m.GroupAnalysis),
+        canActivate: [authGuard],
+      },
     ],
   },
 ];

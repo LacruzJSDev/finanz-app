@@ -92,11 +92,13 @@ export class AccountGroupDetail {
         return;
       }
       this.pageContextService.setAction(
-        this.section() === 'invitaciones'
-          ? { onClick: () => this.createInvitation(), icon: 'add' }
-          : this.section() === 'categorias'
-            ? { onClick: () => this.createCategory(), icon: 'add' }
-            : { onClick: () => this.updateAccountGroup(), icon: 'edit' },
+        this.section() === 'analisis'
+          ? null
+          : this.section() === 'invitaciones'
+            ? { onClick: () => this.createInvitation(), icon: 'add' }
+            : this.section() === 'categorias'
+              ? { onClick: () => this.createCategory(), icon: 'add' }
+              : { onClick: () => this.updateAccountGroup(), icon: 'edit' },
       );
     });
   }

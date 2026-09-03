@@ -8,6 +8,7 @@ export interface DeleteBudgetFormData {
   groupId: string;
   categoryId: string;
   categoryName: string;
+  month: string;
 }
 
 @Component({
@@ -27,13 +28,15 @@ export class DeleteBudgetForm {
     if (this.submitting()) return;
     this.submitting.set(true);
     this.bottomSheetRef.disableClose = true;
-    this.budgetsService.deleteBudget(this.data.groupId, this.data.categoryId).subscribe({
-      next: () => this.bottomSheetRef.dismiss(),
-      error: () => {
-        this.submitting.set(false);
-        this.bottomSheetRef.disableClose = false;
-      },
-    });
+    this.budgetsService
+      .deleteBudget(this.data.groupId, this.data.categoryId, this.data.month)
+      .subscribe({
+        next: () => this.bottomSheetRef.dismiss(),
+        error: () => {
+          this.submitting.set(false);
+          this.bottomSheetRef.disableClose = false;
+        },
+      });
   }
 
   cancel(): void {

@@ -15,7 +15,7 @@ Active-group categories need a view for defining and monitoring monthly spending
 
 ## Non-goals
 
-- Show budget history.
+- Show budget-configuration history.
 - Create budgets for archived categories or edit categories.
 - Add budgets to the dashboard or account details.
 - Reproduce server financial calculations in the client.
@@ -38,4 +38,4 @@ Active-group categories need a view for defining and monitoring monthly spending
 
 ## Open Questions
 
-- Budget history presentation is not defined and remains out of scope under D001.
+- Budget-configuration history presentation is not defined and remains out of scope under D001.

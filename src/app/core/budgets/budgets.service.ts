@@ -28,17 +28,17 @@ export class BudgetsService {
     );
   }
 
-  setBudget(groupId: string, categoryId: string, payload: SetBudgetRequest) {
+  setBudget(groupId: string, categoryId: string, payload: SetBudgetRequest, month?: string) {
     return this.api.setBudgetApiV1BudgetsCategoryIdPut(categoryId, payload).pipe(
       // La respuesta de escritura no trae progreso ni nombre de categoría. Se
       // vuelve a pedir la representación que pinta la pantalla tras confirmarla.
-      concatMap(() => this.getBudgets(groupId)),
+      concatMap(() => this.getBudgets(groupId, month)),
     );
   }
 
-  deleteBudget(groupId: string, categoryId: string) {
+  deleteBudget(groupId: string, categoryId: string, month?: string) {
     return this.api
       .deleteBudgetApiV1BudgetsCategoryIdDelete(categoryId)
-      .pipe(concatMap(() => this.getBudgets(groupId)));
+      .pipe(concatMap(() => this.getBudgets(groupId, month)));
   }
 }

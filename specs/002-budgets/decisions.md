@@ -1,8 +1,8 @@
 # Decisions: 002 - Budgets
 
-## D001: First delivery shows current monthly budgets only
+## D001: Initial budget delivery excludes history
 
-**Decision:** Show current budgets and monthly progress only; history is excluded until its interaction and presentation are defined.
+**Decision:** The initial budget feature shows current-month progress only. `003-monthly-statistics` adds selected-month progress inspection; budget-configuration history remains excluded until its interaction and presentation are defined.
 
 **Rationale:** The history product experience has not been decided.
 

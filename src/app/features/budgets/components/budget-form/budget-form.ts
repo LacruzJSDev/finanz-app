@@ -18,6 +18,7 @@ export interface BudgetFormData {
   categories: CategoryRead[];
   budgets: BudgetProgressRead[];
   categoryId?: string;
+  month: string;
 }
 
 @Component({
@@ -68,7 +69,7 @@ export class BudgetForm {
     this.bottomSheetRef.disableClose = true;
     const { categoryId, amount } = this.form.getRawValue();
     this.budgetsService
-      .setBudget(this.data.groupId, categoryId, { amount: eurosToCents(amount) })
+      .setBudget(this.data.groupId, categoryId, { amount: eurosToCents(amount) }, this.data.month)
       .subscribe({
         next: () => this.bottomSheetRef.dismiss(),
         error: (error) => this.handleError(error),

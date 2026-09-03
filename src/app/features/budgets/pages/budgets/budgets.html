@@ -1,4 +1,6 @@
 <app-page-content>
+  <app-month-stepper [month]="month()" (monthChange)="month.set($event)" />
+
   @if (loading()) {
     <app-page-loader />
   } @else if (budgets().length) {

@@ -51,6 +51,10 @@ export class AccountGroups {
     this.router.navigateByUrl(`/grupos/${groupId}`);
   }
 
+  showAnalysis(groupId: string): void {
+    this.router.navigateByUrl(`/grupos/${groupId}/analisis`);
+  }
+
   openCreateAccountGroupForm(): void {
     this.bottomSheet.open<CreateAccountGroupForm>(CreateAccountGroupForm);
   }

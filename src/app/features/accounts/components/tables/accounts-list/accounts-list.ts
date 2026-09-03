@@ -17,4 +17,5 @@ export class AccountsList {
 
   readonly editClick = output<AccountRead>();
   readonly viewClick = output<AccountRead>();
+  readonly analysisClick = output<AccountRead>();
 }
