@@ -1,0 +1,39 @@
+<h2>{{ selectedBudget() ? 'Editar presupuesto' : 'Nuevo presupuesto' }}</h2>
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <div class="grouped-card">
+    <mat-form-field>
+      <mat-label>Categoría</mat-label>
+      <mat-select formControlName="categoryId" (selectionChange)="categoryChanged()">
+        <mat-select-trigger>
+          <app-color-icon [icon]="selectedCategory()?.icon" [color]="selectedCategory()?.color" />
+          {{ selectedCategory()?.name ?? 'Elige una categoría' }}
+        </mat-select-trigger>
+        @for (category of data.categories; track category.id) {
+          <mat-option [value]="category.id">
+            <app-color-icon [icon]="category.icon" [color]="category.color" />
+            {{ category.name }}
+          </mat-option>
+        }
+      </mat-select>
+      <mat-error>{{
+        form.controls.categoryId.getError('server') ?? 'Elige una categoría.'
+      }}</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Límite mensual</mat-label>
+      <input matInput type="number" min="0.01" step="0.01" formControlName="amount" />
+      <span matTextSuffix>EUR</span>
+      <mat-error>{{
+        form.controls.amount.getError('server') ?? 'Indica un importe mayor que cero.'
+      }}</mat-error>
+    </mat-form-field>
+  </div>
+  <p class="form-error">{{ formError() }}</p>
+  <button matButton="filled" type="submit" [disabled]="submitting()">
+    @if (submitting()) {
+      <mat-spinner diameter="20" />
+    } @else {
+      Guardar
+    }
+  </button>
+</form>

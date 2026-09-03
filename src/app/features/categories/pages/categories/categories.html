@@ -1,21 +1,24 @@
-<div class="segmented-track">
-  <mat-button-toggle-group [value]="filter()" (change)="filter.set($event.value)">
-    <mat-button-toggle value="active">Activas</mat-button-toggle>
-    <mat-button-toggle value="archived">Archivadas</mat-button-toggle>
-  </mat-button-toggle-group>
-</div>
-
 <app-page-content>
   @if (loading()) {
     <app-page-loader />
-  } @else if (visibleCategories().length) {
-    <app-categories-list
-      [categories]="visibleCategories()"
-      [blockedIds]="blockedIds()"
-      [canManage]="canManage()"
-      (editClick)="openUpdateCategoryForm($event)"
-      (toggleActive)="toggleCategoryActive($event)"
-    />
+  } @else {
+    @if (activeCategories().length) {
+      <app-categories-list
+        [categories]="activeCategories()"
+        [blockedIds]="blockedIds()"
+        [canManage]="canManage()"
+        (editClick)="openUpdateCategoryForm($event)"
+        (toggleActive)="toggleCategoryActive($event)"
+      />
+    } @else {
+      <div class="categories-empty">
+        <app-empty-state
+          icon="category"
+          message="No hay categorías activas."
+          hint="Crea la primera con el botón +."
+        />
+      </div>
+    }
 
     @if (canOfferStarters()) {
       <app-starter-categories
@@ -24,27 +27,24 @@
         (create)="createStarterCategories()"
       />
     }
-  } @else if (filter() === 'active') {
-    <div class="categories-empty">
-      <app-empty-state
-        icon="category"
-        message="No hay categorías activas."
-        hint="Crea la primera con el botón +."
-      />
 
-      @if (canOfferStarters()) {
-        <app-starter-categories
-          [count]="pendingStarters().length"
-          [creating]="creatingStarters()"
-          (create)="createStarterCategories()"
+    @if (archivedCategories().length; as archivedCount) {
+      <button type="button" class="archived-toggle" (click)="showArchived.set(!showArchived())">
+        <mat-icon>{{ showArchived() ? 'expand_less' : 'expand_more' }}</mat-icon>
+        {{
+          archivedCount === 1 ? '1 categoría archivada' : archivedCount + ' categorías archivadas'
+        }}
+      </button>
+
+      @if (showArchived()) {
+        <app-categories-list
+          [categories]="archivedCategories()"
+          [blockedIds]="blockedIds()"
+          [canManage]="canManage()"
+          (editClick)="openUpdateCategoryForm($event)"
+          (toggleActive)="toggleCategoryActive($event)"
         />
       }
-    </div>
-  } @else {
-    <app-empty-state
-      icon="category"
-      message="No hay categorías archivadas."
-      hint="Las categorías que archives aparecerán aquí."
-    />
+    }
   }
 </app-page-content>

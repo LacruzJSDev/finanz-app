@@ -1,0 +1,24 @@
+<app-page-content>
+  @if (loading()) {
+    <app-page-loader />
+  } @else if (budgets().length) {
+    <section class="budgets-list" aria-label="Presupuestos vigentes">
+      @for (budget of budgets(); track budget.category_id) {
+        <app-budget-card
+          [budget]="budget"
+          [canManage]="canManage()"
+          (editClick)="openBudgetForm($event)"
+          (deleteClick)="deleteBudget($event)"
+        />
+      }
+    </section>
+  } @else {
+    <app-empty-state
+      icon="savings"
+      message="No hay presupuestos vigentes."
+      [hint]="
+        canManage() ? 'Crea el primero con el botón +.' : 'Un administrador puede crear el primero.'
+      "
+    />
+  }
+</app-page-content>
