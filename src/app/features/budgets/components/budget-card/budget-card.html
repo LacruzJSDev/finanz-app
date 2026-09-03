@@ -1,0 +1,24 @@
+<mat-card appearance="outlined">
+  <app-color-icon icon="savings" color="var(--mat-sys-error)" [size]="40" />
+  <div class="budget-info">
+    <span class="budget-title">{{ budget().category_name }}</span>
+    <span class="budget-meta"
+      >{{ budget().spent | centsToEuros }} de {{ budget().amount | centsToEuros }}</span
+    >
+    <mat-progress-bar [value]="progress()" [class.budget-progress--over]="isOverBudget()" />
+  </div>
+  <span class="budget-percentage">{{ budget().percentage }}%</span>
+  @if (canManage()) {
+    <button matIconButton (click)="editClick.emit(budget())" aria-label="Editar presupuesto">
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button
+      matIconButton
+      aria-label="Eliminar presupuesto"
+      class="budget-delete"
+      (click)="deleteClick.emit(budget())"
+    >
+      <mat-icon>delete</mat-icon>
+    </button>
+  }
+</mat-card>

@@ -16,4 +16,5 @@ export class AccountGroupsList {
   readonly activeGroupId = input.required<string | null>();
 
   readonly showClick = output<GroupRead>();
+  readonly analysisClick = output<GroupRead>();
 }

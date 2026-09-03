@@ -9,4 +9,12 @@
   @if (isWorkingGroup()) {
     <span class="group-context">En uso</span>
   }
+
+  <button
+    matIconButton
+    [attr.aria-label]="'Ver análisis de ' + accountGroup().name"
+    (click)="showAnalysis($event)"
+  >
+    <mat-icon>query_stats</mat-icon>
+  </button>
 </mat-card>

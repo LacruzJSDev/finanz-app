@@ -14,6 +14,8 @@ import {
   UpdateAccountGroupFormData,
 } from '../../components/forms/update-account-group-form/update-account-group-form';
 import { CreateInvitationForm, CreateInvitationFormData } from '../../../invitations';
+import { CategoriesService } from '../../../../core/categories/categories.service';
+import { CreateCategoryForm, CreateCategoryFormData } from '../../../categories';
 
 @Component({
   selector: 'app-account-group-detail',
@@ -27,6 +29,7 @@ export class AccountGroupDetail {
   protected readonly pageContextService = inject(PageContextService);
   private readonly groupContextService = inject(GroupContextService);
   private readonly authService = inject(AuthService);
+  private readonly categoriesService = inject(CategoriesService);
   protected readonly router = inject(Router);
   protected readonly route = inject(ActivatedRoute);
 
@@ -89,9 +92,13 @@ export class AccountGroupDetail {
         return;
       }
       this.pageContextService.setAction(
-        this.section() === 'invitaciones'
-          ? { onClick: () => this.createInvitation(), icon: 'add' }
-          : { onClick: () => this.updateAccountGroup(), icon: 'edit' },
+        this.section() === 'analisis'
+          ? null
+          : this.section() === 'invitaciones'
+            ? { onClick: () => this.createInvitation(), icon: 'add' }
+            : this.section() === 'categorias'
+              ? { onClick: () => this.createCategory(), icon: 'add' }
+              : { onClick: () => this.updateAccountGroup(), icon: 'edit' },
       );
     });
   }
@@ -99,6 +106,17 @@ export class AccountGroupDetail {
   createInvitation(): void {
     this.bottomSheet.open<CreateInvitationForm, CreateInvitationFormData>(CreateInvitationForm, {
       data: { groupId: this.id() },
+    });
+  }
+
+  createCategory(): void {
+    this.bottomSheet.open<CreateCategoryForm, CreateCategoryFormData>(CreateCategoryForm, {
+      data: {
+        groupId: this.id(),
+        rootCategories: this.categoriesService
+          .categories()
+          .filter((category) => category.parent_id === null),
+      },
     });
   }
 

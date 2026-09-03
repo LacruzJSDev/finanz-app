@@ -1,4 +1,54 @@
 <app-page-content>
+  <div class="transaction-filters">
+    <mat-form-field subscriptSizing="dynamic">
+      <mat-label>Categoría</mat-label>
+      <mat-select [value]="categoryFilter()" (selectionChange)="changeCategory($event.value)">
+        <mat-select-trigger>
+          @if (selectedFilterCategory(); as category) {
+            <app-color-icon [icon]="category.icon" [color]="category.color" />
+            {{ category.name }}
+          } @else if (categoryFilter() === 'uncategorized') {
+            <app-color-icon />
+            Sin categoría
+          } @else {
+            <app-color-icon icon="category" [color]="null" />
+            Todas
+          }
+        </mat-select-trigger>
+        <mat-option value="all">
+          <app-color-icon icon="category" [color]="null" />
+          Todas
+        </mat-option>
+        <mat-option value="uncategorized">
+          <app-color-icon />
+          Sin categoría
+        </mat-option>
+        @for (category of rootCategories(); track category.id) {
+          <mat-option [value]="category.id">
+            <app-color-icon [icon]="category.icon" [color]="category.color" />
+            {{ category.name }}
+          </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field subscriptSizing="dynamic">
+      <mat-label>Buscar por concepto</mat-label>
+      <input
+        matInput
+        type="search"
+        [value]="search()"
+        (input)="changeSearch($event)"
+        autocomplete="off"
+      />
+      @if (search()) {
+        <button matIconButton matSuffix aria-label="Limpiar búsqueda" (click)="search.set('')">
+          <mat-icon>close</mat-icon>
+        </button>
+      }
+    </mat-form-field>
+  </div>
+
   @if (loading()) {
     <app-page-loader />
   } @else if (transactions().length) {
@@ -19,10 +69,21 @@
       }
     </div>
   } @else {
-    <app-empty-state
-      icon="receipt_long"
-      message="Esta cuenta no tiene movimientos."
-      hint="Añade el primero con el botón +."
-    />
+    @if (hasFilters()) {
+      <div class="filtered-empty">
+        <app-empty-state
+          icon="search_off"
+          message="No hay movimientos que coincidan."
+          hint="Prueba a cambiar o limpiar los filtros."
+        />
+        <button matButton="tonal" (click)="clearFilters()">Limpiar filtros</button>
+      </div>
+    } @else {
+      <app-empty-state
+        icon="receipt_long"
+        message="Esta cuenta no tiene movimientos."
+        hint="Añade el primero con el botón +."
+      />
+    }
   }
 </app-page-content>

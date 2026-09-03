@@ -88,4 +88,8 @@ export class Accounts {
   showAccountDetail(accountId: string) {
     this.router.navigateByUrl(`/cuentas/${accountId}`);
   }
+
+  showAnalysis(accountId: string): void {
+    this.router.navigateByUrl(`/cuentas/${accountId}/analisis`);
+  }
 }

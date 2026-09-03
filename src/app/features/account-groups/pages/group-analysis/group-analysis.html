@@ -1,0 +1,21 @@
+<app-page-content>
+  <app-month-stepper [month]="month()" (monthChange)="month.set($event)" />
+
+  @if (loading()) {
+    <app-page-loader />
+  } @else if (hasData()) {
+    <div class="stats-tiles">
+      <app-stat-tile label="Gastado" [value]="spent()" tone="negative" />
+      <app-stat-tile label="Ingresado" [value]="earned()" tone="positive" />
+    </div>
+
+    <app-category-breakdown [summary]="summary()" kind="expense" />
+    <app-category-breakdown [summary]="summary()" kind="income" />
+  } @else {
+    <app-empty-state
+      icon="query_stats"
+      message="Sin movimientos en este mes."
+      hint="Prueba con otro mes, o anota el primero."
+    />
+  }
+</app-page-content>

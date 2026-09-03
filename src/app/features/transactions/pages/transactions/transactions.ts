@@ -1,5 +1,10 @@
-import { Component, computed, effect, inject, input } from '@angular/core';
-import { TransactionsService } from '../../../../core/transactions/transactions.service';
+import { Component, computed, effect, inject, input, signal } from '@angular/core';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs';
+import {
+  TransactionListQuery,
+  TransactionsService,
+} from '../../../../core/transactions/transactions.service';
 import { CategoriesService } from '../../../../core/categories/categories.service';
 import { PageContextService } from '../../../../core/ui/page-context.service';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
@@ -23,13 +28,27 @@ import { PageLoader } from '../../../../shared/ui/page-loader/page-loader';
 import { EmptyState } from '../../../../shared/ui/empty-state/empty-state';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AccountsService } from '../../../../core/accounts/accounts.service';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { ColorIcon } from '../../../../shared/ui/color-icon/color-icon';
+
+type CategoryFilter = 'all' | 'uncategorized' | string;
 
 @Component({
   selector: 'app-transactions',
   imports: [
     TransactionsList,
     InfiniteScroll,
+    ColorIcon,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
     MatProgressSpinnerModule,
+    MatSelectModule,
     PageContent,
     PageLoader,
     EmptyState,
@@ -53,6 +72,19 @@ export class Transactions {
   protected readonly selectableCategories = computed(() =>
     this.categories().filter((category) => category.is_active),
   );
+  protected readonly rootCategories = computed(() =>
+    this.selectableCategories().filter((category) => category.parent_id === null),
+  );
+  protected readonly categoryFilter = signal<CategoryFilter>('all');
+  protected readonly search = signal('');
+  private readonly settledSearch = toSignal(
+    toObservable(this.search).pipe(
+      map((value) => value.trim()),
+      debounceTime(300),
+      distinctUntilChanged(),
+    ),
+    { initialValue: '' },
+  );
 
   protected readonly limit = 20;
 
@@ -67,10 +99,32 @@ export class Transactions {
   // El armazón carga la cuenta; de ella sale el grupo del que cuelgan las
   // categorías y las cuentas hermanas. Pasa por un computed para no recargarlas
   // cada vez que se refresca el saldo: solo cuando cambia el grupo de verdad.
-  private readonly groupId = computed(() => this.account()?.group_id ?? null);
+  private readonly groupId = computed(() => {
+    const account = this.account();
+    return account?.id === this.id() ? account.group_id : null;
+  });
+  private readonly transactionQuery = computed<TransactionListQuery | null>(() => {
+    const groupId = this.groupId();
+    if (!groupId) return null;
+
+    const category = this.categoryFilter();
+    return {
+      groupId,
+      accountId: this.id(),
+      categoryId: category === 'all' || category === 'uncategorized' ? undefined : category,
+      uncategorized: category === 'uncategorized' ? true : undefined,
+      q: this.settledSearch() || undefined,
+    };
+  });
+  protected readonly selectedFilterCategory = computed(() =>
+    this.rootCategories().find((category) => category.id === this.categoryFilter()),
+  );
 
   protected readonly transactions = this.transactionsService.transactions;
   protected readonly total = this.transactionsService.total;
+  protected readonly hasFilters = computed(
+    () => this.categoryFilter() !== 'all' || this.settledSearch().length > 0,
+  );
 
   // Lo que ya hay en pantalla es el offset de lo siguiente: no hace falta
   // llevar la cuenta aparte, y así no se puede desincronizar.
@@ -80,9 +134,11 @@ export class Transactions {
   );
 
   constructor() {
-    // Cambiar de cuenta empieza la lista de cero. Lo demás lo pide el scroll.
+    // Cambiar de cuenta o de filtro empieza la lista de cero. Lo demás lo pide el scroll.
     effect(() => {
-      this.transactionsService.getTransactions(this.id(), this.limit, 0).subscribe();
+      const query = this.transactionQuery();
+      if (!query) return;
+      this.transactionsService.getTransactions(query, this.limit, 0).subscribe();
     });
     effect(() => {
       const groupId = this.groupId();
@@ -102,9 +158,24 @@ export class Transactions {
 
   loadMore(): void {
     if (!this.canLoadMore()) return;
+    const query = this.transactionQuery();
+    if (!query) return;
     this.transactionsService
-      .getTransactions(this.id(), this.limit, this.transactions().length)
+      .getTransactions(query, this.limit, this.transactions().length)
       .subscribe();
+  }
+
+  changeCategory(value: CategoryFilter): void {
+    this.categoryFilter.set(value);
+  }
+
+  changeSearch(event: Event): void {
+    this.search.set((event.target as HTMLInputElement).value);
+  }
+
+  clearFilters(): void {
+    this.categoryFilter.set('all');
+    this.search.set('');
   }
 
   openCreateTransactionForm(): void {
