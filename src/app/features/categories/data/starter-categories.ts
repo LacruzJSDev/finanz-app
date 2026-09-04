@@ -1,5 +1,5 @@
-import { ColorName } from '../../shared/colors/colors';
-import { IconName } from '../../shared/icons/icons';
+import { ColorName } from '../../../shared/colors/colors';
+import { IconName } from '../../../shared/icons/icons';
 
 /**
  * Tipada contra los catálogos a propósito: un icono o un color que no

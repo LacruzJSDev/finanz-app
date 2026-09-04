@@ -1,0 +1,24 @@
+<mat-form-field>
+  <mat-label>{{ label() }}</mat-label>
+  <mat-select [formControl]="control()">
+    <mat-select-trigger>
+      <app-color-icon [icon]="selectedCategory()?.icon" [color]="selectedCategory()?.color" />
+      {{ selectedCategory()?.name ?? emptyLabel() }}
+    </mat-select-trigger>
+
+    <mat-option value="">
+      <app-color-icon />
+      {{ emptyLabel() }}
+    </mat-option>
+
+    @for (category of categories(); track category.id) {
+      <mat-option [value]="category.id">
+        <app-color-icon [icon]="category.icon" [color]="category.color" />
+        {{ category.name }}
+      </mat-option>
+    }
+  </mat-select>
+  @if (control().invalid) {
+    <mat-error>{{ control().getError('server') ?? 'La categoría es obligatoria.' }}</mat-error>
+  }
+</mat-form-field>

@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
@@ -20,8 +20,8 @@ import {
 } from '../../../../../core/models';
 import { centsToEuros, eurosToCents } from '../../../../../shared/money/money';
 import { dateToIso, isoToDate } from '../../../../../shared/date/date';
-import { ColorIcon } from '../../../../../shared/ui/color-icon/color-icon';
 import { AmountInput, ToggleTransactionType } from '../../../../transactions';
+import { CategorySelect } from '../../../../categories';
 import { FrequencyUnitLabelPipe } from '../../../pipes/frequency-unit-label.pipe';
 
 export interface UpdatePaymentPlanFormData {
@@ -34,7 +34,7 @@ export interface UpdatePaymentPlanFormData {
   selector: 'app-update-payment-plan-form',
   imports: [
     ReactiveFormsModule,
-    ColorIcon,
+    CategorySelect,
     AmountInput,
     ToggleTransactionType,
     FrequencyUnitLabelPipe,
@@ -87,14 +87,6 @@ export class UpdatePaymentPlanForm {
   protected readonly recurring = toSignal(this.form.controls.is_recurring.valueChanges, {
     initialValue: this.form.controls.is_recurring.value,
   });
-
-  private readonly categoryId = toSignal(this.form.controls.category_id.valueChanges, {
-    initialValue: this.form.controls.category_id.value,
-  });
-
-  protected readonly selectedCategory = computed(() =>
-    this.data.categories.find((category) => category.id === this.categoryId()),
-  );
 
   submit(): void {
     if (this.form.invalid || this.submitting()) return;

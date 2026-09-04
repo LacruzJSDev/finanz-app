@@ -15,7 +15,7 @@ import { PageContent } from '../../../../shared/ui/page-content/page-content';
 import { PageLoader } from '../../../../shared/ui/page-loader/page-loader';
 import { EmptyState } from '../../../../shared/ui/empty-state/empty-state';
 import { StarterCategories } from '../../components/starter-categories/starter-categories';
-import { pendingStarterCategories } from '../../starter-categories';
+import { pendingStarterCategories } from '../../data/starter-categories';
 
 @Component({
   selector: 'app-categories',

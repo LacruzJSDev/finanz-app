@@ -26,25 +26,7 @@
     </mat-form-field>
 
     @if (!isTransfer) {
-      <mat-form-field>
-        <mat-label>Categoría</mat-label>
-        <mat-select formControlName="category_id">
-          <mat-select-trigger>
-            <app-color-icon [icon]="selectedCategory()?.icon" [color]="selectedCategory()?.color" />
-            {{ selectedCategory()?.name ?? 'Sin categoría' }}
-          </mat-select-trigger>
-          <mat-option value="">
-            <app-color-icon />
-            Sin categoría
-          </mat-option>
-          @for (category of data.categories; track category.id) {
-            <mat-option [value]="category.id">
-              <app-color-icon [icon]="category.icon" [color]="category.color" />
-              {{ category.name }}
-            </mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
+      <app-category-select [control]="form.controls.category_id" [categories]="data.categories" />
     }
   </div>
 

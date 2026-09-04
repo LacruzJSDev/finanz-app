@@ -1,6 +1,7 @@
 // Superficie pública mínima para que el detalle de grupo pueda enrutar la
 // sección y abrir la misma hoja de alta que usa esa sección.
 export { Categories } from './pages/categories/categories';
+export { CategorySelect } from './components/category-select/category-select';
 export {
   CreateCategoryForm,
   type CreateCategoryFormData,

@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
@@ -17,7 +17,7 @@ import {
   CreateTransactionRequest,
   TransactionTypeEnum,
 } from '../../../../../core/models';
-import { ColorIcon } from '../../../../../shared/ui/color-icon/color-icon';
+import { CategorySelect } from '../../../../categories';
 import { AmountInput } from '../../amount-input/amount-input';
 import { ToggleTransactionType } from '../../toggle-transaction-type/toggle-transaction-type';
 import { applyServerErrors } from '../../../../../core/forms/apply-server-errors';
@@ -32,7 +32,7 @@ export interface CreateTransactionFormData {
   selector: 'app-create-transaction-form',
   imports: [
     ReactiveFormsModule,
-    ColorIcon,
+    CategorySelect,
     AmountInput,
     ToggleTransactionType,
     MatFormFieldModule,
@@ -67,14 +67,6 @@ export class CreateTransactionForm {
   protected readonly type = toSignal(this.form.controls.type.valueChanges, {
     initialValue: this.form.controls.type.value,
   });
-
-  protected readonly categoryId = toSignal(this.form.controls.category_id.valueChanges, {
-    initialValue: this.form.controls.category_id.value,
-  });
-
-  protected readonly selectedCategory = computed(() =>
-    this.data.categories.find((c) => c.id === this.categoryId()),
-  );
 
   submit(): void {
     if (this.form.invalid || this.submitting()) return;
