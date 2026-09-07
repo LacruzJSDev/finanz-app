@@ -1,6 +1,6 @@
 <mat-form-field>
   <mat-label>{{ label() }}</mat-label>
-  <mat-select [formControl]="control()">
+  <mat-select panelClass="app-select-panel" [formControl]="control()">
     <mat-select-trigger>
       <app-color-icon [icon]="selectedCategory()?.icon" [color]="selectedCategory()?.color" />
       {{ selectedCategory()?.name ?? emptyLabel() }}

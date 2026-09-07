@@ -15,6 +15,11 @@
       border-bottom: 1px solid var(--mat-sys-outline-variant);
     }
   }
+
+  &:focus-within {
+    border-color: var(--mat-sys-primary);
+    box-shadow: 0 0 0 1px var(--mat-sys-primary);
+  }
 }
 
 // Dos campos que se leen como una frase —«cada 2 semanas»— y por eso comparten

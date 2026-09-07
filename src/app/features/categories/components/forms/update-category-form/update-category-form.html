@@ -17,7 +17,7 @@
     @if (!data.hasChildren) {
       <mat-form-field>
         <mat-label>Categoría padre</mat-label>
-        <mat-select formControlName="parent_id">
+        <mat-select panelClass="app-select-panel" formControlName="parent_id">
           <mat-option value="">Categoría raíz (sin padre)</mat-option>
           @for (category of data.rootCategories; track category.id) {
             <mat-option [value]="category.id">{{ category.name }}</mat-option>

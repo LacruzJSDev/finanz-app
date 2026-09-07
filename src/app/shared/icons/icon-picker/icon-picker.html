@@ -1,6 +1,10 @@
 <mat-form-field>
   <mat-label>Icono</mat-label>
-  <mat-select [value]="selected()" (selectionChange)="iconChange.emit($event.value)">
+  <mat-select
+    panelClass="app-select-panel"
+    [value]="selected()"
+    (selectionChange)="iconChange.emit($event.value)"
+  >
     <mat-select-trigger>
       @if (selected(); as icon) {
         <app-icon-mark [icon]="icon" />

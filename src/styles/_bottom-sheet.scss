@@ -1,13 +1,17 @@
-// Material solo redondea el sheet a partir del breakpoint "medium"; en móvil
-// no le pone clase de tamaño y lo deja a bordes vivos.
-.mat-bottom-sheet-container {
+.app-bottom-sheet {
+  // `panelClass` se añade al panel overlay público. El contenedor de Material
+  // hereda esta variable y el panel recorta su fondo en móvil, donde Material
+  // no aplica el radio al contenedor hasta un breakpoint mayor.
+  --mat-bottom-sheet-container-shape: var(--mat-sys-corner-extra-large);
+
+  overflow: hidden;
   border-top-left-radius: var(--mat-sys-corner-extra-large);
   border-top-right-radius: var(--mat-sys-corner-extra-large);
 }
 
 .bottom-sheet-form {
   display: block;
-  padding: 0.5rem 1rem 1rem;
+  padding: 0.5rem 1rem calc(1rem + env(safe-area-inset-bottom));
 
   // Tirador decorativo, sin gesto de arrastre.
   &::before {

@@ -1,6 +1,10 @@
 <mat-form-field>
   <mat-label>Color</mat-label>
-  <mat-select [value]="selected()" (selectionChange)="colorChange.emit($event.value)">
+  <mat-select
+    panelClass="app-select-panel"
+    [value]="selected()"
+    (selectionChange)="colorChange.emit($event.value)"
+  >
     <mat-select-trigger>
       @if (selected(); as color) {
         <app-color-mark [color]="color" />

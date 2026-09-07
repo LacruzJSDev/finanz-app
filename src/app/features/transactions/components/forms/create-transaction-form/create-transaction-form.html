@@ -28,7 +28,7 @@
     @if (type() === 'transfer') {
       <mat-form-field>
         <mat-label>Cuenta destino</mat-label>
-        <mat-select formControlName="to_account_id">
+        <mat-select panelClass="app-select-panel" formControlName="to_account_id">
           @for (account of data.otherAccounts; track account.id) {
             <mat-option [value]="account.id">{{ account.name }}</mat-option>
           }

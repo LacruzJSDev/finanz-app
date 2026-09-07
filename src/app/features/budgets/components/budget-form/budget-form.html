@@ -3,7 +3,11 @@
   <div class="grouped-card">
     <mat-form-field>
       <mat-label>Categoría</mat-label>
-      <mat-select formControlName="categoryId" (selectionChange)="categoryChanged()">
+      <mat-select
+        panelClass="app-select-panel"
+        formControlName="categoryId"
+        (selectionChange)="categoryChanged()"
+      >
         <mat-select-trigger>
           <app-color-icon [icon]="selectedCategory()?.icon" [color]="selectedCategory()?.color" />
           {{ selectedCategory()?.name ?? 'Elige una categoría' }}

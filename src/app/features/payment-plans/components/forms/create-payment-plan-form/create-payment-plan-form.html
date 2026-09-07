@@ -23,7 +23,7 @@
     @if (type() === 'transfer') {
       <mat-form-field>
         <mat-label>Cuenta destino</mat-label>
-        <mat-select formControlName="to_account_id">
+        <mat-select panelClass="app-select-panel" formControlName="to_account_id">
           @for (account of data.otherAccounts; track account.id) {
             <mat-option [value]="account.id">{{ account.name }}</mat-option>
           }
@@ -57,7 +57,7 @@
 
         <mat-form-field>
           <mat-label>Periodo</mat-label>
-          <mat-select formControlName="frequency_unit">
+          <mat-select panelClass="app-select-panel" formControlName="frequency_unit">
             @for (unit of frequencyUnits; track unit) {
               <mat-option [value]="unit">{{ unit | frequencyUnitLabel }}</mat-option>
             }

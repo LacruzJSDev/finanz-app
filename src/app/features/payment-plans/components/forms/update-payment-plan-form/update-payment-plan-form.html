@@ -48,7 +48,7 @@
 
         <mat-form-field>
           <mat-label>Periodo</mat-label>
-          <mat-select formControlName="frequency_unit">
+          <mat-select panelClass="app-select-panel" formControlName="frequency_unit">
             @for (unit of frequencyUnits; track unit) {
               <mat-option [value]="unit">{{ unit | frequencyUnitLabel }}</mat-option>
             }

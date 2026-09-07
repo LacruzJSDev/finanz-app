@@ -2,7 +2,11 @@
   <div class="transaction-filters">
     <mat-form-field subscriptSizing="dynamic">
       <mat-label>Categoría</mat-label>
-      <mat-select [value]="categoryFilter()" (selectionChange)="changeCategory($event.value)">
+      <mat-select
+        panelClass="app-select-panel"
+        [value]="categoryFilter()"
+        (selectionChange)="changeCategory($event.value)"
+      >
         <mat-select-trigger>
           @if (selectedFilterCategory(); as category) {
             <app-color-icon [icon]="category.icon" [color]="category.color" />

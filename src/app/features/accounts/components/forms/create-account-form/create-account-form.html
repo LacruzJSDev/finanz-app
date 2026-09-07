@@ -11,7 +11,7 @@
 
     <mat-form-field>
       <mat-label>Tipo</mat-label>
-      <mat-select formControlName="type">
+      <mat-select panelClass="app-select-panel" formControlName="type">
         @for (type of accountTypes; track type) {
           <mat-option [value]="type">{{ type | accountTypeLabel }}</mat-option>
         }
