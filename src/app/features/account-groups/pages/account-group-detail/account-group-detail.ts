@@ -80,7 +80,11 @@ export class AccountGroupDetail {
         : this.groupContextService.activeGroupId() === group.id
           ? 'En uso'
           : 'Activo';
-      this.pageContextService.setTitle(group.name, { detail: state, showGroup: false });
+      this.pageContextService.setTitle(group.name, {
+        detail: state,
+        showGroup: false,
+        parent: { label: 'Grupos', url: '/grupos' },
+      });
     });
 
     // Cada sección tiene su acción propia. La abre el armazón porque es quien

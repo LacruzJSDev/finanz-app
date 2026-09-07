@@ -1,12 +1,20 @@
 @if (section() !== 'analisis') {
-  <div class="segmented-track">
+  <nav class="segmented-track" aria-label="Secciones de la cuenta">
     <mat-button-toggle-group
       [value]="section()"
       (change)="router.navigate([$event.value], { relativeTo: route })"
     >
-      <mat-button-toggle value="movimientos">Movimientos</mat-button-toggle>
-      <mat-button-toggle value="planificados">Planificados</mat-button-toggle>
+      <mat-button-toggle
+        value="movimientos"
+        [attr.aria-current]="section() === 'movimientos' ? 'page' : null"
+        >Movimientos</mat-button-toggle
+      >
+      <mat-button-toggle
+        value="planificados"
+        [attr.aria-current]="section() === 'planificados' ? 'page' : null"
+        >Planificados</mat-button-toggle
+      >
     </mat-button-toggle-group>
-  </div>
+  </nav>
 }
 <router-outlet />

@@ -1,4 +1,15 @@
 <header class="top-bar">
+  @if (parent(); as parent) {
+    <button
+      class="parent-button"
+      type="button"
+      matIconButton
+      [attr.aria-label]="'Volver a ' + parent.label"
+      (click)="goToParent()"
+    >
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  }
   <div class="identity">
     <h1>{{ title() }}</h1>
     <!-- Línea de contexto: el grupo lo pone la barra (es global), el resto lo
@@ -20,12 +31,6 @@
     <span class="user-menu__name">{{ user()?.name }}</span>
     <span class="user-menu__email">{{ user()?.email }}</span>
   </div>
-
-  <!-- Cambiar de grupo desde cualquier pantalla, sin gastar cromo permanente. -->
-  <button mat-menu-item (click)="openGroupSwitcher()">
-    <mat-icon>groups</mat-icon>
-    <span>Grupo: {{ groupName() }}</span>
-  </button>
 
   <button mat-menu-item (click)="joinGroup()">
     <mat-icon>group_add</mat-icon>

@@ -7,13 +7,18 @@
 // obligaba a reservar a la derecha.
 .top-bar {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
   gap: 0.75rem;
   min-height: 64px;
   padding: 0.5rem 1rem;
   background: var(--mat-sys-surface-container-lowest);
   border-bottom: 1px solid var(--mat-sys-outline-variant);
+}
+
+.parent-button {
+  width: var(--app-touch-target);
+  height: var(--app-touch-target);
 }
 
 .identity {

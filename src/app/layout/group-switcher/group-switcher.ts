@@ -29,6 +29,11 @@ export class GroupSwitcher {
   select(group: GroupRead): void {
     this.groupContextService.setActiveGroupId(group.id);
     this.bottomSheetRef.dismiss();
+    // Una cuenta pertenece al grupo anterior; salir a la raíz evita dejar una
+    // URL de alcance de grupo apuntando a una entidad contradictoria.
+    if (/^\/cuentas\/[^/]+(?:\/|$)/.test(this.router.url)) {
+      this.router.navigateByUrl('/cuentas');
+    }
   }
 
   manageGroups(): void {

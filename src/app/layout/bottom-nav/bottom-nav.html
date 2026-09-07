@@ -1,16 +1,25 @@
-<button
+<a
   class="navigate-button"
-  matIconButton
-  (click)="navigate('dashboard')"
-  [disabled]="!activeGroupId()"
+  [class.navigate-button--disabled]="!activeGroupId()"
+  [routerLink]="activeGroupId() ? '/dashboard' : null"
+  routerLinkActive="navigate-button--active"
+  [routerLinkActiveOptions]="{ exact: true }"
   aria-label="Resumen"
+  ariaCurrentWhenActive="page"
+  [attr.aria-disabled]="!activeGroupId() || null"
 >
   <mat-icon>dashboard</mat-icon>
-</button>
+</a>
 
-<button class="navigate-button" matIconButton (click)="navigate('grupos')" aria-label="Grupos">
+<a
+  class="navigate-button"
+  routerLink="/grupos"
+  routerLinkActive="navigate-button--active"
+  aria-label="Grupos"
+  ariaCurrentWhenActive="page"
+>
   <mat-icon>groups</mat-icon>
-</button>
+</a>
 
 <!-- La acción de la página. Se encoge hasta desaparecer cuando no hay ninguna,
      en vez de quitarse de golpe y dar un salto a los iconos de al lado. -->
@@ -20,26 +29,31 @@
   [class.fab--hidden]="!action()"
   [attr.aria-hidden]="!action()"
   (click)="action()?.onClick()"
+  [disabled]="!action()"
 >
   <mat-icon>{{ action()?.icon }}</mat-icon>
 </button>
 
-<button
+<a
   class="navigate-button"
-  matIconButton
-  (click)="navigate('cuentas')"
-  [disabled]="!activeGroupId()"
+  [class.navigate-button--disabled]="!activeGroupId()"
+  [routerLink]="activeGroupId() ? '/cuentas' : null"
+  routerLinkActive="navigate-button--active"
   aria-label="Cuentas"
+  ariaCurrentWhenActive="page"
+  [attr.aria-disabled]="!activeGroupId() || null"
 >
   <mat-icon>account_balance_wallet</mat-icon>
-</button>
+</a>
 
-<button
+<a
   class="navigate-button"
-  matIconButton
-  (click)="navigate('presupuestos')"
-  [disabled]="!activeGroupId()"
+  [class.navigate-button--disabled]="!activeGroupId()"
+  [routerLink]="activeGroupId() ? '/presupuestos' : null"
+  routerLinkActive="navigate-button--active"
   aria-label="Presupuestos"
+  ariaCurrentWhenActive="page"
+  [attr.aria-disabled]="!activeGroupId() || null"
 >
   <mat-icon>savings</mat-icon>
-</button>
+</a>

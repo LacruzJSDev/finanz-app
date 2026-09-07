@@ -70,6 +70,7 @@ export class AccountDetail {
       if (account) {
         this.pageContextService.setTitle(account.name, {
           detail: formatMoney(account.balance, account.currency),
+          parent: { label: 'Cuentas', url: '/cuentas' },
         });
       }
     });

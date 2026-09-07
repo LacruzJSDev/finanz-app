@@ -3,8 +3,20 @@
   flex-direction: column;
   height: 100dvh;
   overflow: hidden;
+  --app-page-bottom-clearance: calc(6rem + env(safe-area-inset-bottom));
+}
+
+:host(.shell--has-group-trigger) {
+  --app-page-bottom-clearance: calc(9rem + env(safe-area-inset-bottom));
 }
 
 app-top-bar {
   flex-shrink: 0;
+}
+
+.shell-content {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  flex-direction: column;
 }
