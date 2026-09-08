@@ -1,5 +1,5 @@
 import { Component, computed, effect, inject, input, signal } from '@angular/core';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { AppSheetService } from '../../../../shared/ui/app-sheet';
 import { MatIconModule } from '@angular/material/icon';
 import { CategoriesService } from '../../../../core/categories/categories.service';
 import { CategoryRead } from '../../../../core/models';
@@ -25,7 +25,7 @@ import { pendingStarterCategories } from '../../data/starter-categories';
   host: { class: 'page-section' },
 })
 export class Categories {
-  private readonly bottomSheet = inject(MatBottomSheet);
+  private readonly bottomSheet = inject(AppSheetService);
   protected readonly categoriesService = inject(CategoriesService);
   private readonly accountGroupsService = inject(AccountGroupsService);
   private readonly authService = inject(AuthService);

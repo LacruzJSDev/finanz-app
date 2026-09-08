@@ -1,5 +1,5 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { AppSheetService } from '../../../../shared/ui/app-sheet';
 import { Router } from '@angular/router';
 import { canManageGroupData } from '../../../../core/account-groups/permissions';
 import { BudgetsService } from '../../../../core/budgets/budgets.service';
@@ -27,7 +27,7 @@ import {
   host: { class: 'page-container' },
 })
 export class Budgets {
-  private readonly bottomSheet = inject(MatBottomSheet);
+  private readonly bottomSheet = inject(AppSheetService);
   private readonly budgetsService = inject(BudgetsService);
   private readonly categoriesService = inject(CategoriesService);
   private readonly groupContextService = inject(GroupContextService);
@@ -73,6 +73,7 @@ export class Budgets {
         categoryId: budget?.category_id,
         month: dateToIso(this.month()),
       },
+      variant: 'full-height-form',
     });
   }
 
@@ -86,6 +87,7 @@ export class Budgets {
         categoryName: budget.category_name,
         month: dateToIso(this.month()),
       },
+      variant: 'confirm',
     });
   }
 }

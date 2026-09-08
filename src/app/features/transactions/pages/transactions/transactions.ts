@@ -7,7 +7,8 @@ import {
 } from '../../../../core/transactions/transactions.service';
 import { CategoriesService } from '../../../../core/categories/categories.service';
 import { PageContextService } from '../../../../core/ui/page-context.service';
-import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { AppSheetRef } from '../../../../shared/ui/app-sheet';
+import { AppSheetService } from '../../../../shared/ui/app-sheet';
 import { AccountRead, TransactionRead } from '../../../../core/models';
 import {
   CreateTransactionForm,
@@ -58,7 +59,7 @@ type CategoryFilter = 'all' | 'uncategorized' | string;
   host: { class: 'page-section' },
 })
 export class Transactions {
-  private readonly bottomSheet = inject(MatBottomSheet);
+  private readonly bottomSheet = inject(AppSheetService);
   protected readonly accountsService = inject(AccountsService);
   protected readonly transactionsService = inject(TransactionsService);
 
@@ -225,7 +226,7 @@ export class Transactions {
   // La lista no se vuelve a pedir: el servicio ya la actualiza al crear, editar
   // y borrar. Recargarla encendía `loading`, y eso sustituye la lista entera
   // por el spinner de pantalla completa — el parpadeo entre guardar y volver.
-  private refreshAccountAfter(ref: MatBottomSheetRef<unknown>): void {
+  private refreshAccountAfter(ref: AppSheetRef<unknown>): void {
     ref.afterDismissed().subscribe(() => {
       this.accountsService.getAccountById(this.id()).subscribe();
     });

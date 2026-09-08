@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { APP_SHEET_DATA, AppSheetRef } from '../../../../../shared/ui/app-sheet';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
@@ -33,8 +33,8 @@ export interface CreateInvitationFormData {
 export class CreateInvitationForm {
   private readonly fb = inject(FormBuilder);
   private readonly invitationsService = inject(InvitationsService);
-  private readonly bottomSheetRef = inject(MatBottomSheetRef<CreateInvitationForm>);
-  protected readonly data = inject<CreateInvitationFormData>(MAT_BOTTOM_SHEET_DATA);
+  private readonly sheetRef = inject(AppSheetRef<CreateInvitationForm>);
+  protected readonly data = inject<CreateInvitationFormData>(APP_SHEET_DATA);
 
   protected readonly submitting = signal(false);
   protected readonly formError = signal<string | null>(null);
@@ -53,7 +53,7 @@ export class CreateInvitationForm {
     if (this.form.invalid || this.submitting()) return;
     this.submitting.set(true);
     this.formError.set(null);
-    this.bottomSheetRef.disableClose = true;
+    this.sheetRef.disableClose = true;
 
     this.invitationsService.createInvitation(this.data.groupId, this.form.getRawValue()).subscribe({
       // No se cierra al terminar: el código es lo único que sirve para invitar
@@ -61,12 +61,12 @@ export class CreateInvitationForm {
       // invitación creada y nada que compartir.
       next: (invitation) => {
         this.submitting.set(false);
-        this.bottomSheetRef.disableClose = false;
+        this.sheetRef.disableClose = false;
         this.code.set(invitation.code);
       },
       error: (error: unknown) => {
         this.submitting.set(false);
-        this.bottomSheetRef.disableClose = false;
+        this.sheetRef.disableClose = false;
         this.formError.set(applyServerErrors(this.form, error));
       },
     });
@@ -80,6 +80,6 @@ export class CreateInvitationForm {
   }
 
   close(): void {
-    this.bottomSheetRef.dismiss();
+    this.sheetRef.dismiss();
   }
 }

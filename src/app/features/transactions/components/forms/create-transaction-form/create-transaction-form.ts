@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { APP_SHEET_DATA, AppSheetRef } from '../../../../../shared/ui/app-sheet';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -48,8 +48,8 @@ export interface CreateTransactionFormData {
 export class CreateTransactionForm {
   private readonly fb = inject(FormBuilder);
   private readonly transactionsService = inject(TransactionsService);
-  private readonly bottomSheetRef = inject(MatBottomSheetRef<CreateTransactionForm>);
-  protected readonly data = inject<CreateTransactionFormData>(MAT_BOTTOM_SHEET_DATA);
+  private readonly sheetRef = inject(AppSheetRef<CreateTransactionForm>);
+  protected readonly data = inject<CreateTransactionFormData>(APP_SHEET_DATA);
 
   protected readonly submitting = signal(false);
   protected readonly formError = signal<string | null>(null);
@@ -72,7 +72,7 @@ export class CreateTransactionForm {
     if (this.form.invalid || this.submitting()) return;
     this.submitting.set(true);
     this.formError.set(null);
-    this.bottomSheetRef.disableClose = true;
+    this.sheetRef.disableClose = true;
     const raw = this.form.getRawValue();
     const isTransfer = raw.type === 'transfer';
 
@@ -86,10 +86,10 @@ export class CreateTransactionForm {
     };
 
     this.transactionsService.createTransaction(this.data.accountId, payload).subscribe({
-      next: () => this.bottomSheetRef.dismiss(),
+      next: () => this.sheetRef.dismiss(),
       error: (error: unknown) => {
         this.submitting.set(false);
-        this.bottomSheetRef.disableClose = false;
+        this.sheetRef.disableClose = false;
         this.formError.set(applyServerErrors(this.form, error));
       },
     });

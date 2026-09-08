@@ -1,0 +1,35 @@
+:host {
+  display: block;
+  width: 100%;
+}
+.app-sheet {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: calc(100dvh - env(safe-area-inset-top) - 1rem);
+  overflow: hidden;
+  border-radius: var(--mat-sys-corner-extra-large) var(--mat-sys-corner-extra-large) 0 0;
+  background: var(--mat-sys-surface-container-lowest);
+  box-shadow: var(--mat-sys-level3);
+  transition: transform 180ms ease-out;
+}
+.app-sheet--dragging {
+  transition: none;
+}
+.app-sheet__handle {
+  display: grid;
+  place-items: center;
+  flex: 0 0 44px;
+}
+.app-sheet__handle span {
+  width: 36px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--mat-sys-outline-variant);
+}
+.app-sheet__body {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}

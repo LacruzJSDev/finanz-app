@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { provideNativeDateAdapter } from '@angular/material/core';
-import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { APP_SHEET_DATA, AppSheetRef } from '../../../../../shared/ui/app-sheet';
 import { of } from 'rxjs';
 import { describe, beforeEach, expect, it } from 'vitest';
 import { TransactionRead, UpdateTransactionRequest } from '../../../../../core/models';
@@ -42,8 +42,8 @@ describe('UpdateTransactionForm, lo que manda al guardar', () => {
     TestBed.configureTestingModule({
       providers: [
         provideNativeDateAdapter(),
-        { provide: MAT_BOTTOM_SHEET_DATA, useValue: data },
-        { provide: MatBottomSheetRef, useValue: { dismiss: () => undefined, disableClose: false } },
+        { provide: APP_SHEET_DATA, useValue: data },
+        { provide: AppSheetRef, useValue: { dismiss: () => undefined, disableClose: false } },
         { provide: TransactionsService, useValue: servicio },
       ],
     });

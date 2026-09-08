@@ -1,5 +1,5 @@
 import { Component, computed, effect, inject, input, signal } from '@angular/core';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { AppSheetService } from '../../../../shared/ui/app-sheet';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { PaymentPlansService } from '../../../../core/payment-plans/payment-plans.service';
@@ -30,7 +30,7 @@ import {
   host: { class: 'page-section' },
 })
 export class PaymentPlans {
-  private readonly bottomSheet = inject(MatBottomSheet);
+  private readonly bottomSheet = inject(AppSheetService);
   private readonly paymentPlansService = inject(PaymentPlansService);
   private readonly accountsService = inject(AccountsService);
   private readonly categoriesService = inject(CategoriesService);

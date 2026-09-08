@@ -2,7 +2,7 @@ import { Component, computed, effect, inject, input } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter, map } from 'rxjs';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { AppSheetService } from '../../../../shared/ui/app-sheet';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { PageContextService } from '../../../../core/ui/page-context.service';
 import { AccountGroupsService } from '../../../../core/account-groups/account-groups.service';
@@ -24,7 +24,7 @@ import { CreateCategoryForm, CreateCategoryFormData } from '../../../categories'
   host: { class: 'page-container' },
 })
 export class AccountGroupDetail {
-  private readonly bottomSheet = inject(MatBottomSheet);
+  private readonly bottomSheet = inject(AppSheetService);
   protected readonly accountGroupsService = inject(AccountGroupsService);
   protected readonly pageContextService = inject(PageContextService);
   private readonly groupContextService = inject(GroupContextService);

@@ -1,6 +1,5 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { AccountGroupsService } from '../../../../core/account-groups/account-groups.service';
 import { CreateAccountGroupForm } from '../../components/forms/create-account-group-form/create-account-group-form';
@@ -10,6 +9,7 @@ import { GroupContextService } from '../../../../core/ui/group-context.service';
 import { PageContent } from '../../../../shared/ui/page-content/page-content';
 import { PageLoader } from '../../../../shared/ui/page-loader/page-loader';
 import { EmptyState } from '../../../../shared/ui/empty-state/empty-state';
+import { AppSheetService } from '../../../../shared/ui/app-sheet';
 
 /** Los archivados se listan aparte para no confundirlos con los de uso diario. */
 type GroupFilter = 'active' | 'archived';
@@ -21,7 +21,7 @@ type GroupFilter = 'active' | 'archived';
   host: { class: 'page-container' },
 })
 export class AccountGroups {
-  private readonly bottomSheet = inject(MatBottomSheet);
+  private readonly bottomSheet = inject(AppSheetService);
   protected readonly accountGroupsService = inject(AccountGroupsService);
 
   protected readonly loading = this.accountGroupsService.loading;

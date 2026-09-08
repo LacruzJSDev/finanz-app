@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { APP_SHEET_DATA, AppSheetRef } from '../../../../../shared/ui/app-sheet';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { TransactionsService } from '../../../../../core/transactions/transactions.service';
@@ -18,30 +18,30 @@ export interface DeleteTransactionFormData {
   host: { class: 'bottom-sheet-form' },
 })
 export class DeleteTransactionForm {
-  private readonly bottomSheetRef = inject(MatBottomSheetRef<DeleteTransactionForm>);
+  private readonly sheetRef = inject(AppSheetRef<DeleteTransactionForm>);
   private readonly transactionsService = inject(TransactionsService);
 
-  protected readonly data = inject<DeleteTransactionFormData>(MAT_BOTTOM_SHEET_DATA);
+  protected readonly data = inject<DeleteTransactionFormData>(APP_SHEET_DATA);
 
   protected readonly submitting = signal(false);
 
   submit(): void {
     if (this.submitting()) return;
     this.submitting.set(true);
-    this.bottomSheetRef.disableClose = true;
+    this.sheetRef.disableClose = true;
 
     this.transactionsService
       .deleteTransactionById(this.data.accountId, this.data.transaction.id)
       .subscribe({
-        next: () => this.bottomSheetRef.dismiss(),
+        next: () => this.sheetRef.dismiss(),
         error: () => {
           this.submitting.set(false);
-          this.bottomSheetRef.disableClose = false;
+          this.sheetRef.disableClose = false;
         },
       });
   }
 
   cancel(): void {
-    this.bottomSheetRef.dismiss();
+    this.sheetRef.dismiss();
   }
 }

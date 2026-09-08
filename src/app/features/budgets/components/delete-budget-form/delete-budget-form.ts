@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { APP_SHEET_DATA, AppSheetRef } from '../../../../shared/ui/app-sheet';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BudgetsService } from '../../../../core/budgets/budgets.service';
@@ -19,27 +19,27 @@ export interface DeleteBudgetFormData {
   host: { class: 'bottom-sheet-form' },
 })
 export class DeleteBudgetForm {
-  private readonly bottomSheetRef = inject(MatBottomSheetRef<DeleteBudgetForm>);
+  private readonly sheetRef = inject(AppSheetRef<DeleteBudgetForm>);
   private readonly budgetsService = inject(BudgetsService);
-  protected readonly data = inject<DeleteBudgetFormData>(MAT_BOTTOM_SHEET_DATA);
+  protected readonly data = inject<DeleteBudgetFormData>(APP_SHEET_DATA);
   protected readonly submitting = signal(false);
 
   submit(): void {
     if (this.submitting()) return;
     this.submitting.set(true);
-    this.bottomSheetRef.disableClose = true;
+    this.sheetRef.disableClose = true;
     this.budgetsService
       .deleteBudget(this.data.groupId, this.data.categoryId, this.data.month)
       .subscribe({
-        next: () => this.bottomSheetRef.dismiss(),
+        next: () => this.sheetRef.dismiss(),
         error: () => {
           this.submitting.set(false);
-          this.bottomSheetRef.disableClose = false;
+          this.sheetRef.disableClose = false;
         },
       });
   }
 
   cancel(): void {
-    this.bottomSheetRef.dismiss();
+    this.sheetRef.dismiss();
   }
 }

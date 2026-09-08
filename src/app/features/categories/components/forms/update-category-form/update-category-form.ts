@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { APP_SHEET_DATA, AppSheetRef } from '../../../../../shared/ui/app-sheet';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -38,8 +38,8 @@ export interface UpdateCategoryFormData {
 export class UpdateCategoryForm {
   private readonly fb = inject(FormBuilder);
   private readonly categoriesService = inject(CategoriesService);
-  private readonly bottomSheetRef = inject(MatBottomSheetRef<UpdateCategoryForm>);
-  protected readonly data = inject<UpdateCategoryFormData>(MAT_BOTTOM_SHEET_DATA);
+  private readonly sheetRef = inject(AppSheetRef<UpdateCategoryForm>);
+  protected readonly data = inject<UpdateCategoryFormData>(APP_SHEET_DATA);
 
   protected readonly submitting = signal(false);
   protected readonly formError = signal<string | null>(null);
@@ -63,7 +63,7 @@ export class UpdateCategoryForm {
     if (this.form.invalid || this.submitting()) return;
     this.submitting.set(true);
     this.formError.set(null);
-    this.bottomSheetRef.disableClose = true;
+    this.sheetRef.disableClose = true;
     const raw = this.form.getRawValue();
 
     const payload: UpdateCategoryRequest = {
@@ -76,10 +76,10 @@ export class UpdateCategoryForm {
     };
 
     this.categoriesService.updateCategory(this.data.category.id, payload).subscribe({
-      next: () => this.bottomSheetRef.dismiss(),
+      next: () => this.sheetRef.dismiss(),
       error: (error: unknown) => {
         this.submitting.set(false);
-        this.bottomSheetRef.disableClose = false;
+        this.sheetRef.disableClose = false;
         this.formError.set(applyServerErrors(this.form, error));
       },
     });

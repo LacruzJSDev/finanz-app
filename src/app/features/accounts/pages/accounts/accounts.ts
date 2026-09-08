@@ -3,7 +3,6 @@ import { GroupContextService } from '../../../../core/ui/group-context.service';
 import { canManageGroupData } from '../../../../core/account-groups/permissions';
 import { AccountsService } from '../../../../core/accounts/accounts.service';
 import { Router } from '@angular/router';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import {
   CreateAccountForm,
   CreateAccountFormData,
@@ -19,6 +18,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { PageContent } from '../../../../shared/ui/page-content/page-content';
 import { PageLoader } from '../../../../shared/ui/page-loader/page-loader';
 import { EmptyState } from '../../../../shared/ui/empty-state/empty-state';
+import { AppSheetService } from '../../../../shared/ui/app-sheet';
 
 type GroupFilter = 'active' | 'archived';
 
@@ -29,7 +29,7 @@ type GroupFilter = 'active' | 'archived';
   host: { class: 'page-container' },
 })
 export class Accounts {
-  private readonly bottomSheet = inject(MatBottomSheet);
+  private readonly bottomSheet = inject(AppSheetService);
   protected readonly groupContextService = inject(GroupContextService);
   protected readonly accountsService = inject(AccountsService);
 

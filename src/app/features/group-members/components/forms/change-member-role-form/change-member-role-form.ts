@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { APP_SHEET_DATA, AppSheetRef } from '../../../../../shared/ui/app-sheet';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
@@ -31,8 +31,8 @@ export interface ChangeMemberRoleFormData {
 export class ChangeMemberRoleForm {
   private readonly fb = inject(FormBuilder);
   private readonly groupMembersService = inject(GroupMembersService);
-  private readonly bottomSheetRef = inject(MatBottomSheetRef<ChangeMemberRoleForm>);
-  protected readonly data = inject<ChangeMemberRoleFormData>(MAT_BOTTOM_SHEET_DATA);
+  private readonly sheetRef = inject(AppSheetRef<ChangeMemberRoleForm>);
+  protected readonly data = inject<ChangeMemberRoleFormData>(APP_SHEET_DATA);
 
   protected readonly submitting = signal(false);
   protected readonly formError = signal<string | null>(null);
@@ -49,15 +49,15 @@ export class ChangeMemberRoleForm {
     if (this.form.invalid || this.submitting()) return;
     this.submitting.set(true);
     this.formError.set(null);
-    this.bottomSheetRef.disableClose = true;
+    this.sheetRef.disableClose = true;
 
     this.groupMembersService
       .changeGroupMemberRole(this.data.groupId, this.data.member.user_id, this.form.getRawValue())
       .subscribe({
-        next: () => this.bottomSheetRef.dismiss(),
+        next: () => this.sheetRef.dismiss(),
         error: (error: unknown) => {
           this.submitting.set(false);
-          this.bottomSheetRef.disableClose = false;
+          this.sheetRef.disableClose = false;
           this.formError.set(applyServerErrors(this.form, error));
         },
       });

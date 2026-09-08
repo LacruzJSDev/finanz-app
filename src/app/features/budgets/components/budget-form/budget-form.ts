@@ -1,7 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { APP_SHEET_DATA, AppSheetRef } from '../../../../shared/ui/app-sheet';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -38,8 +38,8 @@ export interface BudgetFormData {
 export class BudgetForm {
   private readonly fb = inject(FormBuilder);
   private readonly budgetsService = inject(BudgetsService);
-  private readonly bottomSheetRef = inject(MatBottomSheetRef<BudgetForm>);
-  protected readonly data = inject<BudgetFormData>(MAT_BOTTOM_SHEET_DATA);
+  private readonly sheetRef = inject(AppSheetRef<BudgetForm>);
+  protected readonly data = inject<BudgetFormData>(APP_SHEET_DATA);
   protected readonly submitting = signal(false);
   protected readonly formError = signal<string | null>(null);
 
@@ -66,12 +66,12 @@ export class BudgetForm {
     if (this.form.invalid || this.submitting()) return;
     this.submitting.set(true);
     this.formError.set(null);
-    this.bottomSheetRef.disableClose = true;
+    this.sheetRef.disableClose = true;
     const { categoryId, amount } = this.form.getRawValue();
     this.budgetsService
       .setBudget(this.data.groupId, categoryId, { amount: eurosToCents(amount) }, this.data.month)
       .subscribe({
-        next: () => this.bottomSheetRef.dismiss(),
+        next: () => this.sheetRef.dismiss(),
         error: (error) => this.handleError(error),
       });
   }
@@ -83,7 +83,7 @@ export class BudgetForm {
 
   private handleError(error: unknown): void {
     this.submitting.set(false);
-    this.bottomSheetRef.disableClose = false;
+    this.sheetRef.disableClose = false;
     this.formError.set(applyServerErrors(this.form, error));
   }
 }
