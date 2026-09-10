@@ -1,13 +1,13 @@
+import { AppButton } from '../../shared/ui/button';
 import { Component, inject } from '@angular/core';
 import { PageContextService } from '../../core/ui/page-context.service';
-import { MatIconModule } from '@angular/material/icon';
+import { AppIcon } from '../../shared/ui/icon';
 import { GroupContextService } from '../../core/ui/group-context.service';
-import { MatButtonModule } from '@angular/material/button';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-bottom-nav',
-  imports: [MatButtonModule, MatIconModule, RouterLink, RouterLinkActive],
+  imports: [AppButton, AppIcon, RouterLink, RouterLinkActive],
   templateUrl: 'bottom-nav.html',
   styleUrl: 'bottom-nav.scss',
   host: { role: 'navigation', 'aria-label': 'Navegación principal' },

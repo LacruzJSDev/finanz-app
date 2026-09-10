@@ -4,45 +4,35 @@
   <app-toggle-transaction-type [control]="form.controls.type" [options]="transactionTypes" />
   <app-amount-input [control]="form.controls.amount" [type]="type()" />
 
-  <div class="grouped-card">
-    <mat-form-field>
-      <mat-label>Concepto</mat-label>
-      <input matInput type="text" formControlName="notes" required />
-    </mat-form-field>
+  <app-input-group>
+    <app-text-input label="Concepto" formControlName="notes" required />
 
-    <mat-form-field>
-      <mat-label>Fecha</mat-label>
-      <input
-        matInput
-        [matDatepicker]="datePicker"
-        formControlName="date"
-        (click)="datePicker.open()"
-      />
-      <mat-datepicker-toggle matIconSuffix [for]="datePicker" />
-      <mat-datepicker #datePicker />
-      <mat-error>{{
-        form.controls.date.getError('server') ?? 'La fecha es obligatoria.'
-      }}</mat-error>
-    </mat-form-field>
+    <app-date-picker
+      label="Fecha"
+      formControlName="date"
+      required
+      [error]="
+        form.controls.date.invalid
+          ? (form.controls.date.getError('server') ?? 'La fecha es obligatoria.')
+          : null
+      "
+    />
 
     @if (type() === 'transfer') {
-      <mat-form-field>
-        <mat-label>Cuenta destino</mat-label>
-        <mat-select panelClass="app-select-panel" formControlName="to_account_id">
-          @for (account of data.otherAccounts; track account.id) {
-            <mat-option [value]="account.id">{{ account.name }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
+      <app-select
+        label="Cuenta destino"
+        [options]="accountOptions"
+        formControlName="to_account_id"
+      />
     } @else {
       <app-category-select [control]="form.controls.category_id" [categories]="data.categories" />
     }
-  </div>
+  </app-input-group>
   <p class="form-error">{{ formError() }}</p>
 
-  <button matButton="filled" type="submit" [disabled]="submitting()">
+  <button appButton variant="filled" type="submit" [disabled]="submitting()">
     @if (submitting()) {
-      <mat-spinner diameter="20" />
+      <app-loader diameter="20" />
     } @else {
       Guardar
     }

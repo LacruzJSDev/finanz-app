@@ -1,11 +1,11 @@
+import { AppButton } from '../../../../../shared/ui/button';
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { APP_SHEET_DATA, AppSheetRef } from '../../../../../shared/ui/app-sheet';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { AppLoader } from '../../../../../shared/ui/loader';
+import { AppInputGroup } from '../../../../../shared/ui/input-group';
+import { AppTextInput } from '../../../../../shared/ui/text-input';
+import { AppSwitch } from '../../../../../shared/ui/switch';
 import { AccountGroupsService } from '../../../../../core/account-groups/account-groups.service';
 import { GroupContextService } from '../../../../../core/ui/group-context.service';
 import { GroupRead, UpdateGroupRequest } from '../../../../../core/models';
@@ -25,11 +25,11 @@ export interface UpdateAccountGroupFormData {
     ReactiveFormsModule,
     IconPicker,
     ColorPicker,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatSlideToggleModule,
-    MatProgressSpinnerModule,
+    AppButton,
+    AppInputGroup,
+    AppTextInput,
+    AppSwitch,
+    AppLoader,
   ],
   templateUrl: 'update-account-group-form.html',
   host: { class: 'bottom-sheet-form' },

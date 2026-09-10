@@ -1,14 +1,12 @@
-import { Component, input } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
 import { CategoryRead } from '../../../../core/models';
-import { ColorIcon } from '../../../../shared/ui/color-icon/color-icon';
+import { AppSelect, AppSelectOption } from '../../../../shared/ui/select';
 
 /** Selector de categorías con la misma marca de color e icono en valor y opciones. */
 @Component({
   selector: 'app-category-select',
-  imports: [ReactiveFormsModule, MatFormFieldModule, MatSelectModule, ColorIcon],
+  imports: [ReactiveFormsModule, AppSelect],
   templateUrl: './category-select.html',
   styleUrl: './category-select.scss',
 })
@@ -18,7 +16,14 @@ export class CategorySelect {
   readonly label = input('Categoría');
   readonly emptyLabel = input('Sin categoría');
 
-  protected selectedCategory(): CategoryRead | undefined {
-    return this.categories().find((category) => category.id === this.control().value);
-  }
+  protected readonly options = computed<readonly AppSelectOption[]>(() => [
+    { value: '', label: this.emptyLabel() },
+    ...this.categories().map((category) => ({
+      value: category.id,
+      label: category.name,
+      icon: category.icon ?? undefined,
+      color: category.color ?? undefined,
+    })),
+  ]);
+
 }

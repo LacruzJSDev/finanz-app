@@ -1,7 +1,7 @@
+import { AppButton } from '../../../../../shared/ui/button';
 import { Component, inject, signal } from '@angular/core';
 import { APP_SHEET_DATA, AppSheetRef } from '../../../../../shared/ui/app-sheet';
-import { MatButtonModule } from '@angular/material/button';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AppLoader } from '../../../../../shared/ui/loader';
 import { InvitationsService } from '../../../../../core/invitations/invitations.service';
 import { InvitationRead } from '../../../../../core/models';
 
@@ -12,7 +12,7 @@ export interface RevokeInvitationFormData {
 
 @Component({
   selector: 'app-revoke-invitation-form',
-  imports: [MatButtonModule, MatProgressSpinnerModule],
+  imports: [AppButton, AppLoader],
   templateUrl: './revoke-invitation-form.html',
   styleUrl: './revoke-invitation-form.scss',
   host: { class: 'bottom-sheet-form' },

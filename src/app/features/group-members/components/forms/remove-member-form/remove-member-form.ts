@@ -1,7 +1,7 @@
+import { AppButton } from '../../../../../shared/ui/button';
 import { Component, computed, inject, signal } from '@angular/core';
 import { APP_SHEET_DATA, AppSheetRef } from '../../../../../shared/ui/app-sheet';
-import { MatButtonModule } from '@angular/material/button';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AppLoader } from '../../../../../shared/ui/loader';
 import { GroupMembersService } from '../../../../../core/group-members/group-members.service';
 import { GroupMemberRead } from '../../../../../core/models';
 
@@ -14,7 +14,7 @@ export interface RemoveMemberFormData {
 
 @Component({
   selector: 'app-remove-member-form',
-  imports: [MatButtonModule, MatProgressSpinnerModule],
+  imports: [AppButton, AppLoader],
   templateUrl: './remove-member-form.html',
   styleUrl: './remove-member-form.scss',
   host: { class: 'bottom-sheet-form' },

@@ -5,36 +5,31 @@
     <p class="form-note">Esta categoría tiene subcategorías propias, no puede tener padre.</p>
   }
 
-  <div class="grouped-card">
-    <mat-form-field>
-      <mat-label>Nombre</mat-label>
-      <input matInput type="text" formControlName="name" />
-      <mat-error>{{
-        form.controls.name.getError('server') ?? 'El nombre es obligatorio.'
-      }}</mat-error>
-    </mat-form-field>
+  <app-input-group>
+    <app-text-input
+      label="Nombre"
+      formControlName="name"
+      [error]="
+        form.controls.name.invalid &&
+        (form.controls.name.touched || form.controls.name.hasError('server'))
+          ? (form.controls.name.getError('server') ?? 'El nombre es obligatorio.')
+          : null
+      "
+    />
 
     @if (!data.hasChildren) {
-      <mat-form-field>
-        <mat-label>Categoría padre</mat-label>
-        <mat-select panelClass="app-select-panel" formControlName="parent_id">
-          <mat-option value="">Categoría raíz (sin padre)</mat-option>
-          @for (category of data.rootCategories; track category.id) {
-            <mat-option [value]="category.id">{{ category.name }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
+      <app-select label="Categoría padre" [options]="parentOptions()" formControlName="parent_id" />
     }
 
     <app-color-picker [selected]="form.controls.color.value" (colorChange)="selectColor($event)" />
 
     <app-icon-picker [selected]="form.controls.icon.value" (iconChange)="selectIcon($event)" />
-  </div>
+  </app-input-group>
   <p class="form-error">{{ formError() }}</p>
 
-  <button matButton="filled" type="submit" [disabled]="submitting()">
+  <button appButton variant="filled" type="submit" [disabled]="submitting()">
     @if (submitting()) {
-      <mat-spinner diameter="20" />
+      <app-loader diameter="20" />
     } @else {
       Guardar
     }

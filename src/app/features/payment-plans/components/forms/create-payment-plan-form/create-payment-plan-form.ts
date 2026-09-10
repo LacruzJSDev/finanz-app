@@ -1,14 +1,14 @@
+import { AppButton } from '../../../../../shared/ui/button';
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { APP_SHEET_DATA, AppSheetRef } from '../../../../../shared/ui/app-sheet';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatButtonModule } from '@angular/material/button';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AppSelect, AppSelectOption } from '../../../../../shared/ui/select';
+import { AppInputGroup } from '../../../../../shared/ui/input-group';
+import { AppTextInput } from '../../../../../shared/ui/text-input';
+import { AppSwitch } from '../../../../../shared/ui/switch';
+import { AppDatePicker } from '../../../../../shared/ui/date-picker';
+import { AppLoader } from '../../../../../shared/ui/loader';
 import { PaymentPlansService } from '../../../../../core/payment-plans/payment-plans.service';
 import { applyServerErrors } from '../../../../../core/forms/apply-server-errors';
 import {
@@ -37,14 +37,13 @@ export interface CreatePaymentPlanFormData {
     CategorySelect,
     AmountInput,
     ToggleTransactionType,
-    FrequencyUnitLabelPipe,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatButtonModule,
-    MatSlideToggleModule,
-    MatDatepickerModule,
-    MatProgressSpinnerModule,
+    AppInputGroup,
+    AppSelect,
+    AppTextInput,
+    AppButton,
+    AppSwitch,
+    AppDatePicker,
+    AppLoader,
   ],
   templateUrl: './create-payment-plan-form.html',
   host: { class: 'bottom-sheet-form' },
@@ -60,6 +59,12 @@ export class CreatePaymentPlanForm {
 
   protected readonly transactionTypes = Object.values(TransactionTypeEnum);
   protected readonly frequencyUnits = Object.values(FrequencyUnitEnum);
+  protected readonly frequencyOptions: readonly AppSelectOption[] = this.frequencyUnits.map(
+    (unit) => ({ value: unit, label: new FrequencyUnitLabelPipe().transform(unit) }),
+  );
+  protected readonly accountOptions: readonly AppSelectOption[] = this.data.otherAccounts.map(
+    (account) => ({ value: account.id, label: account.name }),
+  );
 
   readonly form = this.fb.nonNullable.group({
     type: [TransactionTypeEnum.Expense as TransactionTypeEnum, [Validators.required]],

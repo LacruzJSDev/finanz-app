@@ -1,5 +1,5 @@
+import { AppCard } from '../../../../shared/ui/card';
 import { Component, computed, input } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
 import { CategorySummaryRead } from '../../../../core/models';
 import { formatMoney } from '../../../../shared/money/money';
 import { EmptyState } from '../../../../shared/ui/empty-state/empty-state';
@@ -21,7 +21,7 @@ interface BreakdownRow {
  */
 @Component({
   selector: 'app-category-breakdown',
-  imports: [MatCardModule, EmptyState],
+  imports: [AppCard, EmptyState],
   templateUrl: './category-breakdown.html',
   styleUrl: './category-breakdown.scss',
 })

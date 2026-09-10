@@ -16,9 +16,9 @@
   width: fit-content;
   max-width: calc(100% - 2rem);
   padding: 0.25rem;
-  border: 1px solid var(--mat-sys-outline-variant);
-  border-radius: var(--mat-sys-corner-full);
-  background: color-mix(in srgb, var(--mat-sys-surface-container-lowest) 72%, transparent);
+  border: 1px solid var(--app-color-border, #d8d6ce);
+  border-radius: var(--app-radius-full, 999px);
+  background: color-mix(in srgb, var(--app-color-surface, #fff) 72%, transparent);
   backdrop-filter: blur(8px);
 }
 
@@ -33,14 +33,14 @@
   min-width: var(--app-touch-target);
   min-height: var(--app-touch-target);
   padding: 0.25rem;
-  border-radius: var(--mat-sys-corner-full);
-  color: var(--mat-sys-on-surface-variant);
+  border-radius: var(--app-radius-full, 999px);
+  color: var(--app-color-muted, #62615b);
   text-decoration: none;
 }
 
 .navigate-button--active {
-  background: var(--mat-sys-primary-container);
-  color: var(--mat-sys-on-primary-container);
+  background: var(--app-color-primary-container, #e4e2dc);
+  color: var(--app-color-text, #1c1c19);
   font-weight: 700;
 }
 
@@ -50,6 +50,7 @@
 }
 
 .fab {
+  --app-button-fab-size: 40px;
   overflow: hidden;
   transition:
     transform 200ms ease,

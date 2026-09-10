@@ -20,7 +20,7 @@
 
     @if (archivedPlans().length; as archivedCount) {
       <button type="button" class="archived-toggle" (click)="showArchived.set(!showArchived())">
-        <mat-icon>{{ showArchived() ? 'expand_less' : 'expand_more' }}</mat-icon>
+        <app-icon [name]="showArchived() ? 'expand_less' : 'expand_more'" />
         {{ archivedCount === 1 ? '1 plan archivado' : archivedCount + ' planes archivados' }}
       </button>
 

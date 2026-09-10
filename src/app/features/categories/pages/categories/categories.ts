@@ -1,6 +1,6 @@
 import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { AppSheetService } from '../../../../shared/ui/app-sheet';
-import { MatIconModule } from '@angular/material/icon';
+import { AppIcon } from '../../../../shared/ui/icon';
 import { CategoriesService } from '../../../../core/categories/categories.service';
 import { CategoryRead } from '../../../../core/models';
 import { CategoriesList } from '../../components/tables/categories-list/categories-list';
@@ -16,10 +16,11 @@ import { PageLoader } from '../../../../shared/ui/page-loader/page-loader';
 import { EmptyState } from '../../../../shared/ui/empty-state/empty-state';
 import { StarterCategories } from '../../components/starter-categories/starter-categories';
 import { pendingStarterCategories } from '../../data/starter-categories';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-categories',
-  imports: [CategoriesList, MatIconModule, PageContent, PageLoader, EmptyState, StarterCategories],
+  imports: [CategoriesList, AppIcon, PageContent, PageLoader, EmptyState, StarterCategories],
   templateUrl: './categories.html',
   styleUrl: './categories.scss',
   host: { class: 'page-section' },
@@ -39,6 +40,7 @@ export class Categories {
   protected readonly creatingStarters = signal(false);
 
   protected readonly showArchived = signal(false);
+  private readonly updatingIds = signal<ReadonlySet<string>>(new Set());
 
   // Mismo corte que en cuentas: gestionarlas exige owner o admin, consultarlas
   // está abierto a cualquier rol.
@@ -74,7 +76,7 @@ export class Categories {
   // decide aquí porque hace falta ver la lista entera, no solo la del filtro.
   protected readonly blockedIds = computed(() => {
     const all = this.categories();
-    const blocked = new Set<string>();
+    const blocked = new Set(this.updatingIds());
 
     for (const category of all) {
       if (category.is_active) {
@@ -131,9 +133,18 @@ export class Categories {
     // El toggle ya sale deshabilitado en estos casos; esto cubre que la lista
     // haya cambiado entre el pintado y el clic.
     if (this.blockedIds().has(category.id)) return;
-
+    this.updatingIds.update((ids) => new Set([...ids, category.id]));
     this.categoriesService
       .updateCategory(category.id, { is_active: !category.is_active })
+      .pipe(
+        finalize(() =>
+          this.updatingIds.update((ids) => {
+            const next = new Set(ids);
+            next.delete(category.id);
+            return next;
+          }),
+        ),
+      )
       .subscribe();
   }
 }

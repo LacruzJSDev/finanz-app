@@ -5,14 +5,14 @@ import { CategoriesService } from '../../../../core/categories/categories.servic
 import { PageContextService } from '../../../../core/ui/page-context.service';
 import { GroupContextService } from '../../../../core/ui/group-context.service';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { AppSegmentedControl } from '../../../../shared/ui/segmented-control';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter, map } from 'rxjs';
 import { formatMoney } from '../../../../shared/money/money';
 
 @Component({
   selector: 'app-account-detail',
-  imports: [RouterOutlet, MatButtonToggleModule],
+  imports: [RouterOutlet, AppSegmentedControl],
   templateUrl: 'account-detail.html',
   host: { class: 'page-container' },
 })
@@ -37,6 +37,10 @@ export class AccountDetail {
   );
 
   readonly id = input.required<string>();
+  protected readonly sectionOptions = [
+    { value: 'movimientos', label: 'Movimientos' },
+    { value: 'planificados', label: 'Planificados' },
+  ] as const;
 
   protected readonly account = this.accountsService.account;
 

@@ -1,6 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { AppSegmentedControl } from '../../../../shared/ui/segmented-control';
 import { AccountGroupsService } from '../../../../core/account-groups/account-groups.service';
 import { CreateAccountGroupForm } from '../../components/forms/create-account-group-form/create-account-group-form';
 import { PageContextService } from '../../../../core/ui/page-context.service';
@@ -16,7 +16,7 @@ type GroupFilter = 'active' | 'archived';
 
 @Component({
   selector: 'app-account-groups',
-  imports: [AccountGroupsList, MatButtonToggleModule, PageContent, PageLoader, EmptyState],
+  imports: [AccountGroupsList, AppSegmentedControl, PageContent, PageLoader, EmptyState],
   templateUrl: './account-groups.html',
   host: { class: 'page-container' },
 })
@@ -33,6 +33,13 @@ export class AccountGroups {
   protected activeGroupId = this.groupContextService.activeGroupId;
 
   protected readonly filter = signal<GroupFilter>('active');
+  protected readonly filterOptions = [
+    { value: 'active', label: 'Activos' },
+    { value: 'archived', label: 'Archivados' },
+  ] as const;
+  protected setFilter(value: string): void {
+    if (value === 'active' || value === 'archived') this.filter.set(value);
+  }
 
   protected readonly visibleGroups = computed(() => {
     const wantActive = this.filter() === 'active';

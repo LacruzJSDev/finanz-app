@@ -1,16 +1,5 @@
-@use '@angular/material' as mat;
-
 :host {
   display: block;
-}
-
-mat-card {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 1rem;
-  padding: 0.75rem 1rem;
 }
 
 .budget-info {
@@ -20,30 +9,24 @@ mat-card {
   gap: 0.25rem;
   min-width: 0;
 }
-.budget-info mat-progress-bar {
+.budget-info app-progress {
   width: 100%;
 }
 .budget-title {
-  font: var(--mat-sys-title-medium);
+  font: var(--app-font-title);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 .budget-meta,
 .budget-percentage {
-  color: var(--mat-sys-on-surface-variant);
-  font: var(--mat-sys-body-small);
+  color: var(--app-color-muted);
+  font: var(--app-font-small);
 }
 .budget-progress--over {
-  --mdc-linear-progress-active-indicator-color: var(--mat-sys-error);
+  --app-progress-color: var(--app-color-danger, #ba1a1a);
 }
 .budget-delete {
   flex-shrink: 0;
-
-  @include mat.icon-button-overrides(
-    (
-      icon-color: var(--mat-sys-error),
-      state-layer-color: var(--mat-sys-error),
-    )
-  );
+  color: var(--app-color-danger);
 }

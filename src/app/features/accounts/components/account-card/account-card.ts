@@ -1,14 +1,14 @@
 import { Component, input, output } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
+import { AppCard } from '../../../../shared/ui/card';
+import { AppButton } from '../../../../shared/ui/button';
+import { AppIcon } from '../../../../shared/ui/icon';
 import { AccountRead } from '../../../../core/models';
 import { CentsToEurosPipe } from '../../../../shared/money/cents-to-euros.pipe';
 import { ColorIcon } from '../../../../shared/ui/color-icon/color-icon';
 
 @Component({
   selector: 'app-account-card',
-  imports: [MatCardModule, MatButtonModule, MatIconModule, CentsToEurosPipe, ColorIcon],
+  imports: [AppCard, AppButton, AppIcon, CentsToEurosPipe, ColorIcon],
   templateUrl: 'account-card.html',
   styleUrl: 'account-card.scss',
 })

@@ -1,48 +1,53 @@
 <h2>Crear cuenta</h2>
 <form [formGroup]="form" (ngSubmit)="submit()">
-  <div class="grouped-card">
-    <mat-form-field>
-      <mat-label>Nombre</mat-label>
-      <input matInput type="text" formControlName="name" />
-      <mat-error>{{
-        form.controls.name.getError('server') ?? 'El nombre es obligatorio.'
-      }}</mat-error>
-    </mat-form-field>
+  <app-input-group>
+    <app-text-input
+      label="Nombre"
+      formControlName="name"
+      [error]="
+        form.controls.name.invalid &&
+        (form.controls.name.touched || form.controls.name.hasError('server'))
+          ? (form.controls.name.getError('server') ?? 'El nombre es obligatorio.')
+          : null
+      "
+    />
 
-    <mat-form-field>
-      <mat-label>Tipo</mat-label>
-      <mat-select panelClass="app-select-panel" formControlName="type">
-        @for (type of accountTypes; track type) {
-          <mat-option [value]="type">{{ type | accountTypeLabel }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
+    <app-select label="Tipo" [options]="accountTypeOptions" formControlName="type" />
 
-    <mat-form-field>
-      <mat-label>Saldo actual</mat-label>
-      <input matInput type="number" step="0.01" formControlName="opening_balance" />
-      <mat-error>{{
-        form.controls.opening_balance.getError('server') ?? 'El saldo es obligatorio.'
-      }}</mat-error>
-    </mat-form-field>
+    <app-text-input
+      label="Saldo actual"
+      type="number"
+      step="0.01"
+      formControlName="opening_balance"
+      [error]="
+        form.controls.opening_balance.invalid &&
+        (form.controls.opening_balance.touched || form.controls.opening_balance.hasError('server'))
+          ? (form.controls.opening_balance.getError('server') ?? 'El saldo es obligatorio.')
+          : null
+      "
+    />
 
-    <mat-form-field>
-      <mat-label>Moneda</mat-label>
-      <input matInput type="text" formControlName="currency" maxlength="3" />
-      <mat-error>{{
-        form.controls.currency.getError('server') ?? 'La moneda es obligatoria.'
-      }}</mat-error>
-    </mat-form-field>
+    <app-text-input
+      label="Moneda"
+      formControlName="currency"
+      maxlength="3"
+      [error]="
+        form.controls.currency.invalid &&
+        (form.controls.currency.touched || form.controls.currency.hasError('server'))
+          ? (form.controls.currency.getError('server') ?? 'La moneda es obligatoria.')
+          : null
+      "
+    />
 
     <app-color-picker [selected]="form.controls.color.value" (colorChange)="selectColor($event)" />
 
     <app-icon-picker [selected]="form.controls.icon.value" (iconChange)="selectIcon($event)" />
-  </div>
+  </app-input-group>
   <p class="form-error">{{ formError() }}</p>
 
-  <button matButton="filled" type="submit" [disabled]="submitting()">
+  <button appButton variant="filled" type="submit" [disabled]="submitting()">
     @if (submitting()) {
-      <mat-spinner diameter="20" />
+      <app-loader diameter="20" />
     } @else {
       Guardar
     }

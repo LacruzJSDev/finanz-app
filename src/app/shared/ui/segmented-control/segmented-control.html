@@ -1,0 +1,20 @@
+<div class="app-segmented__track" role="radiogroup">
+  @for (option of options(); track option.value) {
+    <label
+      class="app-segmented__option"
+      [class.app-segmented__option--selected]="isSelected(option.value)"
+    >
+      <input
+        class="app-segmented__native"
+        type="radio"
+        [name]="groupName"
+        [value]="option.value"
+        [checked]="isSelected(option.value)"
+        [disabled]="disabled"
+        (change)="choose(option.value)"
+        (blur)="onTouched()"
+      />
+      <span>{{ option.label }}</span>
+    </label>
+  }
+</div>

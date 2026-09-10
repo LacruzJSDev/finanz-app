@@ -32,6 +32,8 @@ export class AppSheet implements AfterViewInit, OnDestroy {
   private startTime = 0;
   private touchStartY = 0;
   private touchStartTime = 0;
+  private enterFrame?: number;
+  private enteredFrame?: number;
 
   constructor() {
     this.childInjector = Injector.create({
@@ -44,6 +46,11 @@ export class AppSheet implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
+    this.enterFrame = requestAnimationFrame(() => {
+      this.enteredFrame = requestAnimationFrame(() =>
+        this.surface.nativeElement.classList.add('app-sheet--entered'),
+      );
+    });
     this.focusTrap = this.focusTrapFactory.create(this.surface.nativeElement);
     void this.focusTrap.focusInitialElementWhenReady();
     this.surface.nativeElement.addEventListener('touchstart', this.startTouch, { passive: true });
@@ -53,6 +60,8 @@ export class AppSheet implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    if (this.enterFrame) cancelAnimationFrame(this.enterFrame);
+    if (this.enteredFrame) cancelAnimationFrame(this.enteredFrame);
     this.focusTrap?.destroy();
     this.surface.nativeElement.removeEventListener('touchstart', this.startTouch);
     this.surface.nativeElement.removeEventListener('touchmove', this.moveTouch);

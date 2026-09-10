@@ -1,0 +1,105 @@
+<app-field
+  [label]="label()"
+  [inputId]="inputId"
+  [hint]="hint()"
+  [error]="error()"
+  [required]="required()"
+>
+  <button
+    #trigger
+    cdkOverlayOrigin
+    #origin="cdkOverlayOrigin"
+    type="button"
+    role="combobox"
+    class="app-select__trigger"
+    [id]="inputId"
+    [disabled]="disabled()"
+    [attr.aria-expanded]="open()"
+    [attr.aria-controls]="open() ? panelId() : null"
+    [attr.aria-describedby]="descriptionId()"
+    [attr.aria-invalid]="error() ? 'true' : null"
+    [attr.aria-required]="required()"
+    aria-haspopup="listbox"
+    (click)="toggle()"
+    (keydown)="onTriggerKeydown($event)"
+  >
+    @if (selectedOption(); as selected) {
+      @if (selected.icon) {
+        <app-icon [name]="selected.icon" [size]="20" [style.color]="selected.color || null" />
+      } @else if (selected.color) {
+        <app-color-mark [color]="selected.color" [size]="20" />
+      }
+      <span class="app-select__value">{{ selected.label }}</span>
+    } @else {
+      <span class="app-select__placeholder">{{ placeholder() }}</span>
+    }
+    <app-icon name="expand_more" [size]="20" aria-hidden="true" />
+  </button>
+</app-field>
+
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="origin"
+  [cdkConnectedOverlayOpen]="open()"
+  [cdkConnectedOverlayHasBackdrop]="true"
+  [cdkConnectedOverlayWidth]="trigger.getBoundingClientRect().width"
+  [cdkConnectedOverlayViewportMargin]="16"
+  [cdkConnectedOverlayPush]="true"
+  cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+  (backdropClick)="onBackdropClick()"
+  (overlayKeydown)="onOverlayKeydown($event)"
+  (attach)="onOverlayAttach()"
+  (detach)="close(false)"
+>
+  <div
+    class="app-select__panel"
+    [id]="panelId()"
+    role="listbox"
+    ngListbox
+    #listbox="ngListbox"
+    [value]="listValue()"
+    [multi]="false"
+    [focusMode]="'roving'"
+    selectionMode="explicit"
+    orientation="vertical"
+    [attr.aria-label]="label()"
+    (keydown.escape)="$event.stopPropagation(); close()"
+    (keydown.enter)="chooseActive($any($event))"
+    (keydown.space)="chooseActive($any($event))"
+    (keydown.tab)="closeFromTab($any($event))"
+    (valueChange)="onListValueChange($event)"
+  >
+    @if (options().length) {
+      @for (option of options(); track option.value; let index = $index) {
+        @if (option.group && (index === 0 || option.group !== options()[index - 1].group)) {
+          <div class="app-select__group" role="presentation">{{ option.group }}</div>
+        }
+        <div
+          class="app-select__option"
+          ngOption
+          [id]="inputId + '-option-' + option.value"
+          [value]="option.value"
+          [label]="option.label"
+          [attr.data-value]="option.value"
+          [disabled]="option.disabled || false"
+          [class.app-select__option--selected]="value() === option.value"
+          (click)="choose(option)"
+        >
+          @if (option.icon) {
+            <app-icon
+              [name]="option.icon"
+              [size]="20"
+              [style.color]="option.color || null"
+              aria-hidden="true"
+            />
+          } @else if (option.color) {
+            <app-color-mark [color]="option.color" [size]="20" />
+          }
+          <span>{{ option.label }}</span>
+        </div>
+      }
+    } @else {
+      <div class="app-select__empty">No hay opciones</div>
+    }
+  </div>
+</ng-template>

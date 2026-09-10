@@ -1,8 +1,8 @@
+import { AppCard } from '../../../../shared/ui/card';
+import { AppButton } from '../../../../shared/ui/button';
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
+import { AppIcon } from '../../../../shared/ui/icon';
 
 /** Una cosa que la aplicación hace, tal como se cuenta en la portada. */
 interface LandingFeature {
@@ -13,7 +13,7 @@ interface LandingFeature {
 
 @Component({
   selector: 'app-landing',
-  imports: [RouterLink, MatButtonModule, MatCardModule, MatIconModule],
+  imports: [RouterLink, AppButton, AppCard, AppIcon],
   templateUrl: './landing.html',
   styleUrl: './landing.scss',
 })

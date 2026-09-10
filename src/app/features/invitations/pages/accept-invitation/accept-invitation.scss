@@ -8,8 +8,8 @@ form {
 }
 
 .invite-hint {
-  font: var(--mat-sys-body-small);
-  color: var(--mat-sys-on-surface-variant);
+  font: var(--app-font-small);
+  color: var(--app-color-muted);
   text-align: center;
 }
 
@@ -26,12 +26,12 @@ form {
   text-align: center;
 
   h2 {
-    font: var(--mat-sys-headline-small);
+    font: var(--app-font-title);
   }
 }
 
 .invite-by {
-  color: var(--mat-sys-on-surface-variant);
+  color: var(--app-color-muted);
 }
 
 // El mismo alto que los botones de envío de los bottom sheets, para que no

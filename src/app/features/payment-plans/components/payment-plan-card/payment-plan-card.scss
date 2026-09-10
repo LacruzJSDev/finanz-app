@@ -1,13 +1,6 @@
 :host {
   display: block;
-}
-
-mat-card {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 1rem;
-  padding: 0.75rem 1rem;
+  --app-card-gap: var(--app-space-2);
 }
 
 .plan-info {
@@ -18,12 +11,12 @@ mat-card {
 }
 
 .plan-title {
-  font: var(--mat-sys-title-medium);
+  font: var(--app-font-title);
 }
 
 .plan-meta {
-  font: var(--mat-sys-body-small);
-  color: var(--mat-sys-on-surface-variant);
+  font: var(--app-font-small);
+  color: var(--app-color-muted);
 }
 
 .plan-title,
@@ -34,16 +27,16 @@ mat-card {
 }
 
 .plan-amount {
-  font: var(--mat-sys-title-medium);
+  font: var(--app-font-title);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
   flex-shrink: 0;
 }
 
 .plan-amount--expense {
-  color: var(--mat-sys-error);
+  color: var(--app-color-danger);
 }
 
 .plan-amount--income {
-  color: var(--mat-sys-tertiary);
+  color: var(--app-color-positive);
 }

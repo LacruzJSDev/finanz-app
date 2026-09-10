@@ -8,10 +8,17 @@
   width: 100%;
   max-height: calc(100dvh - env(safe-area-inset-top) - 1rem);
   overflow: hidden;
-  border-radius: var(--mat-sys-corner-extra-large) var(--mat-sys-corner-extra-large) 0 0;
-  background: var(--mat-sys-surface-container-lowest);
-  box-shadow: var(--mat-sys-level3);
-  transition: transform 180ms ease-out;
+  border-radius: var(--app-radius-card, 22px) var(--app-radius-card, 22px) 0 0;
+  background: var(--app-color-surface, #fff);
+  box-shadow: 0 -4px 20px rgb(0 0 0 / 14%);
+  transform: translateY(100%);
+  transition: transform var(--app-motion-fast, 120ms) ease-out;
+}
+.app-sheet--entered {
+  transform: translateY(0);
+}
+.app-sheet--closing {
+  transform: translateY(100%);
 }
 .app-sheet--dragging {
   transition: none;
@@ -25,11 +32,17 @@
   width: 36px;
   height: 4px;
   border-radius: 999px;
-  background: var(--mat-sys-outline-variant);
+  background: var(--app-color-border, #d8d6ce);
 }
 .app-sheet__body {
   min-height: 0;
   overflow-y: auto;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-sheet {
+    transition-duration: 0ms;
+  }
 }

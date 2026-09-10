@@ -14,8 +14,8 @@
   gap: 1rem;
   min-height: 64px;
   padding: 0.5rem 1rem;
-  background: var(--mat-sys-surface-container-lowest);
-  border-bottom: 1px solid var(--mat-sys-outline-variant);
+  background: var(--app-color-surface, #fff);
+  border-bottom: 1px solid var(--app-color-border, #d8d6ce);
 }
 
 .brand {
@@ -32,20 +32,17 @@
   width: 32px;
   height: 32px;
   flex-shrink: 0;
-  border-radius: var(--mat-sys-corner-small);
-  background: var(--mat-sys-primary-container);
-  color: var(--mat-sys-on-primary-container);
+  border-radius: var(--app-radius-small, 8px);
+  background: var(--app-color-primary-container, #e4e2dc);
+  color: var(--app-color-text, #1c1c19);
 
-  mat-icon {
+  app-icon {
     font-size: 20px;
-    width: 20px;
-    height: 20px;
   }
 }
 
 .brand__name {
-  font: var(--mat-sys-title-medium);
-  font-family: var(--mat-sys-brand-font-family, inherit);
+  font: var(--app-font-title, 500 1rem/1.5rem Geist, system-ui, sans-serif);
   font-weight: 600;
   white-space: nowrap;
 }

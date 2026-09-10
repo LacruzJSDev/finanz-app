@@ -2,43 +2,39 @@
   display: block;
 }
 
-mat-card {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  padding: 1rem;
+app-card {
   height: 100%;
 }
 
 .tile-label {
-  font: var(--mat-sys-label-medium);
+  font: var(--app-font-label);
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--mat-sys-on-surface-variant);
+  color: var(--app-color-muted);
 }
 
 .tile-value {
-  font: var(--mat-sys-headline-medium);
+  font: var(--app-font-title-large, 500 1.375rem/1.75rem Geist, system-ui, sans-serif);
   font-weight: 600;
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.02em;
 }
 
 .tile-value--negative {
-  color: var(--mat-sys-error);
+  color: var(--app-color-danger);
 }
 
 .tile-value--positive {
-  color: var(--mat-sys-tertiary);
+  color: var(--app-color-positive, #2e7d32);
 }
 
 // La unidad acompaña, no compite: mismo color, mucho menor.
 .tile-unit {
-  font: var(--mat-sys-body-medium);
+  font: var(--app-font-body, 400 14px/20px Geist, system-ui, sans-serif);
   opacity: 0.55;
 }
 
 .tile-note {
-  font: var(--mat-sys-body-small);
-  color: var(--mat-sys-on-surface-variant);
+  font: var(--app-font-small);
+  color: var(--app-color-muted);
 }

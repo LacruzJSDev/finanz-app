@@ -1,12 +1,12 @@
+import { AppButton } from '../../../../../shared/ui/button';
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AccountsService } from '../../../../../core/accounts/accounts.service';
 import { APP_SHEET_DATA, AppSheetRef } from '../../../../../shared/ui/app-sheet';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatButtonModule } from '@angular/material/button';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AppSelect, AppSelectOption } from '../../../../../shared/ui/select';
+import { AppInputGroup } from '../../../../../shared/ui/input-group';
+import { AppTextInput } from '../../../../../shared/ui/text-input';
+import { AppLoader } from '../../../../../shared/ui/loader';
 import { AccountRead, AccountTypeEnum } from '../../../../../core/models';
 import { IconPicker } from '../../../../../shared/icons/icon-picker/icon-picker';
 import { IconName } from '../../../../../shared/icons/icons';
@@ -14,7 +14,7 @@ import { ColorPicker } from '../../../../../shared/colors/color-picker/color-pic
 import { AVAILABLE_COLORS, ColorName } from '../../../../../shared/colors/colors';
 import { AccountTypeLabelPipe } from '../../../pipes/account-type-label.pipe';
 import { applyServerErrors } from '../../../../../core/forms/apply-server-errors';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { AppSwitch } from '../../../../../shared/ui/switch';
 
 export interface UpdateAccountFormData {
   account: AccountRead;
@@ -26,13 +26,12 @@ export interface UpdateAccountFormData {
     ReactiveFormsModule,
     IconPicker,
     ColorPicker,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatButtonModule,
-    AccountTypeLabelPipe,
-    MatProgressSpinnerModule,
-    MatSlideToggleModule,
+    AppSelect,
+    AppInputGroup,
+    AppTextInput,
+    AppButton,
+    AppLoader,
+    AppSwitch,
   ],
   templateUrl: 'update-account-form.html',
   host: { class: 'bottom-sheet-form' },
@@ -42,6 +41,9 @@ export class UpdateAccountForm {
   private readonly sheetRef = inject(AppSheetRef<UpdateAccountForm>);
   private readonly data = inject<UpdateAccountFormData>(APP_SHEET_DATA);
   protected readonly accountTypes = Object.values(AccountTypeEnum);
+  protected readonly accountTypeOptions: readonly AppSelectOption[] = this.accountTypes.map(
+    (type) => ({ value: type, label: new AccountTypeLabelPipe().transform(type) }),
+  );
 
   readonly form = this.fb.nonNullable.group({
     name: [this.data.account.name, [Validators.required]],

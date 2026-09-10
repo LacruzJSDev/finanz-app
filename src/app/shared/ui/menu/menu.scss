@@ -1,0 +1,14 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  background: var(--app-color-surface);
+  border: 1px solid var(--app-color-border);
+  border-radius: var(--app-radius-control);
+  color: var(--app-color-text);
+  box-shadow: var(--app-shadow-raised);
+  padding-block: var(--app-space-2);
+  min-width: 12rem;
+  max-width: calc(100vw - 2rem);
+  overflow-wrap: anywhere;
+  outline: none;
+}

@@ -1,0 +1,145 @@
+:host {
+  display: block;
+  min-height: 56px;
+}
+
+.app-select__trigger {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: var(--app-radius-small);
+  color: var(--app-color-text);
+  display: flex;
+  font: var(--app-font-body);
+  gap: var(--app-space-2);
+  justify-content: space-between;
+  min-height: 44px;
+  padding: 0 var(--app-space-2);
+  text-align: start;
+  width: 100%;
+}
+
+.app-select__trigger:focus-visible {
+  outline: var(--app-field-focus-width, 2px) solid var(--app-color-primary);
+  outline-offset: 1px;
+}
+
+.app-select__trigger:disabled {
+  color: var(--app-color-muted);
+  cursor: not-allowed;
+}
+
+.app-select__value,
+.app-select__placeholder {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.app-select__placeholder {
+  color: var(--app-color-muted);
+}
+
+.app-select__chevron {
+  color: var(--app-color-muted);
+  flex-shrink: 0;
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.app-select__mark {
+  color: var(--app-select-option-color, var(--app-color-primary));
+  flex-shrink: 0;
+}
+
+.app-select__panel {
+  animation: app-select-panel-enter var(--app-motion-fast, 120ms) ease-out both;
+  background: var(--app-color-surface);
+  border: 1px solid var(--app-color-border);
+  border-radius: var(--app-radius-small);
+  box-shadow: var(--app-shadow-raised);
+  box-sizing: border-box;
+  max-height: min(20rem, 50vh);
+  // The CDK pane already matches the trigger; its visible surface must fill it.
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: var(--app-space-1) 0;
+}
+
+@keyframes app-select-panel-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-0.25rem) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.app-select__option,
+.app-select__group,
+.app-select__empty {
+  box-sizing: border-box;
+  min-height: 44px;
+  padding: 0.625rem var(--app-space-4);
+}
+
+.app-select__option {
+  width: 100%;
+  align-items: center;
+  color: var(--app-color-text);
+  cursor: pointer;
+  display: flex;
+  gap: var(--app-space-2);
+}
+
+.app-select__option:hover,
+.app-select__option:focus-visible {
+  background: var(--app-color-surface-low);
+  outline: 2px solid var(--app-color-primary);
+  outline-offset: -2px;
+}
+
+.app-select__option--selected {
+  background: var(--app-color-selected);
+  color: var(--app-color-on-selected);
+  font-weight: 600;
+}
+
+.app-select__option[aria-disabled='true'] {
+  color: var(--app-color-muted);
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-select__panel {
+    animation: none;
+  }
+}
+
+.app-select__option > span:last-child {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.app-select__group {
+  color: var(--app-color-muted);
+  font: var(--app-font-label-small);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.app-select__empty {
+  color: var(--app-color-muted);
+}
+
+.app-select__backdrop {
+  background: transparent;
+}

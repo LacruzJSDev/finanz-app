@@ -7,13 +7,16 @@
 // obligaba a reservar a la derecha.
 .top-bar {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   gap: 0.75rem;
   min-height: 64px;
   padding: 0.5rem 1rem;
-  background: var(--mat-sys-surface-container-lowest);
-  border-bottom: 1px solid var(--mat-sys-outline-variant);
+  background: var(--app-color-surface);
+  border-bottom: 1px solid var(--app-color-border);
+}
+.top-bar--with-parent {
+  grid-template-columns: auto minmax(0, 1fr) auto;
 }
 
 .parent-button {
@@ -30,17 +33,16 @@
 // Ahora sí cabe a title-large: el título pasa de ~125px de ancho a los ~306
 // que deja la barra sin el chip.
 .identity h1 {
-  font: var(--mat-sys-title-large);
-  font-weight: 600;
+  font: var(--app-font-top-bar-title);
 }
 
 // Reserva su línea siempre: las pantallas que gestionan grupos la dejan vacía,
 // y sin altura mínima la barra encogería justo en esas.
 .identity__context {
   min-height: 1.25rem;
-  font: var(--mat-sys-body-medium);
+  font: var(--app-font-body);
   font-variant-numeric: tabular-nums;
-  color: var(--mat-sys-on-surface-variant);
+  color: var(--app-color-muted);
 }
 
 .identity h1,
@@ -59,7 +61,7 @@
   border-radius: 50%;
 
   &:focus-visible {
-    outline: 2px solid var(--mat-sys-primary);
+    outline: 2px solid var(--app-color-primary);
     outline-offset: 2px;
   }
 }
@@ -69,14 +71,14 @@
   display: flex;
   flex-direction: column;
   padding: 0.5rem 1rem 0.75rem;
-  border-bottom: 1px solid var(--mat-sys-outline-variant);
+  border-bottom: 1px solid var(--app-color-border);
 }
 
 .user-menu__name {
-  font: var(--mat-sys-title-small);
+  font: var(--app-font-label);
 }
 
 .user-menu__email {
-  font: var(--mat-sys-body-small);
-  color: var(--mat-sys-on-surface-variant);
+  font: var(--app-font-small);
+  color: var(--app-color-muted);
 }

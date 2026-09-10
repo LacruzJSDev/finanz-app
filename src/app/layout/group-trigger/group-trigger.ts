@@ -1,5 +1,5 @@
 import { Component, computed, inject } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
+import { AppIcon } from '../../shared/ui/icon';
 import { GroupContextService } from '../../core/ui/group-context.service';
 import { PageContextService } from '../../core/ui/page-context.service';
 import { GroupSwitcher } from '../group-switcher/group-switcher';
@@ -7,20 +7,8 @@ import { AppSheetService } from '../../shared/ui/app-sheet';
 
 @Component({
   selector: 'app-group-trigger',
-  imports: [MatIconModule],
-  template: `
-    @if (showGroup()) {
-      <button
-        type="button"
-        class="group-trigger"
-        (click)="open()"
-        [attr.aria-label]="'Cambiar de grupo. Grupo activo: ' + groupName()"
-      >
-        <mat-icon>groups</mat-icon><span>{{ groupName() }}</span
-        ><mat-icon>expand_less</mat-icon>
-      </button>
-    }
-  `,
+  imports: [AppIcon],
+  templateUrl: './group-trigger.html',
   styleUrl: './group-trigger.scss',
   host: { '[class.group-trigger-host--visible]': 'showGroup()' },
 })

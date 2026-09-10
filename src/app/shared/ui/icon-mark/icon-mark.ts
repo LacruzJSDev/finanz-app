@@ -1,5 +1,5 @@
 import { Component, computed, input } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
+import { AppIcon } from '../icon';
 import { resolveIcon } from '../../icons/icons';
 
 /**
@@ -9,7 +9,7 @@ import { resolveIcon } from '../../icons/icons';
  */
 @Component({
   selector: 'app-icon-mark',
-  imports: [MatIconModule],
+  imports: [AppIcon],
   templateUrl: './icon-mark.html',
   styleUrl: './icon-mark.scss',
   host: { class: 'field-mark' },

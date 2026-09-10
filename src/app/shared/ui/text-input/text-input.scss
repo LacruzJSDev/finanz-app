@@ -1,0 +1,56 @@
+:host {
+  display: block;
+}
+
+input,
+textarea {
+  width: 100%;
+  min-height: var(--app-touch-target);
+  appearance: none;
+  background: transparent;
+  border: 0;
+  color: var(--app-color-text);
+  font: var(--app-font-body);
+  outline: none;
+  padding: 0;
+}
+
+textarea {
+  resize: vertical;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--app-color-muted);
+  opacity: 1;
+}
+
+input:disabled,
+textarea:disabled {
+  color: var(--app-color-muted);
+  cursor: not-allowed;
+}
+
+input[readonly],
+textarea[readonly] {
+  cursor: default;
+}
+
+input[type='number'] {
+  appearance: textfield;
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    appearance: none;
+    margin: 0;
+  }
+}
+
+input.amount-input {
+  font-size: 3.5rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  color: var(--app-input-color, var(--app-color-text));
+}

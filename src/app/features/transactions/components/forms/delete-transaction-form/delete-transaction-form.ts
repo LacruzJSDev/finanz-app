@@ -1,7 +1,7 @@
+import { AppButton } from '../../../../../shared/ui/button';
 import { Component, inject, signal } from '@angular/core';
 import { APP_SHEET_DATA, AppSheetRef } from '../../../../../shared/ui/app-sheet';
-import { MatButtonModule } from '@angular/material/button';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AppLoader } from '../../../../../shared/ui/loader';
 import { TransactionsService } from '../../../../../core/transactions/transactions.service';
 import { TransactionRead } from '../../../../../core/models';
 
@@ -12,7 +12,7 @@ export interface DeleteTransactionFormData {
 
 @Component({
   selector: 'app-delete-transaction-form',
-  imports: [MatButtonModule, MatProgressSpinnerModule],
+  imports: [AppButton, AppLoader],
   templateUrl: './delete-transaction-form.html',
   styleUrl: './delete-transaction-form.scss',
   host: { class: 'bottom-sheet-form' },

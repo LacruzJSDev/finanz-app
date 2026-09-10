@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
+import { AppIcon } from '../icon';
 
 /**
  * Una lista sin nada dentro. Dice qué falta y, si hay forma de llenarla, cómo.
@@ -9,7 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
  */
 @Component({
   selector: 'app-empty-state',
-  imports: [MatIconModule],
+  imports: [AppIcon],
   templateUrl: './empty-state.html',
   styleUrl: './empty-state.scss',
 })

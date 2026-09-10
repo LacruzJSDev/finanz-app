@@ -3,7 +3,7 @@ import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/ro
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter, map } from 'rxjs';
 import { AppSheetService } from '../../../../shared/ui/app-sheet';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { AppSegmentedControl } from '../../../../shared/ui/segmented-control';
 import { PageContextService } from '../../../../core/ui/page-context.service';
 import { AccountGroupsService } from '../../../../core/account-groups/account-groups.service';
 import { GroupContextService } from '../../../../core/ui/group-context.service';
@@ -19,7 +19,7 @@ import { CreateCategoryForm, CreateCategoryFormData } from '../../../categories'
 
 @Component({
   selector: 'app-account-group-detail',
-  imports: [RouterOutlet, MatButtonToggleModule],
+  imports: [RouterOutlet, AppSegmentedControl],
   templateUrl: './account-group-detail.html',
   host: { class: 'page-container' },
 })
@@ -36,6 +36,11 @@ export class AccountGroupDetail {
   readonly id = input.required<string>();
 
   protected readonly loading = this.accountGroupsService.loading;
+  protected readonly sectionOptions = [
+    { value: 'miembros', label: 'Miembros' },
+    { value: 'invitaciones', label: 'Invitaciones' },
+    { value: 'categorias', label: 'Categorías' },
+  ] as const;
 
   protected readonly group = computed(() =>
     this.accountGroupsService.groups().find((g) => g.id === this.id()),

@@ -1,56 +1,25 @@
 <app-page-content>
   <div class="transaction-filters">
-    <mat-form-field subscriptSizing="dynamic">
-      <mat-label>Categoría</mat-label>
-      <mat-select
-        panelClass="app-select-panel"
-        [value]="categoryFilter()"
-        (selectionChange)="changeCategory($event.value)"
-      >
-        <mat-select-trigger>
-          @if (selectedFilterCategory(); as category) {
-            <app-color-icon [icon]="category.icon" [color]="category.color" />
-            {{ category.name }}
-          } @else if (categoryFilter() === 'uncategorized') {
-            <app-color-icon />
-            Sin categoría
-          } @else {
-            <app-color-icon icon="category" [color]="null" />
-            Todas
-          }
-        </mat-select-trigger>
-        <mat-option value="all">
-          <app-color-icon icon="category" [color]="null" />
-          Todas
-        </mat-option>
-        <mat-option value="uncategorized">
-          <app-color-icon />
-          Sin categoría
-        </mat-option>
-        @for (category of rootCategories(); track category.id) {
-          <mat-option [value]="category.id">
-            <app-color-icon [icon]="category.icon" [color]="category.color" />
-            {{ category.name }}
-          </mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
+    <app-select label="Categoría" [options]="categoryOptions()" [formControl]="categoryControl" />
 
-    <mat-form-field subscriptSizing="dynamic">
-      <mat-label>Buscar por concepto</mat-label>
-      <input
-        matInput
+    <div class="transaction-search">
+      <app-text-input
+        label="Concepto"
         type="search"
-        [value]="search()"
-        (input)="changeSearch($event)"
         autocomplete="off"
+        [formControl]="searchControl"
       />
       @if (search()) {
-        <button matIconButton matSuffix aria-label="Limpiar búsqueda" (click)="search.set('')">
-          <mat-icon>close</mat-icon>
+        <button
+          appButton
+          variant="icon"
+          aria-label="Limpiar búsqueda"
+          (click)="searchControl.setValue('')"
+        >
+          <app-icon name="close" />
         </button>
       }
-    </mat-form-field>
+    </div>
   </div>
 
   @if (loading()) {
@@ -67,7 +36,7 @@
          para que el hueco no dé un salto cuando aparece el spinner. -->
     <div class="load-more" appInfiniteScroll [disabled]="!canLoadMore()" (reached)="loadMore()">
       @if (loadingMore()) {
-        <mat-spinner diameter="24" />
+        <app-loader diameter="24" />
       } @else if (!hasMore()) {
         <span class="load-more__end">No hay más movimientos</span>
       }
@@ -80,7 +49,7 @@
           message="No hay movimientos que coincidan."
           hint="Prueba a cambiar o limpiar los filtros."
         />
-        <button matButton="tonal" (click)="clearFilters()">Limpiar filtros</button>
+        <button appButton variant="outlined" (click)="clearFilters()">Limpiar filtros</button>
       </div>
     } @else {
       <app-empty-state

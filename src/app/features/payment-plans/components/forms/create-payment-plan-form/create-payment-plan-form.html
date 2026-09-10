@@ -4,84 +4,70 @@
   <app-toggle-transaction-type [control]="form.controls.type" [options]="transactionTypes" />
   <app-amount-input [control]="form.controls.amount" [type]="type()" />
 
-  <div class="grouped-card">
-    <mat-form-field>
-      <mat-label>Concepto</mat-label>
-      <input matInput type="text" formControlName="description" />
-    </mat-form-field>
+  <app-input-group>
+    <app-text-input label="Concepto" formControlName="description" />
 
-    <mat-form-field>
-      <mat-label>Primer vencimiento</mat-label>
-      <input matInput [matDatepicker]="due" formControlName="next_due_date" (click)="due.open()" />
-      <mat-datepicker-toggle matIconSuffix [for]="due" />
-      <mat-datepicker #due />
-      <mat-error>
-        {{ form.controls.next_due_date.getError('server') ?? 'La fecha es obligatoria.' }}
-      </mat-error>
-    </mat-form-field>
+    <app-date-picker
+      label="Primer vencimiento"
+      formControlName="next_due_date"
+      required
+      [error]="
+        form.controls.next_due_date.invalid
+          ? (form.controls.next_due_date.getError('server') ?? 'La fecha es obligatoria.')
+          : null
+      "
+    />
 
     @if (type() === 'transfer') {
-      <mat-form-field>
-        <mat-label>Cuenta destino</mat-label>
-        <mat-select panelClass="app-select-panel" formControlName="to_account_id">
-          @for (account of data.otherAccounts; track account.id) {
-            <mat-option [value]="account.id">{{ account.name }}</mat-option>
-          }
-        </mat-select>
-        <mat-error>
-          {{
-            form.controls.to_account_id.getError('server') ?? 'La cuenta destino es obligatoria.'
-          }}
-        </mat-error>
-      </mat-form-field>
+      <app-select
+        label="Cuenta destino"
+        [options]="accountOptions"
+        formControlName="to_account_id"
+        [error]="
+          form.controls.to_account_id.invalid
+            ? (form.controls.to_account_id.getError('server') ??
+              'La cuenta destino es obligatoria.')
+            : null
+        "
+      />
     } @else {
       <app-category-select [control]="form.controls.category_id" [categories]="data.categories" />
     }
-  </div>
+  </app-input-group>
 
-  <div class="grouped-card">
-    <mat-slide-toggle
-      class="mat-slide-toggle-full-width"
-      formControlName="is_recurring"
-      labelPosition="before"
-    >
-      Se repite
-    </mat-slide-toggle>
+  <app-input-group>
+    <app-switch formControlName="is_recurring" labelPosition="before"> Se repite </app-switch>
 
     @if (recurring()) {
       <div class="field-pair">
-        <mat-form-field>
-          <mat-label>Cada</mat-label>
-          <input matInput type="number" min="1" step="1" formControlName="frequency_interval" />
-        </mat-form-field>
+        <app-text-input
+          label="Cada"
+          type="number"
+          min="1"
+          step="1"
+          formControlName="frequency_interval"
+        />
 
-        <mat-form-field>
-          <mat-label>Periodo</mat-label>
-          <mat-select panelClass="app-select-panel" formControlName="frequency_unit">
-            @for (unit of frequencyUnits; track unit) {
-              <mat-option [value]="unit">{{ unit | frequencyUnitLabel }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
+        <app-select label="Periodo" [options]="frequencyOptions" formControlName="frequency_unit" />
       </div>
 
-      <mat-form-field>
-        <mat-label>Termina el (opcional)</mat-label>
-        <input matInput [matDatepicker]="end" formControlName="end_date" (click)="end.open()" />
-        <mat-datepicker-toggle matIconSuffix [for]="end" />
-        <mat-datepicker #end />
-        <mat-error>
-          {{ form.controls.end_date.getError('server') ?? 'No puede ser antes del vencimiento.' }}
-        </mat-error>
-      </mat-form-field>
+      <app-date-picker
+        label="Termina el (opcional)"
+        formControlName="end_date"
+        [error]="
+          form.controls.end_date.invalid
+            ? (form.controls.end_date.getError('server') ?? 'No puede ser antes del vencimiento.')
+            : null
+        "
+      />
     }
-  </div>
+  </app-input-group>
 
   <p class="form-error">{{ formError() }}</p>
 
-  <button matButton="filled" type="submit" [disabled]="submitting()">
+  <button appButton variant="filled" type="submit" [disabled]="submitting()">
     @if (submitting()) {
-      <mat-spinner diameter="20" />
+      <app-loader diameter="20" />
     } @else {
       Guardar
     }

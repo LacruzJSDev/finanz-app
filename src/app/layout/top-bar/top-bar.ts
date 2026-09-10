@@ -1,7 +1,8 @@
 import { Component, computed, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
+import { AppIcon } from '../../shared/ui/icon';
+import { AppMenu, AppMenuItem, AppMenuTrigger } from '../../shared/ui/menu';
+import { AppButton } from '../../shared/ui/button';
 import { Avatar } from '../../shared/ui/avatar/avatar';
 import { PageContextService } from '../../core/ui/page-context.service';
 import { GroupContextService } from '../../core/ui/group-context.service';
@@ -11,7 +12,7 @@ const NO_GROUP_SELECTED = 'Grupo no seleccionado';
 
 @Component({
   selector: 'app-top-bar',
-  imports: [MatIconModule, MatMenuModule, Avatar],
+  imports: [AppIcon, AppButton, AppMenu, AppMenuItem, AppMenuTrigger, Avatar],
   templateUrl: 'top-bar.html',
   styleUrl: 'top-bar.scss',
 })

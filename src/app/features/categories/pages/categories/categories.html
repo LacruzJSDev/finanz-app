@@ -2,49 +2,53 @@
   @if (loading()) {
     <app-page-loader />
   } @else {
-    @if (activeCategories().length) {
-      <app-categories-list
-        [categories]="activeCategories()"
-        [blockedIds]="blockedIds()"
-        [canManage]="canManage()"
-        (editClick)="openUpdateCategoryForm($event)"
-        (toggleActive)="toggleCategoryActive($event)"
-      />
-    } @else {
-      <div class="categories-empty">
-        <app-empty-state
-          icon="category"
-          message="No hay categorías activas."
-          hint="Crea la primera con el botón +."
-        />
-      </div>
-    }
-
-    @if (canOfferStarters()) {
-      <app-starter-categories
-        [count]="pendingStarters().length"
-        [creating]="creatingStarters()"
-        (create)="createStarterCategories()"
-      />
-    }
-
-    @if (archivedCategories().length; as archivedCount) {
-      <button type="button" class="archived-toggle" (click)="showArchived.set(!showArchived())">
-        <mat-icon>{{ showArchived() ? 'expand_less' : 'expand_more' }}</mat-icon>
-        {{
-          archivedCount === 1 ? '1 categoría archivada' : archivedCount + ' categorías archivadas'
-        }}
-      </button>
-
-      @if (showArchived()) {
+    <div class="categories-content">
+      @if (archivedCategories().length || showArchived()) {
+        <button
+          type="button"
+          class="archived-toggle"
+          [attr.aria-pressed]="showArchived()"
+          (click)="showArchived.set(!showArchived())"
+        >
+          <app-icon [name]="showArchived() ? 'arrow_back' : 'archive'" />
+          {{
+            showArchived()
+              ? 'Volver a categorías activas'
+              : 'Ver categorías archivadas (' + archivedCategories().length + ')'
+          }}
+        </button>
+      }
+      @if ((showArchived() ? archivedCategories() : activeCategories()).length) {
         <app-categories-list
-          [categories]="archivedCategories()"
+          [categories]="showArchived() ? archivedCategories() : activeCategories()"
           [blockedIds]="blockedIds()"
           [canManage]="canManage()"
           (editClick)="openUpdateCategoryForm($event)"
           (toggleActive)="toggleCategoryActive($event)"
         />
+      } @else {
+        <div class="categories-empty">
+          <app-empty-state
+            icon="category"
+            [message]="
+              showArchived() ? 'No hay categorías archivadas.' : 'No hay categorías activas.'
+            "
+            [hint]="
+              showArchived()
+                ? 'Puedes volver a las categorías activas.'
+                : 'Crea la primera con el botón +.'
+            "
+          />
+        </div>
       }
-    }
+
+      @if (!showArchived() && canOfferStarters()) {
+        <app-starter-categories
+          [count]="pendingStarters().length"
+          [creating]="creatingStarters()"
+          (create)="createStarterCategories()"
+        />
+      }
+    </div>
   }
 </app-page-content>

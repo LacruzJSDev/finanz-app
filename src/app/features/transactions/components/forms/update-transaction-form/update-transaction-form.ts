@@ -1,14 +1,13 @@
+import { AppButton } from '../../../../../shared/ui/button';
 import { Component, inject, signal } from '@angular/core';
 import { LowerCasePipe } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { APP_SHEET_DATA, AppSheetRef } from '../../../../../shared/ui/app-sheet';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatButtonModule } from '@angular/material/button';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatDatepickerModule } from '@angular/material/datepicker';
+import { AppTextInput } from '../../../../../shared/ui/text-input';
+import { AppLoader } from '../../../../../shared/ui/loader';
+import { AppDatePicker } from '../../../../../shared/ui/date-picker';
+import { AppInputGroup } from '../../../../../shared/ui/input-group';
 import { centsToEuros, eurosToCents } from '../../../../../shared/money/money';
 import { dateToIso, isoToDate } from '../../../../../shared/date/date';
 import { TransactionsService } from '../../../../../core/transactions/transactions.service';
@@ -40,12 +39,11 @@ export interface UpdateTransactionFormData {
     LowerCasePipe,
     CategorySelect,
     AmountInput,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatButtonModule,
-    MatDatepickerModule,
-    MatProgressSpinnerModule,
+    AppTextInput,
+    AppButton,
+    AppDatePicker,
+    AppInputGroup,
+    AppLoader,
     ToggleTransactionType,
   ],
   templateUrl: './update-transaction-form.html',

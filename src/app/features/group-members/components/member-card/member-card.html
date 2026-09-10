@@ -1,4 +1,4 @@
-<mat-card appearance="outlined">
+<app-card appearance="outlined" layout="row" spacing="compact">
   <app-avatar [name]="member().name" />
 
   <div class="member-info">
@@ -14,19 +14,20 @@
   <span class="member-role">{{ member().role | memberRoleLabel }}</span>
 
   @if (canChangeRole()) {
-    <button matIconButton aria-label="Cambiar rol" (click)="roleClick.emit(member())">
-      <mat-icon>manage_accounts</mat-icon>
+    <button appButton variant="icon" aria-label="Cambiar rol" (click)="roleClick.emit(member())">
+      <app-icon name="manage_accounts" />
     </button>
   }
 
   @if (canRemove()) {
     <button
-      matIconButton
+      appButton
+      variant="icon"
       class="member-remove"
       [attr.aria-label]="isViewer() ? 'Abandonar el grupo' : 'Expulsar del grupo'"
       (click)="removeClick.emit(member())"
     >
-      <mat-icon>{{ isViewer() ? 'logout' : 'person_remove' }}</mat-icon>
+      <app-icon [name]="isViewer() ? 'logout' : 'person_remove'" />
     </button>
   }
-</mat-card>
+</app-card>

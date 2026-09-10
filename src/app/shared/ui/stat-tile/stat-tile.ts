@@ -1,10 +1,10 @@
+import { AppCard } from '../card';
 import { Component, input } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
 
 /** Una cifra con su etiqueta y una nota debajo. No sabe qué mide. */
 @Component({
   selector: 'app-stat-tile',
-  imports: [MatCardModule],
+  imports: [AppCard],
   templateUrl: './stat-tile.html',
   styleUrl: './stat-tile.scss',
 })

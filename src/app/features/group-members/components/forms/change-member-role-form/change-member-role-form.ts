@@ -1,10 +1,10 @@
+import { AppButton } from '../../../../../shared/ui/button';
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { APP_SHEET_DATA, AppSheetRef } from '../../../../../shared/ui/app-sheet';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
-import { MatButtonModule } from '@angular/material/button';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AppSelect, AppSelectOption } from '../../../../../shared/ui/select';
+import { AppInputGroup } from '../../../../../shared/ui/input-group';
+import { AppLoader } from '../../../../../shared/ui/loader';
 import { GroupMembersService } from '../../../../../core/group-members/group-members.service';
 import { AccountGroupMemberRoleEnum, GroupMemberRead } from '../../../../../core/models';
 import { applyServerErrors } from '../../../../../core/forms/apply-server-errors';
@@ -17,14 +17,7 @@ export interface ChangeMemberRoleFormData {
 
 @Component({
   selector: 'app-change-member-role-form',
-  imports: [
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatButtonModule,
-    MatProgressSpinnerModule,
-    MemberRoleLabelPipe,
-  ],
+  imports: [ReactiveFormsModule, AppSelect, AppInputGroup, AppButton, AppLoader],
   templateUrl: './change-member-role-form.html',
   host: { class: 'bottom-sheet-form' },
 })
@@ -40,6 +33,10 @@ export class ChangeMemberRoleForm {
   // Los tres roles, `owner` incluido: no hay endpoint de transferir propiedad,
   // se promueve a otro a propietario y el grupo pasa a tener dos.
   protected readonly roles = Object.values(AccountGroupMemberRoleEnum);
+  protected readonly roleOptions: readonly AppSelectOption[] = this.roles.map((role) => ({
+    value: role,
+    label: new MemberRoleLabelPipe().transform(role),
+  }));
 
   readonly form = this.fb.nonNullable.group({
     role: [this.data.member.role, [Validators.required]],

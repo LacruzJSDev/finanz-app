@@ -1,15 +1,16 @@
 import { Component, computed, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppSheetRef } from '../../shared/ui/app-sheet';
-import { MatIconModule } from '@angular/material/icon';
+import { AppIcon } from '../../shared/ui/icon';
 import { AccountGroupsService } from '../../core/account-groups/account-groups.service';
 import { GroupContextService } from '../../core/ui/group-context.service';
 import { ColorIcon } from '../../shared/ui/color-icon/color-icon';
 import { GroupRead } from '../../core/models';
+import { AppInputGroup } from '../../shared/ui/input-group';
 
 @Component({
   selector: 'app-group-switcher',
-  imports: [MatIconModule, ColorIcon],
+  imports: [AppIcon, ColorIcon, AppInputGroup],
   templateUrl: './group-switcher.html',
   styleUrl: './group-switcher.scss',
   host: { class: 'bottom-sheet-form' },

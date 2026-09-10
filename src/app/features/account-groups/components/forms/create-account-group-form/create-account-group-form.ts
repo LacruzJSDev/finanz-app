@@ -2,10 +2,9 @@ import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AccountGroupsService } from '../../../../../core/account-groups/account-groups.service';
 import { AppSheetRef } from '../../../../../shared/ui/app-sheet';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AppButton } from '../../../../../shared/ui/button';
+import { AppInputGroup } from '../../../../../shared/ui/input-group';
+import { AppTextInput } from '../../../../../shared/ui/text-input';
 import { IconPicker } from '../../../../../shared/icons/icon-picker/icon-picker';
 import { IconName } from '../../../../../shared/icons/icons';
 import { ColorPicker } from '../../../../../shared/colors/color-picker/color-picker';
@@ -14,15 +13,7 @@ import { applyServerErrors } from '../../../../../core/forms/apply-server-errors
 
 @Component({
   selector: 'app-create-account-group-form',
-  imports: [
-    ReactiveFormsModule,
-    IconPicker,
-    ColorPicker,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatProgressSpinnerModule,
-  ],
+  imports: [ReactiveFormsModule, IconPicker, ColorPicker, AppButton, AppInputGroup, AppTextInput],
   templateUrl: 'create-account-group-form.html',
   host: { class: 'bottom-sheet-form' },
 })

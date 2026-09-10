@@ -1,11 +1,11 @@
-import { Component, inject, signal } from '@angular/core';
+import { AppButton } from '../../../../../shared/ui/button';
+import { Component, computed, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { APP_SHEET_DATA, AppSheetRef } from '../../../../../shared/ui/app-sheet';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatButtonModule } from '@angular/material/button';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AppSelect, AppSelectOption } from '../../../../../shared/ui/select';
+import { AppInputGroup } from '../../../../../shared/ui/input-group';
+import { AppTextInput } from '../../../../../shared/ui/text-input';
+import { AppLoader } from '../../../../../shared/ui/loader';
 import { CategoriesService } from '../../../../../core/categories/categories.service';
 import { CategoryRead, UpdateCategoryRequest } from '../../../../../core/models';
 import { IconPicker } from '../../../../../shared/icons/icon-picker/icon-picker';
@@ -26,11 +26,11 @@ export interface UpdateCategoryFormData {
     ReactiveFormsModule,
     IconPicker,
     ColorPicker,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatButtonModule,
-    MatProgressSpinnerModule,
+    AppSelect,
+    AppInputGroup,
+    AppTextInput,
+    AppButton,
+    AppLoader,
   ],
   templateUrl: './update-category-form.html',
   host: { class: 'bottom-sheet-form' },
@@ -43,6 +43,10 @@ export class UpdateCategoryForm {
 
   protected readonly submitting = signal(false);
   protected readonly formError = signal<string | null>(null);
+  protected readonly parentOptions = computed<readonly AppSelectOption[]>(() => [
+    { value: '', label: 'Categoría raíz (sin padre)' },
+    ...this.data.rootCategories.map((category) => ({ value: category.id, label: category.name })),
+  ]);
 
   readonly form = this.fb.nonNullable.group({
     name: [this.data.category.name, [Validators.required]],

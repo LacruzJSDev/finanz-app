@@ -8,7 +8,7 @@
   ariaCurrentWhenActive="page"
   [attr.aria-disabled]="!activeGroupId() || null"
 >
-  <mat-icon>dashboard</mat-icon>
+  <app-icon name="dashboard" />
 </a>
 
 <a
@@ -18,20 +18,21 @@
   aria-label="Grupos"
   ariaCurrentWhenActive="page"
 >
-  <mat-icon>groups</mat-icon>
+  <app-icon name="groups" />
 </a>
 
 <!-- La acción de la página. Se encoge hasta desaparecer cuando no hay ninguna,
      en vez de quitarse de golpe y dar un salto a los iconos de al lado. -->
 <button
-  matMiniFab
+  appButton
+  variant="fab"
   class="fab"
   [class.fab--hidden]="!action()"
   [attr.aria-hidden]="!action()"
   (click)="action()?.onClick()"
   [disabled]="!action()"
 >
-  <mat-icon>{{ action()?.icon }}</mat-icon>
+  <app-icon [name]="action()?.icon" />
 </button>
 
 <a
@@ -43,7 +44,7 @@
   ariaCurrentWhenActive="page"
   [attr.aria-disabled]="!activeGroupId() || null"
 >
-  <mat-icon>account_balance_wallet</mat-icon>
+  <app-icon name="account_balance_wallet" />
 </a>
 
 <a
@@ -55,5 +56,5 @@
   ariaCurrentWhenActive="page"
   [attr.aria-disabled]="!activeGroupId() || null"
 >
-  <mat-icon>savings</mat-icon>
+  <app-icon name="savings" />
 </a>

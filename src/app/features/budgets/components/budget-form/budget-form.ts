@@ -1,17 +1,16 @@
+import { AppButton } from '../../../../shared/ui/button';
 import { Component, computed, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { APP_SHEET_DATA, AppSheetRef } from '../../../../shared/ui/app-sheet';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSelectModule } from '@angular/material/select';
+import { AppLoader } from '../../../../shared/ui/loader';
+import { AppSelect, AppSelectOption } from '../../../../shared/ui/select';
+import { AppInputGroup } from '../../../../shared/ui/input-group';
+import { AppTextInput } from '../../../../shared/ui/text-input';
 import { BudgetsService } from '../../../../core/budgets/budgets.service';
 import { applyServerErrors } from '../../../../core/forms/apply-server-errors';
 import { BudgetProgressRead, CategoryRead } from '../../../../core/models';
 import { centsToEuros, eurosToCents } from '../../../../shared/money/money';
-import { ColorIcon } from '../../../../shared/ui/color-icon/color-icon';
 
 export interface BudgetFormData {
   groupId: string;
@@ -23,15 +22,7 @@ export interface BudgetFormData {
 
 @Component({
   selector: 'app-budget-form',
-  imports: [
-    ReactiveFormsModule,
-    ColorIcon,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatProgressSpinnerModule,
-    MatSelectModule,
-  ],
+  imports: [ReactiveFormsModule, AppButton, AppInputGroup, AppTextInput, AppLoader, AppSelect],
   templateUrl: './budget-form.html',
   host: { class: 'bottom-sheet-form' },
 })
@@ -53,9 +44,21 @@ export class BudgetForm {
   protected readonly selectedCategory = computed(() =>
     this.data.categories.find((category) => category.id === this.categoryId()),
   );
+  protected readonly categoryOptions: readonly AppSelectOption[] = this.data.categories.map(
+    (category) => ({
+      value: category.id,
+      label: category.name,
+      icon: category.icon ?? undefined,
+      color: category.color ?? undefined,
+    }),
+  );
   protected readonly selectedBudget = computed(() =>
     this.data.budgets.find((budget) => budget.category_id === this.categoryId()),
   );
+
+  constructor() {
+    this.form.controls.categoryId.valueChanges.subscribe(() => this.categoryChanged());
+  }
 
   protected categoryChanged(): void {
     const budget = this.selectedBudget();

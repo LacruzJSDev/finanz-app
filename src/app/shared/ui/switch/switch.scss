@@ -1,0 +1,69 @@
+:host {
+  display: block;
+}
+.app-switch__label {
+  // Keep the visually hidden input inside this control, including in collapsed rows.
+  position: relative;
+  align-items: center;
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 0.75rem;
+  justify-content: space-between;
+  min-height: var(--app-touch-target, 44px);
+}
+:host(.app-switch--before) .app-switch__label {
+  flex-direction: row;
+}
+.app-switch__text {
+  color: var(--app-color-text, #1c1c19);
+  font: var(--app-font-body, 400 14px/20px Geist, system-ui, sans-serif);
+}
+.app-switch__text:empty {
+  display: none;
+}
+.app-switch__native {
+  height: 1px;
+  opacity: 0;
+  position: absolute;
+  inset-inline-start: 0;
+  top: 50%;
+  width: 1px;
+}
+.app-switch__visual {
+  background: var(--app-color-muted, #62615b);
+  border-radius: var(--app-radius-full, 999px);
+  display: inline-flex;
+  flex: none;
+  height: 1.75rem;
+  padding: 0.125rem;
+  transition: background-color var(--app-motion-control, 180ms) ease;
+  width: 3rem;
+}
+.app-switch__visual span {
+  background: var(--app-color-surface, #fff);
+  border-radius: 50%;
+  display: block;
+  height: 1.5rem;
+  transform: translateX(0);
+  transition: transform var(--app-motion-control, 180ms) ease;
+  width: 1.5rem;
+}
+.app-switch__native:checked + .app-switch__visual {
+  background: var(--app-color-primary, #1c1c19);
+}
+.app-switch__native:checked + .app-switch__visual span {
+  transform: translateX(1.25rem);
+}
+.app-switch__native:focus-visible + .app-switch__visual {
+  outline: 2px solid var(--app-color-primary, #1c1c19);
+  outline-offset: 2px;
+}
+.app-switch__native:disabled + .app-switch__visual {
+  opacity: 0.5;
+}
+@media (prefers-reduced-motion: reduce) {
+  .app-switch__visual,
+  .app-switch__visual span {
+    transition: none;
+  }
+}
