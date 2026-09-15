@@ -25,5 +25,4 @@ export class CategorySelect {
       color: category.color ?? undefined,
     })),
   ]);
-
 }
