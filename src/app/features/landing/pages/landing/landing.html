@@ -6,8 +6,8 @@
   </p>
 
   <div class="hero__actions">
-    <a matButton="filled" routerLink="/register">Crear cuenta</a>
-    <a matButton="outlined" routerLink="/login">Ya tengo cuenta</a>
+    <a appButton variant="filled" routerLink="/register">Crear cuenta</a>
+    <a appButton variant="outlined" routerLink="/login">Ya tengo cuenta</a>
   </div>
 </section>
 
@@ -17,13 +17,11 @@
   <ul class="features__grid" role="list">
     @for (feature of features; track feature.title) {
       <li>
-        <mat-card appearance="outlined" class="feature-card">
-          <span class="feature-card__icon"
-            ><mat-icon>{{ feature.icon }}</mat-icon></span
-          >
+        <app-card appearance="outlined" class="feature-card">
+          <span class="feature-card__icon"><app-icon [name]="feature.icon" /></span>
           <h3>{{ feature.title }}</h3>
           <p>{{ feature.text }}</p>
-        </mat-card>
+        </app-card>
       </li>
     }
   </ul>
@@ -32,7 +30,7 @@
 <section class="closing">
   <h2>Se empieza por una cuenta</h2>
   <p>Crea la tuya, añade el primer movimiento y ya tienes de dónde tirar.</p>
-  <a matButton="filled" routerLink="/register">Crear cuenta</a>
+  <a appButton variant="filled" routerLink="/register">Crear cuenta</a>
 </section>
 
 <footer class="site-footer">

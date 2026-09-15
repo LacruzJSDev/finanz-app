@@ -1,0 +1,39 @@
+:host {
+  background: var(--app-color-surface, #fff);
+  border-radius: var(--app-radius-card, 22px);
+  box-sizing: border-box;
+  display: flex;
+  gap: var(--app-card-gap, var(--app-space-4, 1rem));
+  min-width: 0;
+  padding: var(--app-space-4, 1rem);
+  text-decoration: none;
+}
+
+:host(.app-card--column) {
+  flex-direction: column;
+}
+:host(.app-card--row) {
+  align-items: center;
+  flex-direction: row;
+}
+:host(.app-card--compact) {
+  padding-block: var(--app-space-3);
+}
+:host(.app-card--outlined) {
+  border: 1px solid var(--app-color-border, #d8d6ce);
+}
+:host(.app-card--elevated) {
+  box-shadow: var(--app-shadow-raised);
+}
+:host(.app-card--filled) {
+  background: var(--app-color-surface-low);
+}
+
+a:host {
+  color: inherit;
+}
+
+:host(a[appCard]:focus-visible) {
+  outline: 2px solid var(--app-color-primary, #1c1c19);
+  outline-offset: 2px;
+}

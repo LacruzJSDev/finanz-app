@@ -9,6 +9,6 @@
 // desaparecen y dejan el círculo sin contorno.
 .color-mark {
   border-radius: 50%;
-  border: 1px solid var(--mat-sys-outline-variant);
+  border: 1px solid var(--app-color-border, #d8d6ce);
   flex-shrink: 0;
 }

@@ -1,4 +1,4 @@
-<mat-card appearance="outlined" [class]="'breakdown--' + kind()">
+<app-card appearance="outlined" [class]="'breakdown--' + kind()">
   <span class="breakdown-label">{{ title() }}</span>
 
   @if (rows().length) {
@@ -17,4 +17,4 @@
   } @else {
     <app-empty-state icon="savings" [message]="emptyMessage()" />
   }
-</mat-card>
+</app-card>

@@ -1,0 +1,42 @@
+.bottom-sheet-form {
+  display: block;
+  padding: 0.5rem 1rem calc(1rem + env(safe-area-inset-bottom));
+
+  h2 {
+    margin: 0 0 1rem;
+    text-align: center;
+    font: var(--app-font-title, 500 1rem/1.5rem Geist, system-ui, sans-serif);
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  // Cabecera con una acción a la derecha (archivar, por ejemplo). El título
+  // deja de ir centrado: con algo al lado quedaría descuadrado respecto al
+  // sheet, no respecto al hueco que le sobra.
+  .head-form {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+
+    h2 {
+      margin: 0;
+      text-align: left;
+    }
+  }
+
+  // Aclaración sobre una restricción del formulario, no un error de validación.
+  .form-note {
+    font: var(--app-font-small, 400 0.75rem/1rem Geist, system-ui, sans-serif);
+    color: var(--app-color-muted, #62615b);
+  }
+
+  button[type='submit'] {
+    height: 52px;
+    margin-top: 0.5rem;
+  }
+}

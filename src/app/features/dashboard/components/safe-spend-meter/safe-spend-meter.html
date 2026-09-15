@@ -5,7 +5,12 @@
   </span>
 </div>
 
-<mat-progress-bar mode="determinate" [value]="progress()" [class.meter-bar--over]="overLimit()" />
+<app-progress
+  class="meter-bar"
+  [value]="progress()"
+  [class.meter-bar--over]="overLimit()"
+  label="Gasto diario seguro"
+></app-progress>
 
 <div class="meter-foot">
   @if (daysRemaining(); as days) {

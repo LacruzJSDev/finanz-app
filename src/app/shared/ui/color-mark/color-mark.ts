@@ -13,6 +13,6 @@ export class ColorMark {
 
   /** Sin color se ve el hueco, no un círculo negro. */
   protected readonly resolvedColor = computed(
-    () => this.color() ?? 'var(--mat-sys-surface-variant)',
+    () => this.color() ?? 'var(--app-color-surface-high)',
   );
 }

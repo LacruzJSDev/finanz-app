@@ -1,5 +1,5 @@
 import { Component, computed, effect, inject, input } from '@angular/core';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { AppSheetService } from '../../../../shared/ui/app-sheet';
 import { InvitationsService } from '../../../../core/invitations/invitations.service';
 import { AccountGroupsService } from '../../../../core/account-groups/account-groups.service';
 import { AuthService } from '../../../../core/auth/auth.service';
@@ -22,7 +22,7 @@ import {
   host: { class: 'page-section' },
 })
 export class GroupInvitations {
-  private readonly bottomSheet = inject(MatBottomSheet);
+  private readonly bottomSheet = inject(AppSheetService);
   private readonly invitationsService = inject(InvitationsService);
   private readonly accountGroupsService = inject(AccountGroupsService);
   private readonly authService = inject(AuthService);

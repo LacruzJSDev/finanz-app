@@ -1,0 +1,38 @@
+:host {
+  align-items: center;
+  background: var(--app-color-primary);
+  border-radius: var(--app-radius-control);
+  box-shadow: var(--app-shadow-raised);
+  box-sizing: border-box;
+  color: var(--app-color-on-primary);
+  display: flex;
+  gap: var(--app-space-2);
+  max-width: min(36rem, calc(100vw - (var(--app-space-4) * 2)));
+  min-height: var(--app-touch-target);
+  padding: var(--app-space-2) var(--app-space-2) var(--app-space-2) var(--app-space-4);
+  width: max-content;
+}
+
+.app-toast__message {
+  font: var(--app-font-body);
+  overflow-wrap: anywhere;
+}
+
+:host button[appButton] {
+  --app-button-foreground: var(--app-color-on-primary);
+}
+
+:host(.app-toast--error) {
+  background: var(--app-color-danger-container);
+  color: var(--app-color-text);
+}
+
+:host(.app-toast--error) button[appButton] {
+  --app-button-foreground: var(--app-color-text);
+}
+
+@media (max-width: 40rem) {
+  :host {
+    max-width: calc(100vw - (var(--app-space-2) * 2));
+  }
+}

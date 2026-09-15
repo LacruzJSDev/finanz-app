@@ -2,17 +2,11 @@
   display: block;
 }
 
-mat-card {
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
-}
-
 .breakdown-label {
-  font: var(--mat-sys-label-medium);
+  font: var(--app-font-label);
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--mat-sys-on-surface-variant);
+  color: var(--app-color-muted);
   margin-bottom: 0.5rem;
 }
 
@@ -33,7 +27,7 @@ mat-card {
   padding: 0.625rem 0;
 
   &:not(:last-child) {
-    border-bottom: 1px solid var(--mat-sys-outline-variant);
+    border-bottom: 1px solid var(--app-color-border);
   }
 }
 
@@ -48,9 +42,9 @@ mat-card {
 // barra en número, y sí se puede atribuir a un signo.
 .breakdown-row__percent {
   text-align: right;
-  font: var(--mat-sys-body-small);
+  font: var(--app-font-small);
   font-variant-numeric: tabular-nums;
-  color: var(--mat-sys-on-surface-variant);
+  color: var(--app-color-muted);
 }
 
 .breakdown-row__amount {
@@ -65,7 +59,7 @@ mat-card {
   height: 4px;
   margin-top: 0.5rem;
   border-radius: 999px;
-  background: var(--mat-sys-surface-container-high);
+  background: var(--app-color-surface-high);
 }
 
 .breakdown-row__fill {
@@ -78,7 +72,7 @@ mat-card {
 .breakdown--expense {
   .breakdown-row__amount,
   .breakdown-row__fill {
-    color: var(--mat-sys-error);
+    color: var(--app-color-danger);
     background: currentcolor;
   }
 
@@ -90,7 +84,7 @@ mat-card {
 .breakdown--income {
   .breakdown-row__amount,
   .breakdown-row__fill {
-    color: var(--mat-sys-tertiary);
+    color: var(--app-color-primary);
     background: currentcolor;
   }
 

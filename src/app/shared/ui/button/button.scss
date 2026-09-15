@@ -1,0 +1,103 @@
+:host {
+  --app-button-background: transparent;
+  --app-button-foreground: var(--app-color-text, #1c1c19);
+  --app-button-border: transparent;
+  align-items: center;
+  appearance: none;
+  background: var(--app-button-background);
+  border: 1px solid var(--app-button-border);
+  border-radius: var(--app-radius-full);
+  box-sizing: border-box;
+  color: var(--app-button-foreground);
+  cursor: pointer;
+  display: inline-flex;
+  font: var(--app-font-label, 500 14px/20px Geist, system-ui, sans-serif);
+  gap: var(--app-space-2, 0.5rem);
+  justify-content: center;
+  min-height: var(--app-touch-target, 44px);
+  padding: 0 var(--app-space-4, 1rem);
+  position: relative;
+  text-decoration: none;
+  transition:
+    background-color var(--app-motion-fast),
+    border-color var(--app-motion-fast),
+    opacity var(--app-motion-fast);
+  user-select: none;
+}
+
+:host(:focus-visible) {
+  outline: 2px solid var(--app-color-primary, #1c1c19);
+  outline-offset: 2px;
+}
+
+:host(:hover:not(:disabled):not([aria-disabled='true'])) {
+  filter: brightness(0.96);
+}
+
+:host(:disabled),
+:host([aria-disabled='true']) {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+:host(.app-button--filled) {
+  --app-button-background: var(--app-color-primary, #1c1c19);
+  --app-button-foreground: var(--app-color-on-primary, #fff);
+}
+
+:host(.app-button--outlined) {
+  --app-button-border: var(--app-color-border, #d8d6ce);
+}
+
+:host(.app-button--text) {
+  padding-inline: 0.75rem;
+}
+
+:host(.app-button--icon) {
+  border-radius: 50%;
+  padding: 0;
+  width: var(--app-touch-target, 44px);
+}
+
+:host(.app-button--fab) {
+  --app-button-background: var(--app-color-primary);
+  --app-button-foreground: var(--app-color-on-primary);
+  border-radius: var(--app-radius-control);
+  box-shadow: var(--app-shadow-raised);
+  min-height: var(--app-button-fab-size, 56px);
+  padding: 0;
+  width: var(--app-button-fab-size, 56px);
+}
+
+.app-button__content {
+  align-items: inherit;
+  display: inline-flex;
+  gap: inherit;
+  justify-content: inherit;
+}
+
+.app-button__content--loading {
+  opacity: 0;
+}
+
+.app-button__loader {
+  animation: app-button-spin 700ms linear infinite;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  height: 1rem;
+  position: absolute;
+  width: 1rem;
+}
+
+@keyframes app-button-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-button__loader {
+    animation: none;
+  }
+}

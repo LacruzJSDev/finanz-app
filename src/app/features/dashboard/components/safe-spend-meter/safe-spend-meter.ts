@@ -1,5 +1,5 @@
 import { Component, computed, input } from '@angular/core';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { AppProgress } from '../../../../shared/ui/progress';
 import { formatMoney } from '../../../../shared/money/money';
 
 /**
@@ -9,7 +9,7 @@ import { formatMoney } from '../../../../shared/money/money';
  */
 @Component({
   selector: 'app-safe-spend-meter',
-  imports: [MatProgressBarModule],
+  imports: [AppProgress],
   templateUrl: './safe-spend-meter.html',
   styleUrl: './safe-spend-meter.scss',
 })

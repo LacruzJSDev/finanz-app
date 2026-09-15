@@ -1,4 +1,16 @@
-<header class="top-bar">
+<header class="top-bar" [class.top-bar--with-parent]="parent()">
+  @if (parent(); as parent) {
+    <button
+      class="parent-button"
+      type="button"
+      appButton
+      variant="icon"
+      [attr.aria-label]="'Volver a ' + parent.label"
+      (click)="goToParent()"
+    >
+      <app-icon name="arrow_back" />
+    </button>
+  }
   <div class="identity">
     <h1>{{ title() }}</h1>
     <!-- Línea de contexto: el grupo lo pone la barra (es global), el resto lo
@@ -7,33 +19,33 @@
     <span class="identity__context">{{ contextLine() }}</span>
   </div>
 
-  <!-- El botón es el círculo. Con matIconButton no encajaba: mide 40px con 8px
-       de padding para un icono de 24, así que un círculo de 32 se salía por la
-       derecha y por abajo, y el foco seguía la caja del botón, no el círculo. -->
-  <button class="avatar-button" type="button" [matMenuTriggerFor]="userMenu" aria-label="Tu cuenta">
+  <button
+    appButton
+    variant="icon"
+    class="avatar-button"
+    type="button"
+    [appMenuTriggerFor]="userMenu"
+    aria-label="Tu cuenta"
+  >
     <app-avatar [name]="user()?.name ?? ''" />
   </button>
 </header>
 
-<mat-menu #userMenu="matMenu">
-  <div class="user-menu__head">
-    <span class="user-menu__name">{{ user()?.name }}</span>
-    <span class="user-menu__email">{{ user()?.email }}</span>
-  </div>
+<ng-template #userMenu>
+  <app-menu aria-label="Tu cuenta">
+    <div class="user-menu__head">
+      <span class="user-menu__name">{{ user()?.name }}</span>
+      <span class="user-menu__email">{{ user()?.email }}</span>
+    </div>
 
-  <!-- Cambiar de grupo desde cualquier pantalla, sin gastar cromo permanente. -->
-  <button mat-menu-item (click)="openGroupSwitcher()">
-    <mat-icon>groups</mat-icon>
-    <span>Grupo: {{ groupName() }}</span>
-  </button>
+    <button appMenuItem (triggered)="joinGroup()">
+      <app-icon name="group_add" />
+      <span>Unirme a un grupo</span>
+    </button>
 
-  <button mat-menu-item (click)="joinGroup()">
-    <mat-icon>group_add</mat-icon>
-    <span>Unirme a un grupo</span>
-  </button>
-
-  <button mat-menu-item (click)="logout()">
-    <mat-icon>logout</mat-icon>
-    <span>Cerrar sesión</span>
-  </button>
-</mat-menu>
+    <button appMenuItem (triggered)="logout()">
+      <app-icon name="logout" />
+      <span>Cerrar sesión</span>
+    </button>
+  </app-menu>
+</ng-template>

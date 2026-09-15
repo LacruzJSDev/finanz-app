@@ -1,0 +1,40 @@
+app-input-group {
+  --app-field-focus-width: 0px;
+  background: var(--app-color-surface, #fff);
+  border: 1px solid var(--app-color-border, #d8d6ce);
+  border-radius: var(--app-radius-card, 22px);
+  display: block;
+  padding: var(--app-space-2, 0.5rem);
+}
+
+app-input-group > * {
+  display: block;
+}
+app-input-group > app-switch {
+  padding-inline: var(--app-space-4);
+}
+
+app-input-group > *:not(:last-child) {
+  border-bottom: 1px solid var(--app-color-border, #d8d6ce);
+}
+
+app-input-group:focus-within {
+  border-color: var(--app-color-primary, #1c1c19);
+  box-shadow: 0 0 0 1px var(--app-color-primary, #1c1c19);
+}
+
+app-input-group > .field-pair {
+  align-items: flex-start;
+  display: flex;
+  gap: var(--app-space-2, 0.5rem);
+}
+
+app-input-group > .field-pair > :first-child {
+  flex: none;
+  width: 5rem;
+}
+
+app-input-group > .field-pair > :last-child {
+  flex: 1;
+  min-width: 0;
+}

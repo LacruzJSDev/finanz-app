@@ -1,0 +1,8 @@
+<app-select
+  [label]="label()"
+  [options]="options()"
+  [formControl]="control()"
+  [error]="
+    control().invalid ? (control().getError('server') ?? 'La categoría es obligatoria.') : null
+  "
+/>

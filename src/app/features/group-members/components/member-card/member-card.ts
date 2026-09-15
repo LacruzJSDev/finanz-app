@@ -1,14 +1,14 @@
+import { AppCard } from '../../../../shared/ui/card';
+import { AppButton } from '../../../../shared/ui/button';
 import { Component, input, output } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
+import { AppIcon } from '../../../../shared/ui/icon';
 import { GroupMemberRead } from '../../../../core/models';
 import { MemberRoleLabelPipe } from '../../pipes/member-role-label.pipe';
 import { Avatar } from '../../../../shared/ui/avatar/avatar';
 
 @Component({
   selector: 'app-member-card',
-  imports: [MatCardModule, MatButtonModule, MatIconModule, MemberRoleLabelPipe, Avatar],
+  imports: [AppCard, AppButton, AppIcon, MemberRoleLabelPipe, Avatar],
   templateUrl: 'member-card.html',
   styleUrl: 'member-card.scss',
 })

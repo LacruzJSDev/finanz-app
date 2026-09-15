@@ -1,10 +1,10 @@
+import { AppButton } from '../../../../../shared/ui/button';
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
-import { MatButtonModule } from '@angular/material/button';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { APP_SHEET_DATA, AppSheetRef } from '../../../../../shared/ui/app-sheet';
+import { AppSelect, AppSelectOption } from '../../../../../shared/ui/select';
+import { AppInputGroup } from '../../../../../shared/ui/input-group';
+import { AppLoader } from '../../../../../shared/ui/loader';
 import { GroupMembersService } from '../../../../../core/group-members/group-members.service';
 import { AccountGroupMemberRoleEnum, GroupMemberRead } from '../../../../../core/models';
 import { applyServerErrors } from '../../../../../core/forms/apply-server-errors';
@@ -17,22 +17,15 @@ export interface ChangeMemberRoleFormData {
 
 @Component({
   selector: 'app-change-member-role-form',
-  imports: [
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatButtonModule,
-    MatProgressSpinnerModule,
-    MemberRoleLabelPipe,
-  ],
+  imports: [ReactiveFormsModule, AppSelect, AppInputGroup, AppButton, AppLoader],
   templateUrl: './change-member-role-form.html',
   host: { class: 'bottom-sheet-form' },
 })
 export class ChangeMemberRoleForm {
   private readonly fb = inject(FormBuilder);
   private readonly groupMembersService = inject(GroupMembersService);
-  private readonly bottomSheetRef = inject(MatBottomSheetRef<ChangeMemberRoleForm>);
-  protected readonly data = inject<ChangeMemberRoleFormData>(MAT_BOTTOM_SHEET_DATA);
+  private readonly sheetRef = inject(AppSheetRef<ChangeMemberRoleForm>);
+  protected readonly data = inject<ChangeMemberRoleFormData>(APP_SHEET_DATA);
 
   protected readonly submitting = signal(false);
   protected readonly formError = signal<string | null>(null);
@@ -40,6 +33,10 @@ export class ChangeMemberRoleForm {
   // Los tres roles, `owner` incluido: no hay endpoint de transferir propiedad,
   // se promueve a otro a propietario y el grupo pasa a tener dos.
   protected readonly roles = Object.values(AccountGroupMemberRoleEnum);
+  protected readonly roleOptions: readonly AppSelectOption[] = this.roles.map((role) => ({
+    value: role,
+    label: new MemberRoleLabelPipe().transform(role),
+  }));
 
   readonly form = this.fb.nonNullable.group({
     role: [this.data.member.role, [Validators.required]],
@@ -49,15 +46,15 @@ export class ChangeMemberRoleForm {
     if (this.form.invalid || this.submitting()) return;
     this.submitting.set(true);
     this.formError.set(null);
-    this.bottomSheetRef.disableClose = true;
+    this.sheetRef.disableClose = true;
 
     this.groupMembersService
       .changeGroupMemberRole(this.data.groupId, this.data.member.user_id, this.form.getRawValue())
       .subscribe({
-        next: () => this.bottomSheetRef.dismiss(),
+        next: () => this.sheetRef.dismiss(),
         error: (error: unknown) => {
           this.submitting.set(false);
-          this.bottomSheetRef.disableClose = false;
+          this.sheetRef.disableClose = false;
           this.formError.set(applyServerErrors(this.form, error));
         },
       });

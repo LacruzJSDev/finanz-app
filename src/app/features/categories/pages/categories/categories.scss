@@ -2,6 +2,15 @@
 // una sola cosa y van centradas juntas. El `flex: 1` del estado vacío se lo
 // queda este bloque; si no, se comería el hueco entero y dejaría el botón
 // pegado al borde de abajo, lejos del mensaje que lo justifica.
+.categories-content {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 auto;
+  gap: var(--app-space-4);
+}
+.categories-content > * {
+  flex-shrink: 0;
+}
 .categories-empty {
   flex: 1;
   display: flex;
@@ -22,6 +31,6 @@
   gap: 0.5rem;
   width: 100%;
   padding: 0.75rem;
-  color: var(--mat-sys-on-surface-variant);
-  font: var(--mat-sys-label-large);
+  color: var(--app-color-muted);
+  font: var(--app-font-label);
 }

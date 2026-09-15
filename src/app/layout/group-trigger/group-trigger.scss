@@ -1,0 +1,37 @@
+:host {
+  position: fixed;
+  z-index: 2;
+  left: 50%;
+  bottom: calc(5.5rem + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  display: none;
+  max-width: calc(100vw - 2rem);
+}
+:host(.group-trigger-host--visible) {
+  display: block;
+}
+.group-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  max-width: 100%;
+  min-width: var(--app-touch-target);
+  min-height: var(--app-touch-target);
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--app-color-border, #d8d6ce);
+  border-radius: var(--app-radius-full, 999px);
+  background: color-mix(in srgb, var(--app-color-surface-high, #ebe7e6) 72%, transparent);
+  backdrop-filter: blur(8px);
+  color: var(--app-color-text, #1c1c19);
+  box-shadow: var(--app-shadow-raised, 0 2px 8px rgb(0 0 0 / 10%));
+}
+.group-trigger span {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font: var(--app-font-label, 500 14px/20px Geist, system-ui, sans-serif);
+}
+.group-trigger app-icon {
+  flex-shrink: 0;
+}

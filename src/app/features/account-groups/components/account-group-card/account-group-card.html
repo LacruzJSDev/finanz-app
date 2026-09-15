@@ -1,20 +1,29 @@
-<mat-card appearance="outlined" (click)="showClick.emit(accountGroup())">
-  <app-color-icon [icon]="accountGroup().icon" [color]="accountGroup().color" [size]="48" />
+<app-card layout="row" spacing="compact">
+  <button
+    type="button"
+    class="group-open"
+    (click)="showClick.emit(accountGroup())"
+    [attr.aria-label]="'Ver grupo ' + accountGroup().name"
+  >
+    <app-color-icon [icon]="accountGroup().icon" [color]="accountGroup().color" [size]="48" />
 
-  <div class="group-info">
-    <span class="group-name">{{ accountGroup().name }}</span>
-    <span class="group-members">Miembros: {{ memberCount() }}</span>
-  </div>
+    <div class="group-info">
+      <span class="group-name">{{ accountGroup().name }}</span>
+      <span class="group-members">Miembros: {{ memberCount() }}</span>
+    </div>
+  </button>
 
   @if (isWorkingGroup()) {
     <span class="group-context">En uso</span>
   }
 
   <button
-    matIconButton
+    appButton
+    variant="icon"
+    type="button"
     [attr.aria-label]="'Ver análisis de ' + accountGroup().name"
     (click)="showAnalysis($event)"
   >
-    <mat-icon>query_stats</mat-icon>
+    <app-icon name="query_stats" />
   </button>
-</mat-card>
+</app-card>

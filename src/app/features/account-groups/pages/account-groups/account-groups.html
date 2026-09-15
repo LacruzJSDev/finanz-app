@@ -1,8 +1,9 @@
 <div class="segmented-track">
-  <mat-button-toggle-group [value]="filter()" (change)="filter.set($event.value)">
-    <mat-button-toggle value="active">Activos</mat-button-toggle>
-    <mat-button-toggle value="archived">Archivados</mat-button-toggle>
-  </mat-button-toggle-group>
+  <app-segmented-control
+    [options]="filterOptions"
+    [value]="filter()"
+    (valueChange)="setFilter($event)"
+  />
 </div>
 
 <app-page-content>

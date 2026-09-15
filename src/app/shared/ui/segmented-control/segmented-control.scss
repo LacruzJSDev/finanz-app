@@ -1,0 +1,58 @@
+:host {
+  display: block;
+  margin-inline: auto;
+  width: fit-content;
+  max-width: 100%;
+}
+.app-segmented__track {
+  background: var(--app-color-primary-container, #e4e2dc);
+  border-radius: var(--app-radius-full, 999px);
+  display: inline-flex;
+  width: max-content;
+  max-width: 100%;
+  gap: 0.125rem;
+  padding: 0.25rem;
+}
+.app-segmented__option {
+  border-radius: var(--app-radius-full, 999px);
+  color: var(--app-color-muted, #62615b);
+  cursor: pointer;
+  font: var(--app-font-label, 500 14px/20px Geist, system-ui, sans-serif);
+  min-height: 2.25rem;
+  min-width: 0;
+  flex: 0 0 auto;
+}
+.app-segmented__option span {
+  align-items: center;
+  display: inline-flex;
+  height: 100%;
+  justify-content: center;
+  padding: 0 clamp(0.5rem, 2vw, 0.875rem);
+}
+.app-segmented__option--selected {
+  background: var(--app-color-surface, #fff);
+  color: var(--app-color-text, #1c1c19);
+  transition:
+    background-color var(--app-motion-fast, 120ms) ease,
+    color var(--app-motion-fast, 120ms) ease;
+}
+.app-segmented__native {
+  height: 1px;
+  opacity: 0;
+  position: absolute;
+  width: 1px;
+}
+.app-segmented__native:focus-visible + span {
+  outline: 2px solid var(--app-color-primary, #1c1c19);
+  outline-offset: 2px;
+}
+.app-segmented__native:disabled + span {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-segmented__option--selected {
+    transition: none;
+  }
+}

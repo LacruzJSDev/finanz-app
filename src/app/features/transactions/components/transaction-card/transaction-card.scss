@@ -1,15 +1,19 @@
-@use '@angular/material' as mat;
-
 :host {
   display: block;
 }
 
-mat-card {
+.transaction-open {
+  flex: 1;
+  min-width: 0;
+  min-height: var(--app-touch-target);
   display: flex;
-  flex-direction: row;
   align-items: center;
   gap: 1rem;
-  padding: 0.75rem 1rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: start;
   cursor: pointer;
 }
 
@@ -21,44 +25,38 @@ mat-card {
 }
 
 .transaction-title {
-  font: var(--mat-sys-title-medium);
+  font: var(--app-font-title);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .transaction-subtitle {
-  font: var(--mat-sys-body-small);
-  color: var(--mat-sys-on-surface-variant);
+  font: var(--app-font-small);
+  color: var(--app-color-muted);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .transaction-amount {
-  font: var(--mat-sys-title-medium);
+  font: var(--app-font-title);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
   flex-shrink: 0;
 }
 
 .transaction-amount--expense {
-  color: var(--mat-sys-error);
+  color: var(--app-color-danger);
 }
 
 .transaction-amount--income {
-  color: var(--mat-sys-tertiary);
+  color: var(--app-color-positive);
 }
 
 // El icono del botón lo pinta Material con su propio token, así que un `color`
 // aquí no lo toca: hay que sustituir el token.
 .transaction-delete {
   flex-shrink: 0;
-
-  @include mat.icon-button-overrides(
-    (
-      icon-color: var(--mat-sys-error),
-      state-layer-color: var(--mat-sys-error),
-    )
-  );
+  color: var(--app-color-danger);
 }

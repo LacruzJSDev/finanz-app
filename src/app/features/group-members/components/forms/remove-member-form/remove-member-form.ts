@@ -1,7 +1,7 @@
+import { AppButton } from '../../../../../shared/ui/button';
 import { Component, computed, inject, signal } from '@angular/core';
-import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
-import { MatButtonModule } from '@angular/material/button';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { APP_SHEET_DATA, AppSheetRef } from '../../../../../shared/ui/app-sheet';
+import { AppLoader } from '../../../../../shared/ui/loader';
 import { GroupMembersService } from '../../../../../core/group-members/group-members.service';
 import { GroupMemberRead } from '../../../../../core/models';
 
@@ -14,15 +14,15 @@ export interface RemoveMemberFormData {
 
 @Component({
   selector: 'app-remove-member-form',
-  imports: [MatButtonModule, MatProgressSpinnerModule],
+  imports: [AppButton, AppLoader],
   templateUrl: './remove-member-form.html',
   styleUrl: './remove-member-form.scss',
   host: { class: 'bottom-sheet-form' },
 })
 export class RemoveMemberForm {
-  private readonly bottomSheetRef = inject(MatBottomSheetRef<RemoveMemberForm>);
+  private readonly sheetRef = inject(AppSheetRef<RemoveMemberForm>);
   private readonly groupMembersService = inject(GroupMembersService);
-  protected readonly data = inject<RemoveMemberFormData>(MAT_BOTTOM_SHEET_DATA);
+  protected readonly data = inject<RemoveMemberFormData>(APP_SHEET_DATA);
 
   protected readonly submitting = signal(false);
 
@@ -41,20 +41,20 @@ export class RemoveMemberForm {
   submit(): void {
     if (this.submitting()) return;
     this.submitting.set(true);
-    this.bottomSheetRef.disableClose = true;
+    this.sheetRef.disableClose = true;
 
     this.groupMembersService
       .expelGroupMember(this.data.groupId, this.data.member.user_id)
       .subscribe({
-        next: () => this.bottomSheetRef.dismiss(this.data.isViewer ? 'left' : 'expelled'),
+        next: () => this.sheetRef.dismiss(this.data.isViewer ? 'left' : 'expelled'),
         error: () => {
           this.submitting.set(false);
-          this.bottomSheetRef.disableClose = false;
+          this.sheetRef.disableClose = false;
         },
       });
   }
 
   cancel(): void {
-    this.bottomSheetRef.dismiss();
+    this.sheetRef.dismiss();
   }
 }

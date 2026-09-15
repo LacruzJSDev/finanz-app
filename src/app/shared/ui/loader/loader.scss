@@ -1,0 +1,28 @@
+:host {
+  --app-loader-size: 36px;
+  color: inherit;
+  display: inline-flex;
+}
+
+.app-loader__spinner {
+  animation: app-loader-spin 700ms linear infinite;
+  border: 3px solid color-mix(in srgb, currentColor 25%, transparent);
+  border-radius: 50%;
+  border-top-color: currentColor;
+  box-sizing: border-box;
+  display: inline-block;
+  height: var(--app-loader-size);
+  width: var(--app-loader-size);
+}
+
+@keyframes app-loader-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-loader__spinner {
+    animation: none;
+  }
+}

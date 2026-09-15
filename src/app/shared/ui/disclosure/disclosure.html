@@ -1,0 +1,27 @@
+<app-card spacing="compact" [class.disclosure-card--expanded]="expandable() && expanded()">
+  <div class="disclosure-header">
+    <button
+      type="button"
+      class="disclosure-trigger"
+      [disabled]="!expandable()"
+      [attr.aria-expanded]="expandable() ? expanded() : null"
+      [attr.aria-controls]="expandable() ? contentId : null"
+      (click)="expanded.set(!expanded())"
+    >
+      <ng-content select="[appDisclosureTitle]" />
+      @if (expandable()) {
+        <app-icon [name]="expanded() ? 'expand_less' : 'expand_more'" [size]="20" />
+      }
+    </button>
+    <div class="disclosure-actions"><ng-content select="[appDisclosureActions]" /></div>
+  </div>
+  <div
+    [id]="contentId"
+    class="disclosure-content"
+    [class.disclosure-content--expanded]="expandable() && expanded()"
+    [attr.aria-hidden]="expandable() && expanded() ? null : 'true'"
+    [attr.inert]="expandable() && expanded() ? null : ''"
+  >
+    <div class="disclosure-content__inner"><ng-content /></div>
+  </div>
+</app-card>

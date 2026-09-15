@@ -1,39 +1,42 @@
 <!-- Solo se puede desplegar si tiene subcategorías; si no, no hay nada que ver. -->
-<mat-expansion-panel
-  [disabled]="!hasChildren()"
-  hideToggle
+<app-disclosure
+  [expandable]="hasChildren()"
   [expanded]="expanded()"
   (expandedChange)="onExpandedChange($event)"
 >
-  <mat-expansion-panel-header>
-    <mat-panel-title>
-      <app-color-icon [icon]="category().icon" [color]="category().color" [size]="48" />
-      <span class="category-name">
-        {{ category().name }}
-        @if (isSubcategory()) {
-          <span class="category-note">(Subcategoría)</span>
-        }
-      </span>
-    </mat-panel-title>
+  <span class="category-title" appDisclosureTitle>
+    <app-color-icon [icon]="category().icon" [color]="category().color" [size]="48" />
+    <span class="category-name">
+      {{ category().name }}
+      @if (isSubcategory()) {
+        <span class="category-note">(Subcategoría)</span>
+      }
+    </span>
+  </span>
 
-    <div class="category-actions" (click)="$event.stopPropagation()">
-      <!-- El número de subcategorías insinúa que la fila se puede desplegar. -->
-      @if (hasChildren()) {
-        <span class="child-count">{{ children().length }}</span>
-      }
-      @if (canManage()) {
-        <button matIconButton (click)="editClick.emit(category())">
-          <mat-icon>edit</mat-icon>
-        </button>
-        <mat-slide-toggle
-          class="toggle-sm"
-          [checked]="category().is_active"
-          [disabled]="isBlocked(category())"
-          (change)="toggleActive.emit(category())"
-        />
-      }
-    </div>
-  </mat-expansion-panel-header>
+  <div class="category-actions" appDisclosureActions>
+    <!-- El número de subcategorías insinúa que la fila se puede desplegar. -->
+    @if (hasChildren()) {
+      <span class="child-count">{{ children().length }}</span>
+    }
+    @if (canManage()) {
+      <button
+        appButton
+        variant="icon"
+        aria-label="Editar categoría"
+        (click)="editClick.emit(category())"
+      >
+        <app-icon name="edit" />
+      </button>
+      <app-switch
+        class="toggle-sm"
+        [checked]="category().is_active"
+        [ariaLabel]="'Categoría activa: ' + category().name"
+        [disabled]="isBlocked(category())"
+        (changeSettled)="toggleActive.emit(category())"
+      />
+    }
+  </div>
 
   @for (child of children(); track child.id) {
     <div class="category-row">
@@ -41,17 +44,23 @@
       <span class="category-name">{{ child.name }}</span>
       <div class="category-actions">
         @if (canManage()) {
-          <button matIconButton (click)="editClick.emit(child)">
-            <mat-icon>edit</mat-icon>
+          <button
+            appButton
+            variant="icon"
+            aria-label="Editar subcategoría"
+            (click)="editClick.emit(child)"
+          >
+            <app-icon name="edit" />
           </button>
-          <mat-slide-toggle
+          <app-switch
             class="toggle-sm"
             [checked]="child.is_active"
+            [ariaLabel]="'Subcategoría activa: ' + child.name"
             [disabled]="isBlocked(child)"
-            (change)="toggleActive.emit(child)"
+            (changeSettled)="toggleActive.emit(child)"
           />
         }
       </div>
     </div>
   }
-</mat-expansion-panel>
+</app-disclosure>

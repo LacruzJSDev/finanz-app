@@ -1,0 +1,27 @@
+:host {
+  --app-progress-color: var(--app-color-primary, #1c1c19);
+  display: block;
+  width: 100%;
+}
+
+.app-progress__track {
+  background: var(--app-progress-track-color, var(--app-color-primary-container));
+  border-radius: var(--app-radius-full, 999px);
+  height: var(--app-progress-height, 4px);
+  overflow: hidden;
+  width: 100%;
+}
+
+.app-progress__value {
+  background: var(--app-progress-color);
+  border-radius: inherit;
+  display: block;
+  height: 100%;
+  transition: width 180ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-progress__value {
+    transition: none;
+  }
+}

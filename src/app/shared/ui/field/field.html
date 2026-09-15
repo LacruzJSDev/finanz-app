@@ -1,0 +1,14 @@
+<label class="app-field__label" [attr.for]="inputId()">
+  {{ label() }}
+  @if (required()) {
+    <span aria-hidden="true">*</span>
+  }
+</label>
+
+<div class="app-field__control">
+  <ng-content />
+</div>
+
+<div class="app-field__description" [id]="descriptionId()" aria-live="polite">
+  {{ description() }}
+</div>

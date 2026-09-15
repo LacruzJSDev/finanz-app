@@ -2,8 +2,14 @@
   <span class="amount-sign">
     {{ type() === 'expense' ? '−' : type() === 'income' ? '+' : '' }}
   </span>
-  <mat-form-field class="amount-field">
-    <input matInput type="number" step="0.01" placeholder="0" [formControl]="control()" />
-  </mat-form-field>
+  <app-text-input
+    class="amount-field"
+    label="Importe"
+    appearance="amount"
+    type="number"
+    step="0.01"
+    placeholder="0"
+    [formControl]="control()"
+  />
   <span class="amount-currency">€</span>
 </div>

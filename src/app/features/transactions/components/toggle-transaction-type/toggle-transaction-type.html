@@ -1,10 +1,6 @@
 @if (options().length > 1) {
   <div class="segmented-track">
-    <mat-button-toggle-group [formControl]="control()">
-      @for (type of options(); track type) {
-        <mat-button-toggle [value]="type">{{ type | transactionTypeLabel }}</mat-button-toggle>
-      }
-    </mat-button-toggle-group>
+    <app-segmented-control [formControl]="control()" [options]="segmentOptions()" />
   </div>
 } @else {
   <p class="type-label">{{ options()[0] | transactionTypeLabel }}</p>

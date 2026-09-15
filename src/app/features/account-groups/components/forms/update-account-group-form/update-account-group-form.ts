@@ -1,11 +1,11 @@
+import { AppButton } from '../../../../../shared/ui/button';
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { APP_SHEET_DATA, AppSheetRef } from '../../../../../shared/ui/app-sheet';
+import { AppLoader } from '../../../../../shared/ui/loader';
+import { AppInputGroup } from '../../../../../shared/ui/input-group';
+import { AppTextInput } from '../../../../../shared/ui/text-input';
+import { AppSwitch } from '../../../../../shared/ui/switch';
 import { AccountGroupsService } from '../../../../../core/account-groups/account-groups.service';
 import { GroupContextService } from '../../../../../core/ui/group-context.service';
 import { GroupRead, UpdateGroupRequest } from '../../../../../core/models';
@@ -25,19 +25,19 @@ export interface UpdateAccountGroupFormData {
     ReactiveFormsModule,
     IconPicker,
     ColorPicker,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatSlideToggleModule,
-    MatProgressSpinnerModule,
+    AppButton,
+    AppInputGroup,
+    AppTextInput,
+    AppSwitch,
+    AppLoader,
   ],
   templateUrl: 'update-account-group-form.html',
   host: { class: 'bottom-sheet-form' },
 })
 export class UpdateAccountGroupForm {
   private readonly fb = inject(FormBuilder);
-  private readonly bottomSheetRef = inject(MatBottomSheetRef<UpdateAccountGroupForm>);
-  protected readonly data = inject<UpdateAccountGroupFormData>(MAT_BOTTOM_SHEET_DATA);
+  private readonly sheetRef = inject(AppSheetRef<UpdateAccountGroupForm>);
+  protected readonly data = inject<UpdateAccountGroupFormData>(APP_SHEET_DATA);
   protected readonly accountGroupsService = inject(AccountGroupsService);
   private readonly groupContextService = inject(GroupContextService);
 
@@ -63,7 +63,7 @@ export class UpdateAccountGroupForm {
     if (this.form.invalid || this.submitting()) return;
     this.submitting.set(true);
     this.formError.set(null);
-    this.bottomSheetRef.disableClose = true;
+    this.sheetRef.disableClose = true;
     const raw = this.form.getRawValue();
 
     const payload: UpdateGroupRequest = {
@@ -80,11 +80,11 @@ export class UpdateAccountGroupForm {
         if (!raw.is_active && isWorkingGroup) {
           this.groupContextService.setActiveGroupId(null);
         }
-        this.bottomSheetRef.dismiss();
+        this.sheetRef.dismiss();
       },
       error: (error: unknown) => {
         this.submitting.set(false);
-        this.bottomSheetRef.disableClose = false;
+        this.sheetRef.disableClose = false;
         this.formError.set(applyServerErrors(this.form, error));
       },
     });

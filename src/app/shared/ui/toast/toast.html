@@ -1,0 +1,7 @@
+<span class="app-toast__message">{{ data.message }}</span>
+@if (data.action) {
+  <button appButton variant="text" type="button" (click)="action()">{{ data.action }}</button>
+}
+<button appButton variant="icon" type="button" aria-label="Cerrar notificación" (click)="dismiss()">
+  <app-icon name="close" [size]="20" aria-hidden="true" />
+</button>

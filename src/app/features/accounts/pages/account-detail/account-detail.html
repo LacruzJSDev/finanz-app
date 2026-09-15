@@ -1,12 +1,10 @@
 @if (section() !== 'analisis') {
-  <div class="segmented-track">
-    <mat-button-toggle-group
-      [value]="section()"
-      (change)="router.navigate([$event.value], { relativeTo: route })"
-    >
-      <mat-button-toggle value="movimientos">Movimientos</mat-button-toggle>
-      <mat-button-toggle value="planificados">Planificados</mat-button-toggle>
-    </mat-button-toggle-group>
-  </div>
+  <nav class="segmented-track" aria-label="Secciones de la cuenta">
+    <app-segmented-control
+      [options]="sectionOptions"
+      [value]="section() ?? null"
+      (valueChange)="router.navigate([$event], { relativeTo: route })"
+    />
+  </nav>
 }
 <router-outlet />

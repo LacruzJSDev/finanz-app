@@ -1,4 +1,4 @@
-<mat-card appearance="outlined">
+<app-card appearance="outlined">
   <div class="projection-head">
     <div>
       <h2>Proyección hasta el cobro</h2>
@@ -6,7 +6,7 @@
         @if (paydayDate(); as date) {
           {{ date | date: 'd MMM' }}
           @if (paydayAmount(); as amount) {
-            · entran {{ amount }}
+            · <span class="projection-income">entran {{ amount }}</span>
           }
         } @else {
           Descontando los gastos fijos pendientes
@@ -23,4 +23,4 @@
   </div>
 
   <app-projection-chart [points]="points()" />
-</mat-card>
+</app-card>

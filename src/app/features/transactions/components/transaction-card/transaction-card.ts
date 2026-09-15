@@ -1,7 +1,7 @@
+import { AppCard } from '../../../../shared/ui/card';
+import { AppButton } from '../../../../shared/ui/button';
 import { Component, computed, input, output } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
+import { AppIcon } from '../../../../shared/ui/icon';
 import { CentsToEurosPipe } from '../../../../shared/money/cents-to-euros.pipe';
 import { ColorIcon } from '../../../../shared/ui/color-icon/color-icon';
 import { CategoryRead, TransactionRead, TransactionTypeEnum } from '../../../../core/models';
@@ -9,7 +9,7 @@ import { CategoryRead, TransactionRead, TransactionTypeEnum } from '../../../../
 /** Una fila de movimiento: icono de categoría, concepto, contexto e importe. */
 @Component({
   selector: 'app-transaction-card',
-  imports: [MatCardModule, MatButtonModule, MatIconModule, CentsToEurosPipe, ColorIcon],
+  imports: [AppCard, AppButton, AppIcon, CentsToEurosPipe, ColorIcon],
   templateUrl: 'transaction-card.html',
   styleUrl: 'transaction-card.scss',
 })

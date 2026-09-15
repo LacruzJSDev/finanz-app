@@ -12,20 +12,20 @@
 .group-row__name {
   flex: 1;
   min-width: 0;
-  font: var(--mat-sys-title-medium);
+  font: var(--app-font-title, 500 1rem/1.5rem Geist, system-ui, sans-serif);
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
 .group-row__check {
-  color: var(--mat-sys-primary);
+  color: var(--app-color-primary, #1c1c19);
   flex-shrink: 0;
 }
 
 .group-empty {
   padding: 0.75rem 1rem;
-  color: var(--mat-sys-on-surface-variant);
+  color: var(--app-color-muted, #62615b);
 }
 
 // Salida hacia la gestión: no es elegir grupo, así que va fuera de la tarjeta.
@@ -37,6 +37,6 @@
   width: 100%;
   margin-top: 1rem;
   padding: 0.75rem;
-  color: var(--mat-sys-on-surface-variant);
-  font: var(--mat-sys-label-large);
+  color: var(--app-color-muted, #62615b);
+  font: var(--app-font-label, 500 14px/20px Geist, system-ui, sans-serif);
 }

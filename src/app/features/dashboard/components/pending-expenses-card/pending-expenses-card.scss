@@ -2,12 +2,6 @@
   display: block;
 }
 
-mat-card {
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
-}
-
 .pending-head {
   display: flex;
   align-items: baseline;
@@ -17,16 +11,16 @@ mat-card {
 }
 
 .pending-label {
-  font: var(--mat-sys-label-medium);
+  font: var(--app-font-label);
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--mat-sys-on-surface-variant);
+  color: var(--app-color-muted);
 }
 
 .pending-total {
-  font: var(--mat-sys-title-medium);
+  font: var(--app-font-title);
   font-variant-numeric: tabular-nums;
-  color: var(--mat-sys-error);
+  color: var(--app-color-danger);
 }
 
 // Las tres columnas se declaran para la lista entera, no para cada fila: así
@@ -56,7 +50,7 @@ mat-card {
   padding: 0.625rem 0;
 
   &:not(:last-child) {
-    border-bottom: 1px solid var(--mat-sys-outline-variant);
+    border-bottom: 1px solid var(--app-color-border);
   }
 }
 
@@ -73,11 +67,12 @@ mat-card {
 // es siempre la misma.
 .pending-row__due {
   text-align: right;
-  font: var(--mat-sys-body-small);
-  color: var(--mat-sys-on-surface-variant);
+  font: var(--app-font-small);
+  color: var(--app-color-muted);
 }
 
 .pending-row__amount {
+  color: var(--app-color-danger);
   font-variant-numeric: tabular-nums;
   text-align: right;
 }

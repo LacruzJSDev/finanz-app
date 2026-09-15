@@ -1,6 +1,6 @@
+import { AppButton } from '../../../../shared/ui/button';
 import { Component, computed, input, output } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
+import { AppIcon } from '../../../../shared/ui/icon';
 import { addMonths, startOfMonth } from '../../../../shared/date/date';
 
 const MONTH_FMT = new Intl.DateTimeFormat('es-ES', { month: 'long', year: 'numeric' });
@@ -12,7 +12,7 @@ const MONTH_FMT = new Intl.DateTimeFormat('es-ES', { month: 'long', year: 'numer
  */
 @Component({
   selector: 'app-month-stepper',
-  imports: [MatButtonModule, MatIconModule],
+  imports: [AppButton, AppIcon],
   templateUrl: './month-stepper.html',
   styleUrl: './month-stepper.scss',
 })

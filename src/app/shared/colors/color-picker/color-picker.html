@@ -1,17 +1,1 @@
-<mat-form-field>
-  <mat-label>Color</mat-label>
-  <mat-select [value]="selected()" (selectionChange)="colorChange.emit($event.value)">
-    <mat-select-trigger>
-      @if (selected(); as color) {
-        <app-color-mark [color]="color" />
-        {{ labels[color] }}
-      }
-    </mat-select-trigger>
-    @for (color of colors; track color) {
-      <mat-option [value]="color">
-        <app-color-mark [color]="color" />
-        {{ labels[color] }}
-      </mat-option>
-    }
-  </mat-select>
-</mat-form-field>
+<app-select label="Color" [options]="options" [formControl]="control" />

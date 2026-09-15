@@ -1,4 +1,4 @@
-<mat-icon>{{ icon() }}</mat-icon>
+<app-icon [name]="icon()" [size]="40" />
 <p>{{ message() }}</p>
 @if (hint(); as hint) {
   <p class="hint">{{ hint }}</p>

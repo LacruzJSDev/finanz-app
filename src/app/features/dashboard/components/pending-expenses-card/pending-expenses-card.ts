@@ -1,6 +1,6 @@
+import { AppCard } from '../../../../shared/ui/card';
 import { Component, computed, input } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { MatCardModule } from '@angular/material/card';
 import { PendingFixedExpenseRead } from '../../../../core/models';
 import { formatMoney } from '../../../../shared/money/money';
 import { isoToDate } from '../../../../shared/date/date';
@@ -19,7 +19,7 @@ interface PendingExpenseRow {
  */
 @Component({
   selector: 'app-pending-expenses-card',
-  imports: [DatePipe, MatCardModule],
+  imports: [DatePipe, AppCard],
   templateUrl: './pending-expenses-card.html',
   styleUrl: './pending-expenses-card.scss',
 })
