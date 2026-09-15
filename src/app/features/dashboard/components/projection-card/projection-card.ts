@@ -1,6 +1,6 @@
+import { AppCard } from '../../../../shared/ui/card';
 import { Component, computed, input } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { MatCardModule } from '@angular/material/card';
 import { PaydayRead, ProjectionPointRead } from '../../../../core/models';
 import { formatMoney } from '../../../../shared/money/money';
 import { isoToDate } from '../../../../shared/date/date';
@@ -8,7 +8,7 @@ import { ProjectionChart } from '../projection-chart/projection-chart';
 
 @Component({
   selector: 'app-projection-card',
-  imports: [DatePipe, MatCardModule, ProjectionChart],
+  imports: [DatePipe, AppCard, ProjectionChart],
   templateUrl: './projection-card.html',
   styleUrl: './projection-card.scss',
 })

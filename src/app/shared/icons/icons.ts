@@ -3,9 +3,8 @@
  * desplegable: con esta cantidad, una lista plana obliga a recorrerla entera
  * para saber si hay algo mejor más abajo.
  *
- * Los nombres son ligaduras de Material Icons (el clásico, no Symbols): uno
- * que no exista no falla, se pinta el nombre en letras dentro de la caja del
- * icono.
+ * Los nombres son identificadores persistidos. icon-registry.ts los traduce
+ * a SVG sin cambiar los valores guardados en las entidades.
  */
 export const ICON_GROUPS = [
   {

@@ -1,0 +1,6 @@
+<span class="app-button__content" [class.app-button__content--loading]="loading()">
+  <ng-content />
+</span>
+@if (loading()) {
+  <span class="app-button__loader" aria-hidden="true"></span>
+}

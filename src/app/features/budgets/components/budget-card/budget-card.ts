@@ -1,22 +1,15 @@
+import { AppButton } from '../../../../shared/ui/button';
+import { AppCard } from '../../../../shared/ui/card';
 import { Component, computed, input, output } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { AppIcon } from '../../../../shared/ui/icon';
+import { AppProgress } from '../../../../shared/ui/progress';
 import { BudgetProgressRead } from '../../../../core/models';
 import { CentsToEurosPipe } from '../../../../shared/money/cents-to-euros.pipe';
 import { ColorIcon } from '../../../../shared/ui/color-icon/color-icon';
 
 @Component({
   selector: 'app-budget-card',
-  imports: [
-    CentsToEurosPipe,
-    ColorIcon,
-    MatButtonModule,
-    MatCardModule,
-    MatIconModule,
-    MatProgressBarModule,
-  ],
+  imports: [CentsToEurosPipe, ColorIcon, AppButton, AppCard, AppIcon, AppProgress],
   templateUrl: './budget-card.html',
   styleUrl: './budget-card.scss',
 })

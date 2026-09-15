@@ -1,0 +1,185 @@
+<app-field
+  [label]="label()"
+  [inputId]="inputId"
+  [hint]="hint() ?? null"
+  [error]="error() ?? null"
+  [required]="required()"
+>
+  <button
+    #trigger
+    [id]="inputId"
+    type="button"
+    class="app-date-picker__trigger"
+    cdkOverlayOrigin
+    #origin="cdkOverlayOrigin"
+    [disabled]="disabled"
+    [attr.aria-expanded]="open()"
+    [attr.aria-label]="label() + ': ' + (displayValue() || 'Selecciona una fecha')"
+    [attr.aria-describedby]="inputId + '-description'"
+    [attr.aria-invalid]="error() ? 'true' : null"
+    [attr.aria-controls]="open() ? inputId + '-panel' : null"
+    aria-haspopup="dialog"
+    (click)="toggle()"
+  >
+    <span>{{ displayValue() || 'Selecciona una fecha' }}</span>
+    <app-icon name="calendar_month" [size]="20" />
+  </button>
+</app-field>
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="origin"
+  [cdkConnectedOverlayOpen]="open()"
+  [cdkConnectedOverlayPositions]="overlayPositions"
+  [cdkConnectedOverlayWidth]="overlayWidth()"
+  [cdkConnectedOverlayHasBackdrop]="true"
+  [cdkConnectedOverlayFlexibleDimensions]="false"
+  [cdkConnectedOverlayViewportMargin]="0"
+  [cdkConnectedOverlayPush]="true"
+  cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+  (backdropClick)="close()"
+  (overlayKeydown)="onPanelKeydown($event)"
+  (detach)="close()"
+  (attach)="onAttach()"
+>
+  <section
+    #panel
+    class="app-date-picker__panel"
+    role="dialog"
+    aria-modal="true"
+    [id]="inputId + '-panel'"
+    [attr.aria-label]="label()"
+    (keydown)="onPanelKeydown($event)"
+  >
+    <header class="app-date-picker__header">
+      <button
+        appButton
+        variant="icon"
+        type="button"
+        [attr.aria-label]="
+          view() === 'day'
+            ? 'Mes anterior'
+            : view() === 'month'
+              ? 'Año anterior'
+              : '12 años anteriores'
+        "
+        [disabled]="!canNavigate(-1)"
+        (click)="previousMonth()"
+      >
+        <app-icon name="chevron_left" />
+      </button>
+      <div class="app-date-picker__heading" aria-live="polite">
+        @if (view() === 'day') {
+          <button type="button" class="app-date-picker__heading-button" (click)="showMonthView()">
+            {{ monthName() }}
+          </button>
+          <button type="button" class="app-date-picker__heading-button" (click)="showYearView()">
+            {{ yearLabel() }}
+          </button>
+        } @else if (view() === 'month') {
+          <button type="button" class="app-date-picker__heading-button" (click)="showYearView()">
+            {{ yearLabel() }}
+          </button>
+        } @else {
+          <strong>{{ years()[0].year }}–{{ years()[11].year }}</strong>
+        }
+      </div>
+      <button
+        appButton
+        variant="icon"
+        type="button"
+        [attr.aria-label]="
+          view() === 'day'
+            ? 'Mes siguiente'
+            : view() === 'month'
+              ? 'Año siguiente'
+              : '12 años siguientes'
+        "
+        [disabled]="!canNavigate(1)"
+        (click)="nextMonth()"
+      >
+        <app-icon name="chevron_right" />
+      </button>
+    </header>
+    @if (view() === 'day') {
+      <div class="app-date-picker__weekdays" aria-hidden="true">
+        @for (day of ['lu', 'ma', 'mi', 'ju', 'vi', 'sá', 'do']; track day) {
+          <span>{{ day }}</span>
+        }
+      </div>
+      <div class="app-date-picker__grid" role="grid" [attr.aria-label]="monthLabel()">
+        @for (row of rows(); track $index; let rowIndex = $index) {
+          <div role="row">
+            @for (day of row; track day.date.toISOString(); let dayIndex = $index) {
+              <button
+                #dayButton
+                type="button"
+                role="gridcell"
+                [disabled]="day.disabled"
+                [class.app-date-picker__day--outside]="!day.currentMonth"
+                [class.app-date-picker__day--today]="day.today"
+                [class.app-date-picker__day--selected]="isSelected(day.date)"
+                [attr.aria-selected]="isSelected(day.date)"
+                [attr.aria-label]="fullDate(day.date)"
+                [attr.aria-current]="day.today ? 'date' : null"
+                [tabIndex]="dayTabIndex(dayIndex + rowIndex * 7)"
+                (keydown)="onDayKeydown($event, dayIndex + rowIndex * 7)"
+                (click)="choose(day)"
+              >
+                {{ day.date.getDate() }}
+              </button>
+            }
+          </div>
+        }
+      </div>
+    } @else if (view() === 'month') {
+      <div class="app-date-picker__period-grid" role="grid" aria-label="Meses">
+        @for (row of [0, 1, 2, 3]; track row) {
+          <div role="row">
+            @for (month of months().slice(row * 3, row * 3 + 3); track month.index) {
+              <button
+                #monthButton
+                type="button"
+                role="gridcell"
+                [disabled]="month.disabled"
+                [class.app-date-picker__period--selected]="month.index === currentMonthIndex()"
+                [tabIndex]="monthTabIndex(month.index)"
+                (click)="chooseMonth(month.index)"
+                (keydown)="onMonthKeydown($event, month.index)"
+              >
+                {{ month.label }}
+              </button>
+            }
+          </div>
+        }
+      </div>
+    } @else {
+      <div class="app-date-picker__period-grid" role="grid" aria-label="Años">
+        @for (row of [0, 1, 2, 3]; track row) {
+          <div role="row">
+            @for (
+              year of years().slice(row * 3, row * 3 + 3);
+              track year.year;
+              let column = $index
+            ) {
+              <button
+                #yearButton
+                type="button"
+                role="gridcell"
+                [disabled]="year.disabled"
+                [class.app-date-picker__period--selected]="year.year === currentYear()"
+                [tabIndex]="yearTabIndex(row * 3 + column)"
+                (click)="chooseYear(year.year)"
+                (keydown)="onYearKeydown($event, row * 3 + column)"
+              >
+                {{ year.year }}
+              </button>
+            }
+          </div>
+        }
+      </div>
+    }
+    @if (!required() && selected()) {
+      <button appButton variant="text" type="button" (click)="clear()">Borrar fecha</button>
+    }
+  </section>
+</ng-template>

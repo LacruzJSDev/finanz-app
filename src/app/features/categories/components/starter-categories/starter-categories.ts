@@ -1,7 +1,7 @@
+import { AppButton } from '../../../../shared/ui/button';
 import { Component, computed, input, output } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AppIcon } from '../../../../shared/ui/icon';
+import { AppLoader } from '../../../../shared/ui/loader';
 
 /**
  * La oferta de empezar con un cuadro de categorías ya hecho. Va al final de la
@@ -11,7 +11,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
  */
 @Component({
   selector: 'app-starter-categories',
-  imports: [MatButtonModule, MatIconModule, MatProgressSpinnerModule],
+  imports: [AppButton, AppIcon, AppLoader],
   templateUrl: './starter-categories.html',
   styleUrl: './starter-categories.scss',
 })

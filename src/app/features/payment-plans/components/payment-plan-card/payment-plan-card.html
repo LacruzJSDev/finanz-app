@@ -1,4 +1,4 @@
-<mat-card appearance="outlined">
+<app-card appearance="outlined" layout="row" spacing="compact">
   <app-color-icon
     [icon]="category()?.icon ?? null"
     [color]="category()?.color ?? null"
@@ -16,11 +16,12 @@
 
   @if (canManage()) {
     <button
-      matIconButton
+      appButton
+      variant="icon"
       aria-label="Editar el plan"
       (click)="$event.stopPropagation(); editClick.emit(plan())"
     >
-      <mat-icon>edit</mat-icon>
+      <app-icon name="edit" />
     </button>
   }
-</mat-card>
+</app-card>

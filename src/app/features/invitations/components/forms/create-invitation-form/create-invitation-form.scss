@@ -1,6 +1,6 @@
 .invite-hint {
-  font: var(--mat-sys-body-small);
-  color: var(--mat-sys-on-surface-variant);
+  font: var(--app-font-small);
+  color: var(--app-color-muted);
   text-align: center;
 }
 
@@ -9,8 +9,8 @@
 .invite-code {
   margin: 1rem 0;
   padding: 1rem;
-  border-radius: var(--mat-sys-corner-large);
-  background: var(--mat-sys-surface-container-high);
+  border-radius: var(--app-radius-card);
+  background: var(--app-color-surface-high);
   font-family: ui-monospace, monospace;
   font-size: 1.25rem;
   letter-spacing: 0.08em;

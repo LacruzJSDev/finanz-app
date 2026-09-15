@@ -127,11 +127,11 @@
 ## Implementation Rules
 
 - Preserve the dependency direction defined in `ARCHITECTURE.md`: only `core` calls generated API services.
-- Use Angular standalone APIs, native signals, and the existing Angular Material 3 system.
+- Use Angular standalone APIs, native signals, and the app-owned design system described in STYLES.md and specs/008-design-system/plan.md. Material is transitional only for unmigrated consumers.
 - Preserve the established mobile-first visual language, design tokens, typography, cards, bottom sheets, contextual FABs, and responsive behavior.
 - Keep state loading in services and interaction state in components.
 - Before introducing a card, form, list, selector, or destructive action, inspect 1-2 directly comparable existing components.
-- Reuse established Material structure, layout, action placement, and interaction patterns.
+- Reuse app-owned shared components and preserve existing layout, action placement and interaction patterns. New shared components own styling and use app tokens; CDK/Aria are internal infrastructure.
 - Prefer existing abstractions over parallel implementations.
 - Avoid unrelated refactors.
 - Keep changes scoped to the requested task.

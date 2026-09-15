@@ -1,11 +1,11 @@
+import { AppButton } from '../../../../../shared/ui/button';
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatButtonModule } from '@angular/material/button';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { APP_SHEET_DATA, AppSheetRef } from '../../../../../shared/ui/app-sheet';
+import { AppSelect, AppSelectOption } from '../../../../../shared/ui/select';
+import { AppInputGroup } from '../../../../../shared/ui/input-group';
+import { AppTextInput } from '../../../../../shared/ui/text-input';
+import { AppLoader } from '../../../../../shared/ui/loader';
 import { eurosToCents } from '../../../../../shared/money/money';
 import { AccountsService } from '../../../../../core/accounts/accounts.service';
 import { AccountTypeEnum } from '../../../../../core/models';
@@ -26,12 +26,11 @@ export interface CreateAccountFormData {
     ReactiveFormsModule,
     IconPicker,
     ColorPicker,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatButtonModule,
-    AccountTypeLabelPipe,
-    MatProgressSpinnerModule,
+    AppSelect,
+    AppInputGroup,
+    AppTextInput,
+    AppButton,
+    AppLoader,
   ],
   templateUrl: 'create-account-form.html',
   host: { class: 'bottom-sheet-form' },
@@ -39,6 +38,9 @@ export interface CreateAccountFormData {
 export class CreateAccountForm {
   private readonly fb = inject(FormBuilder);
   protected readonly accountTypes = Object.values(AccountTypeEnum);
+  protected readonly accountTypeOptions: readonly AppSelectOption[] = this.accountTypes.map(
+    (type) => ({ value: type, label: new AccountTypeLabelPipe().transform(type) }),
+  );
 
   readonly form = this.fb.nonNullable.group({
     name: ['', [Validators.required]],
@@ -48,8 +50,8 @@ export class CreateAccountForm {
     color: [AVAILABLE_COLORS[0] as ColorName],
     icon: ['home' as IconName],
   });
-  private readonly bottomSheetRef = inject(MatBottomSheetRef<CreateAccountForm>);
-  private readonly data = inject<CreateAccountFormData>(MAT_BOTTOM_SHEET_DATA);
+  private readonly sheetRef = inject(AppSheetRef<CreateAccountForm>);
+  private readonly data = inject<CreateAccountFormData>(APP_SHEET_DATA);
 
   protected readonly accountsService = inject(AccountsService);
 
@@ -68,7 +70,7 @@ export class CreateAccountForm {
     if (this.form.invalid || this.submitting()) return;
     this.submitting.set(true);
     this.formError.set(null);
-    this.bottomSheetRef.disableClose = true;
+    this.sheetRef.disableClose = true;
     const raw = this.form.getRawValue();
 
     this.accountsService
@@ -81,10 +83,10 @@ export class CreateAccountForm {
         icon: raw.icon,
       })
       .subscribe({
-        next: () => this.bottomSheetRef.dismiss(),
+        next: () => this.sheetRef.dismiss(),
         error: (error: unknown) => {
           this.submitting.set(false);
-          this.bottomSheetRef.disableClose = false;
+          this.sheetRef.disableClose = false;
           this.formError.set(applyServerErrors(this.form, error));
         },
       });

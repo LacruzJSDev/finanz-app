@@ -1,0 +1,15 @@
+<label class="app-switch__label">
+  <span class="app-switch__text"><ng-content /></span>
+  <input
+    class="app-switch__native"
+    type="checkbox"
+    [attr.aria-label]="ariaLabel()"
+    [checked]="value ?? checked()"
+    [disabled]="isDisabled || disabled()"
+    (change)="setValue($any($event.target).checked)"
+    (blur)="onTouched()"
+  />
+  <span class="app-switch__visual" aria-hidden="true"
+    ><span #thumb (transitionend)="onTransitionEnd($event)"></span
+  ></span>
+</label>

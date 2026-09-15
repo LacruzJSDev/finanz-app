@@ -1,4 +1,6 @@
+import { AppButton } from '../../../../shared/ui/button';
 import { Component, computed, effect, inject, input, signal } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs';
 import {
@@ -7,7 +9,8 @@ import {
 } from '../../../../core/transactions/transactions.service';
 import { CategoriesService } from '../../../../core/categories/categories.service';
 import { PageContextService } from '../../../../core/ui/page-context.service';
-import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { AppSheetRef } from '../../../../shared/ui/app-sheet';
+import { AppSheetService } from '../../../../shared/ui/app-sheet';
 import { AccountRead, TransactionRead } from '../../../../core/models';
 import {
   CreateTransactionForm,
@@ -26,14 +29,11 @@ import { InfiniteScroll } from '../../../../shared/ui/infinite-scroll/infinite-s
 import { PageContent } from '../../../../shared/ui/page-content/page-content';
 import { PageLoader } from '../../../../shared/ui/page-loader/page-loader';
 import { EmptyState } from '../../../../shared/ui/empty-state/empty-state';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AppLoader } from '../../../../shared/ui/loader';
 import { AccountsService } from '../../../../core/accounts/accounts.service';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { ColorIcon } from '../../../../shared/ui/color-icon/color-icon';
+import { AppIcon } from '../../../../shared/ui/icon';
+import { AppSelect, AppSelectOption } from '../../../../shared/ui/select';
+import { AppTextInput } from '../../../../shared/ui/text-input';
 
 type CategoryFilter = 'all' | 'uncategorized' | string;
 
@@ -42,13 +42,12 @@ type CategoryFilter = 'all' | 'uncategorized' | string;
   imports: [
     TransactionsList,
     InfiniteScroll,
-    ColorIcon,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatProgressSpinnerModule,
-    MatSelectModule,
+    ReactiveFormsModule,
+    AppButton,
+    AppIcon,
+    AppTextInput,
+    AppLoader,
+    AppSelect,
     PageContent,
     PageLoader,
     EmptyState,
@@ -58,7 +57,7 @@ type CategoryFilter = 'all' | 'uncategorized' | string;
   host: { class: 'page-section' },
 })
 export class Transactions {
-  private readonly bottomSheet = inject(MatBottomSheet);
+  private readonly bottomSheet = inject(AppSheetService);
   protected readonly accountsService = inject(AccountsService);
   protected readonly transactionsService = inject(TransactionsService);
 
@@ -75,8 +74,22 @@ export class Transactions {
   protected readonly rootCategories = computed(() =>
     this.selectableCategories().filter((category) => category.parent_id === null),
   );
+  protected readonly categoryOptions = computed<readonly AppSelectOption[]>(() => [
+    { value: 'all', label: 'Todas', icon: 'category' },
+    { value: 'uncategorized', label: 'Sin categoría' },
+    ...this.rootCategories().map((category) => ({
+      value: category.id,
+      label: category.name,
+      icon: category.icon ?? undefined,
+      color: category.color ?? undefined,
+    })),
+  ]);
   protected readonly categoryFilter = signal<CategoryFilter>('all');
+  protected readonly categoryControl = new FormControl<CategoryFilter>('all', {
+    nonNullable: true,
+  });
   protected readonly search = signal('');
+  protected readonly searchControl = new FormControl('', { nonNullable: true });
   private readonly settledSearch = toSignal(
     toObservable(this.search).pipe(
       map((value) => value.trim()),
@@ -134,6 +147,9 @@ export class Transactions {
   );
 
   constructor() {
+    this.searchControl.valueChanges.subscribe((value) => this.search.set(value));
+    this.categoryControl.valueChanges.subscribe((value) => this.changeCategory(value));
+    effect(() => this.categoryControl.setValue(this.categoryFilter(), { emitEvent: false }));
     // Cambiar de cuenta o de filtro empieza la lista de cero. Lo demás lo pide el scroll.
     effect(() => {
       const query = this.transactionQuery();
@@ -175,7 +191,7 @@ export class Transactions {
 
   clearFilters(): void {
     this.categoryFilter.set('all');
-    this.search.set('');
+    this.searchControl.setValue('');
   }
 
   openCreateTransactionForm(): void {
@@ -225,7 +241,7 @@ export class Transactions {
   // La lista no se vuelve a pedir: el servicio ya la actualiza al crear, editar
   // y borrar. Recargarla encendía `loading`, y eso sustituye la lista entera
   // por el spinner de pantalla completa — el parpadeo entre guardar y volver.
-  private refreshAccountAfter(ref: MatBottomSheetRef<unknown>): void {
+  private refreshAccountAfter(ref: AppSheetRef<unknown>): void {
     ref.afterDismissed().subscribe(() => {
       this.accountsService.getAccountById(this.id()).subscribe();
     });

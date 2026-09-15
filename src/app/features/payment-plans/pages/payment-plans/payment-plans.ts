@@ -1,7 +1,6 @@
 import { Component, computed, effect, inject, input, signal } from '@angular/core';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
+import { AppSheetService } from '../../../../shared/ui/app-sheet';
+import { AppIcon } from '../../../../shared/ui/icon';
 import { PaymentPlansService } from '../../../../core/payment-plans/payment-plans.service';
 import { AccountsService } from '../../../../core/accounts/accounts.service';
 import { CategoriesService } from '../../../../core/categories/categories.service';
@@ -24,13 +23,13 @@ import {
 
 @Component({
   selector: 'app-payment-plans',
-  imports: [MatButtonModule, MatIconModule, PageContent, PageLoader, EmptyState, PaymentPlansList],
+  imports: [AppIcon, PageContent, PageLoader, EmptyState, PaymentPlansList],
   templateUrl: './payment-plans.html',
   styleUrl: './payment-plans.scss',
   host: { class: 'page-section' },
 })
 export class PaymentPlans {
-  private readonly bottomSheet = inject(MatBottomSheet);
+  private readonly bottomSheet = inject(AppSheetService);
   private readonly paymentPlansService = inject(PaymentPlansService);
   private readonly accountsService = inject(AccountsService);
   private readonly categoriesService = inject(CategoriesService);

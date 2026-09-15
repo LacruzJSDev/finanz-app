@@ -1,0 +1,16 @@
+<section
+  #surface
+  class="app-sheet"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Panel"
+  (pointerdown)="startDrag($event)"
+  (pointermove)="moveDrag($event)"
+  (pointerup)="endDrag($event)"
+  (pointercancel)="cancelDrag()"
+>
+  <div class="app-sheet__handle" aria-hidden="true"><span></span></div>
+  <div #body class="app-sheet__body">
+    <ng-container *ngComponentOutlet="config.component; injector: childInjector"></ng-container>
+  </div>
+</section>

@@ -1,0 +1,11 @@
+@if (showGroup()) {
+  <button
+    type="button"
+    class="group-trigger"
+    (click)="open()"
+    [attr.aria-label]="'Cambiar de grupo. Grupo activo: ' + groupName()"
+  >
+    <app-icon name="groups" [size]="20" /><span>{{ groupName() }}</span>
+    <app-icon name="expand_less" [size]="20" />
+  </button>
+}

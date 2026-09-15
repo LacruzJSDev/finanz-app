@@ -1,8 +1,8 @@
+import { AppCard } from '../../../../shared/ui/card';
+import { AppButton } from '../../../../shared/ui/button';
 import { Component, computed, input, output } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
+import { AppIcon } from '../../../../shared/ui/icon';
 import { CentsToEurosPipe } from '../../../../shared/money/cents-to-euros.pipe';
 import { ColorIcon } from '../../../../shared/ui/color-icon/color-icon';
 import { isoToDate } from '../../../../shared/date/date';
@@ -16,15 +16,7 @@ import { PlanFrequencyPipe } from '../../pipes/plan-frequency.pipe';
 
 @Component({
   selector: 'app-payment-plan-card',
-  imports: [
-    DatePipe,
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-    CentsToEurosPipe,
-    ColorIcon,
-    PlanFrequencyPipe,
-  ],
+  imports: [DatePipe, AppCard, AppButton, AppIcon, CentsToEurosPipe, ColorIcon, PlanFrequencyPipe],
   templateUrl: 'payment-plan-card.html',
   styleUrl: 'payment-plan-card.scss',
 })

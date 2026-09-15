@@ -1,4 +1,4 @@
-<mat-card appearance="outlined">
+<app-card appearance="outlined" layout="row" spacing="compact">
   <div class="invitation-info">
     <span class="invitation-role">{{ invitation().role | memberRoleLabel }}</span>
     <span class="invitation-meta">
@@ -16,19 +16,25 @@
 
   <!-- El código solo se comparte mientras la invitación sirva para algo. -->
   @if (canManage() && isPending()) {
-    <button matIconButton aria-label="Copiar el código" (click)="copyClick.emit(invitation())">
-      <mat-icon>content_copy</mat-icon>
+    <button
+      appButton
+      variant="icon"
+      aria-label="Copiar el código"
+      (click)="copyClick.emit(invitation())"
+    >
+      <app-icon name="content_copy" />
     </button>
   }
 
   @if (canRevoke()) {
     <button
-      matIconButton
+      appButton
+      variant="icon"
       class="invitation-revoke"
       aria-label="Revocar la invitación"
       (click)="revokeClick.emit(invitation())"
     >
-      <mat-icon>link_off</mat-icon>
+      <app-icon name="link_off" />
     </button>
   }
-</mat-card>
+</app-card>

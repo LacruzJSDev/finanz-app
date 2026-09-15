@@ -16,9 +16,15 @@
     </div>
 
     @if (invitation.status === Pending) {
-      <button matButton="filled" class="invite-submit" (click)="accept()" [disabled]="accepting()">
+      <button
+        appButton
+        variant="filled"
+        class="invite-submit"
+        (click)="accept()"
+        [disabled]="accepting()"
+      >
         @if (accepting()) {
-          <mat-spinner diameter="20" />
+          <app-loader diameter="20" />
         } @else {
           Unirme al grupo
         }
@@ -32,17 +38,21 @@
     <form [formGroup]="form" (ngSubmit)="submitCode()">
       <p class="invite-hint">Pega el código que te hayan pasado para ver a qué grupo te unes.</p>
 
-      <div class="grouped-card">
-        <mat-form-field>
-          <mat-label>Código de invitación</mat-label>
-          <input matInput formControlName="code" autocapitalize="off" autocomplete="off" />
-          <!-- Corto: el subscript reserva una línea y un texto que la pase
-               ensancha el campo. Lo que falle en el servidor lo cuenta él. -->
-          <mat-error>El código es obligatorio.</mat-error>
-        </mat-form-field>
-      </div>
+      <app-input-group>
+        <app-text-input
+          label="Código de invitación"
+          formControlName="code"
+          autocomplete="off"
+          [error]="
+            form.controls.code.invalid &&
+            (form.controls.code.touched || form.controls.code.hasError('server'))
+              ? 'El código es obligatorio.'
+              : null
+          "
+        />
+      </app-input-group>
 
-      <button matButton="filled" class="invite-submit" type="submit" [disabled]="looking()">
+      <button appButton variant="filled" class="invite-submit" type="submit" [disabled]="looking()">
         Buscar
       </button>
     </form>

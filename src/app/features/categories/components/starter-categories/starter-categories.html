@@ -1,8 +1,8 @@
-<button matButton type="button" [disabled]="creating()" (click)="create.emit()">
+<button appButton variant="text" type="button" [disabled]="creating()" (click)="create.emit()">
   @if (creating()) {
-    <mat-spinner diameter="20" />
+    <app-loader diameter="20" />
   } @else {
-    <mat-icon>playlist_add</mat-icon>
+    <app-icon name="playlist_add" />
   }
   {{ creating() ? 'Creando categorías…' : 'Añadir categorías sugeridas' }}
 </button>

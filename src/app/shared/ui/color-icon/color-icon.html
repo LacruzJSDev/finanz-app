@@ -5,11 +5,5 @@
   [style.background]="'color-mix(in oklab, ' + resolvedColor() + ' 18%, transparent)'"
   [style.color]="resolvedColor()"
 >
-  <mat-icon
-    [style.font-size.px]="size() * 0.5"
-    [style.width.px]="size() * 0.5"
-    [style.height.px]="size() * 0.5"
-  >
-    {{ resolvedIcon() }}
-  </mat-icon>
+  <app-icon [size]="size() * 0.5" [name]="resolvedIcon()" />
 </div>

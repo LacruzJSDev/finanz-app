@@ -1,11 +1,11 @@
+import { AppButton } from '../../../../shared/ui/button';
 import { Component, effect, inject, input, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { LowerCasePipe } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AppInputGroup } from '../../../../shared/ui/input-group';
+import { AppTextInput } from '../../../../shared/ui/text-input';
+import { AppLoader } from '../../../../shared/ui/loader';
 import { InvitationsService } from '../../../../core/invitations/invitations.service';
 import { AccountGroupsService } from '../../../../core/account-groups/account-groups.service';
 import { GroupContextService } from '../../../../core/ui/group-context.service';
@@ -22,10 +22,10 @@ import { MemberRoleLabelPipe } from '../../../group-members';
   imports: [
     ReactiveFormsModule,
     LowerCasePipe,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatProgressSpinnerModule,
+    AppInputGroup,
+    AppTextInput,
+    AppButton,
+    AppLoader,
     PageContent,
     PageLoader,
     ColorIcon,

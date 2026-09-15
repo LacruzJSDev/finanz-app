@@ -2,8 +2,8 @@ import { Component, computed, effect, inject, input } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter, map } from 'rxjs';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { AppSheetService } from '../../../../shared/ui/app-sheet';
+import { AppSegmentedControl } from '../../../../shared/ui/segmented-control';
 import { PageContextService } from '../../../../core/ui/page-context.service';
 import { AccountGroupsService } from '../../../../core/account-groups/account-groups.service';
 import { GroupContextService } from '../../../../core/ui/group-context.service';
@@ -19,12 +19,12 @@ import { CreateCategoryForm, CreateCategoryFormData } from '../../../categories'
 
 @Component({
   selector: 'app-account-group-detail',
-  imports: [RouterOutlet, MatButtonToggleModule],
+  imports: [RouterOutlet, AppSegmentedControl],
   templateUrl: './account-group-detail.html',
   host: { class: 'page-container' },
 })
 export class AccountGroupDetail {
-  private readonly bottomSheet = inject(MatBottomSheet);
+  private readonly bottomSheet = inject(AppSheetService);
   protected readonly accountGroupsService = inject(AccountGroupsService);
   protected readonly pageContextService = inject(PageContextService);
   private readonly groupContextService = inject(GroupContextService);
@@ -36,6 +36,11 @@ export class AccountGroupDetail {
   readonly id = input.required<string>();
 
   protected readonly loading = this.accountGroupsService.loading;
+  protected readonly sectionOptions = [
+    { value: 'miembros', label: 'Miembros' },
+    { value: 'invitaciones', label: 'Invitaciones' },
+    { value: 'categorias', label: 'Categorías' },
+  ] as const;
 
   protected readonly group = computed(() =>
     this.accountGroupsService.groups().find((g) => g.id === this.id()),
@@ -80,7 +85,11 @@ export class AccountGroupDetail {
         : this.groupContextService.activeGroupId() === group.id
           ? 'En uso'
           : 'Activo';
-      this.pageContextService.setTitle(group.name, { detail: state, showGroup: false });
+      this.pageContextService.setTitle(group.name, {
+        detail: state,
+        showGroup: false,
+        parent: { label: 'Grupos', url: '/grupos' },
+      });
     });
 
     // Cada sección tiene su acción propia. La abre el armazón porque es quien

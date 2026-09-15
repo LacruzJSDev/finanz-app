@@ -7,33 +7,32 @@
 
   <p class="invite-code">{{ code }}</p>
 
-  <button matButton="filled" class="invite-copy" (click)="copy()">
-    <mat-icon>{{ copied() ? 'check' : 'content_copy' }}</mat-icon>
+  <button appButton variant="filled" class="invite-copy" (click)="copy()">
+    <app-icon [name]="copied() ? 'check' : 'content_copy'" />
     {{ copied() ? 'Copiado' : 'Copiar código' }}
   </button>
-  <button matButton (click)="close()">Cerrar</button>
+  <button appButton variant="text" (click)="close()">Cerrar</button>
 } @else {
   <h2>Invitar al grupo</h2>
 
   <form [formGroup]="form" (ngSubmit)="submit()">
-    <div class="grouped-card">
-      <mat-form-field>
-        <mat-label>Rol con el que entrará</mat-label>
-        <mat-select formControlName="role">
-          @for (role of roles; track role) {
-            <mat-option [value]="role">{{ role | memberRoleLabel }}</mat-option>
-          }
-        </mat-select>
-        <mat-error>
-          {{ form.controls.role.getError('server') ?? 'El rol es obligatorio.' }}
-        </mat-error>
-      </mat-form-field>
-    </div>
+    <app-input-group>
+      <app-select
+        label="Rol con el que entrará"
+        [options]="roleOptions"
+        formControlName="role"
+        [error]="
+          form.controls.role.invalid
+            ? (form.controls.role.getError('server') ?? 'El rol es obligatorio.')
+            : null
+        "
+      />
+    </app-input-group>
     <p class="form-error">{{ formError() }}</p>
 
-    <button matButton="filled" type="submit" [disabled]="submitting()">
+    <button appButton variant="filled" type="submit" [disabled]="submitting()">
       @if (submitting()) {
-        <mat-spinner diameter="20" />
+        <app-loader diameter="20" />
       } @else {
         Crear invitación
       }

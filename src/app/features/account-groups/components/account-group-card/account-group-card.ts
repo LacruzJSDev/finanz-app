@@ -1,13 +1,13 @@
 import { Component, computed, input, output } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
+import { AppButton } from '../../../../shared/ui/button';
+import { AppCard } from '../../../../shared/ui/card';
+import { AppIcon } from '../../../../shared/ui/icon';
 import { GroupRead } from '../../../../core/models';
 import { ColorIcon } from '../../../../shared/ui/color-icon/color-icon';
 
 @Component({
   selector: 'app-account-group-card',
-  imports: [MatButtonModule, MatCardModule, MatIconModule, ColorIcon],
+  imports: [AppButton, AppCard, AppIcon, ColorIcon],
   templateUrl: 'account-group-card.html',
   styleUrl: 'account-group-card.scss',
 })

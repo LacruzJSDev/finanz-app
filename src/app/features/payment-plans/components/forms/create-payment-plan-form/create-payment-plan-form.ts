@@ -1,14 +1,14 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { AppButton } from '../../../../../shared/ui/button';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatButtonModule } from '@angular/material/button';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { APP_SHEET_DATA, AppSheetRef } from '../../../../../shared/ui/app-sheet';
+import { AppSelect, AppSelectOption } from '../../../../../shared/ui/select';
+import { AppInputGroup } from '../../../../../shared/ui/input-group';
+import { AppTextInput } from '../../../../../shared/ui/text-input';
+import { AppSwitch } from '../../../../../shared/ui/switch';
+import { AppDatePicker } from '../../../../../shared/ui/date-picker';
+import { AppLoader } from '../../../../../shared/ui/loader';
 import { PaymentPlansService } from '../../../../../core/payment-plans/payment-plans.service';
 import { applyServerErrors } from '../../../../../core/forms/apply-server-errors';
 import {
@@ -20,8 +20,8 @@ import {
 } from '../../../../../core/models';
 import { eurosToCents } from '../../../../../shared/money/money';
 import { dateToIso } from '../../../../../shared/date/date';
-import { ColorIcon } from '../../../../../shared/ui/color-icon/color-icon';
 import { AmountInput, ToggleTransactionType } from '../../../../transactions';
+import { CategorySelect } from '../../../../categories';
 import { FrequencyUnitLabelPipe } from '../../../pipes/frequency-unit-label.pipe';
 
 export interface CreatePaymentPlanFormData {
@@ -34,17 +34,16 @@ export interface CreatePaymentPlanFormData {
   selector: 'app-create-payment-plan-form',
   imports: [
     ReactiveFormsModule,
-    ColorIcon,
+    CategorySelect,
     AmountInput,
     ToggleTransactionType,
-    FrequencyUnitLabelPipe,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatButtonModule,
-    MatSlideToggleModule,
-    MatDatepickerModule,
-    MatProgressSpinnerModule,
+    AppInputGroup,
+    AppSelect,
+    AppTextInput,
+    AppButton,
+    AppSwitch,
+    AppDatePicker,
+    AppLoader,
   ],
   templateUrl: './create-payment-plan-form.html',
   host: { class: 'bottom-sheet-form' },
@@ -52,14 +51,20 @@ export interface CreatePaymentPlanFormData {
 export class CreatePaymentPlanForm {
   private readonly fb = inject(FormBuilder);
   private readonly paymentPlansService = inject(PaymentPlansService);
-  private readonly bottomSheetRef = inject(MatBottomSheetRef<CreatePaymentPlanForm>);
-  protected readonly data = inject<CreatePaymentPlanFormData>(MAT_BOTTOM_SHEET_DATA);
+  private readonly sheetRef = inject(AppSheetRef<CreatePaymentPlanForm>);
+  protected readonly data = inject<CreatePaymentPlanFormData>(APP_SHEET_DATA);
 
   protected readonly submitting = signal(false);
   protected readonly formError = signal<string | null>(null);
 
   protected readonly transactionTypes = Object.values(TransactionTypeEnum);
   protected readonly frequencyUnits = Object.values(FrequencyUnitEnum);
+  protected readonly frequencyOptions: readonly AppSelectOption[] = this.frequencyUnits.map(
+    (unit) => ({ value: unit, label: new FrequencyUnitLabelPipe().transform(unit) }),
+  );
+  protected readonly accountOptions: readonly AppSelectOption[] = this.data.otherAccounts.map(
+    (account) => ({ value: account.id, label: account.name }),
+  );
 
   readonly form = this.fb.nonNullable.group({
     type: [TransactionTypeEnum.Expense as TransactionTypeEnum, [Validators.required]],
@@ -82,19 +87,11 @@ export class CreatePaymentPlanForm {
     initialValue: this.form.controls.is_recurring.value,
   });
 
-  private readonly categoryId = toSignal(this.form.controls.category_id.valueChanges, {
-    initialValue: this.form.controls.category_id.value,
-  });
-
-  protected readonly selectedCategory = computed(() =>
-    this.data.categories.find((category) => category.id === this.categoryId()),
-  );
-
   submit(): void {
     if (this.form.invalid || this.submitting()) return;
     this.submitting.set(true);
     this.formError.set(null);
-    this.bottomSheetRef.disableClose = true;
+    this.sheetRef.disableClose = true;
     const raw = this.form.getRawValue();
     const isTransfer = raw.type === TransactionTypeEnum.Transfer;
 
@@ -116,10 +113,10 @@ export class CreatePaymentPlanForm {
     };
 
     this.paymentPlansService.createPaymentPlan(this.data.accountId, payload).subscribe({
-      next: () => this.bottomSheetRef.dismiss(),
+      next: () => this.sheetRef.dismiss(),
       error: (error: unknown) => {
         this.submitting.set(false);
-        this.bottomSheetRef.disableClose = false;
+        this.sheetRef.disableClose = false;
         this.formError.set(applyServerErrors(this.form, error));
       },
     });

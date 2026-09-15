@@ -1,21 +1,38 @@
-<mat-card appearance="outlined" (click)="viewClick.emit(account())">
-  <app-color-icon [icon]="account().icon" [color]="account().color" [size]="48" />
+<app-card layout="row" spacing="compact">
+  <button
+    type="button"
+    class="account-open"
+    (click)="viewClick.emit(account())"
+    [attr.aria-label]="'Ver cuenta ' + account().name"
+  >
+    <app-color-icon [icon]="account().icon" [color]="account().color" [size]="48" />
 
-  <div class="account-info">
-    <span class="account-name">{{ account().name }}</span>
-    <span class="account-balance">{{ account().balance | centsToEuros: account().currency }}</span>
-  </div>
+    <div class="account-info">
+      <span class="account-name">{{ account().name }}</span>
+      <span class="account-balance">{{
+        account().balance | centsToEuros: account().currency
+      }}</span>
+    </div>
+  </button>
 
   @if (canManage()) {
-    <button matIconButton (click)="$event.stopPropagation(); editClick.emit(account())">
-      <mat-icon>edit</mat-icon>
+    <button
+      appButton
+      variant="icon"
+      type="button"
+      [attr.aria-label]="'Editar ' + account().name"
+      (click)="editClick.emit(account())"
+    >
+      <app-icon name="edit" />
     </button>
   }
   <button
-    matIconButton
+    appButton
+    variant="icon"
+    type="button"
     [attr.aria-label]="'Ver análisis de ' + account().name"
     (click)="showAnalysis($event)"
   >
-    <mat-icon>query_stats</mat-icon>
+    <app-icon name="query_stats" />
   </button>
-</mat-card>
+</app-card>

@@ -1,11 +1,9 @@
-@use '@angular/material' as mat;
-
 // Vive dentro de la tarjeta oscura, así que sus colores salen de ella y no del
 // tema: aquí el fondo es oscuro y `on-surface` no se leería.
 :host {
   display: block;
   padding: 1rem;
-  border-radius: var(--mat-sys-corner-large);
+  border-radius: var(--app-radius-card);
   background: rgb(255 255 255 / 8%);
 }
 
@@ -18,45 +16,33 @@
 }
 
 .meter-label {
-  font: var(--mat-sys-body-medium);
+  font: var(--app-font-body);
   color: rgb(255 255 255 / 75%);
 }
 
 .meter-figures {
-  font: var(--mat-sys-title-medium);
+  font: var(--app-font-title);
   font-variant-numeric: tabular-nums;
 }
 
 .meter-figures--over,
 .meter-over {
-  color: var(--mat-sys-error);
+  color: var(--app-color-danger);
 }
 
 .meter-foot {
   margin-top: 0.5rem;
-  font: var(--mat-sys-body-small);
+  font: var(--app-font-small);
   color: rgb(255 255 255 / 60%);
 }
 
-mat-progress-bar {
+app-progress {
+  --app-progress-track-color: rgb(255 255 255 / 15%);
+  --app-progress-color: var(--app-color-on-primary);
   margin: 0.75rem 0 0;
-
-  @include mat.progress-bar-overrides(
-    (
-      track-height: 6px,
-      active-indicator-height: 6px,
-      track-shape: 999px,
-      track-color: rgb(255 255 255 / 15%),
-      active-indicator-color: var(--mat-sys-tertiary),
-    )
-  );
 }
 
 // Pasado el límite la barra deja de ser informativa y pasa a ser un aviso.
 .meter-bar--over {
-  @include mat.progress-bar-overrides(
-    (
-      active-indicator-color: var(--mat-sys-error),
-    )
-  );
+  --app-progress-color: var(--app-color-danger, #ba1a1a);
 }

@@ -1,22 +1,16 @@
+import { AppButton } from '../../../../shared/ui/button';
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AppLoader } from '../../../../shared/ui/loader';
+import { AppInputGroup } from '../../../../shared/ui/input-group';
+import { AppTextInput } from '../../../../shared/ui/text-input';
 import { AuthService } from '../../../../core/auth/auth.service';
 import { ApiError } from '../../../../core/http/api-error';
 
 @Component({
   selector: 'app-login',
-  imports: [
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatProgressSpinnerModule,
-  ],
+  imports: [ReactiveFormsModule, AppInputGroup, AppTextInput, AppButton, AppLoader],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })

@@ -1,20 +1,14 @@
+import { AppCard } from '../../../../shared/ui/card';
+import { AppButton } from '../../../../shared/ui/button';
 import { Component, computed, input, output } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
+import { AppIcon } from '../../../../shared/ui/icon';
 import { InvitationRead, InvitationStatusEnum } from '../../../../core/models';
 import { MemberRoleLabelPipe } from '../../../group-members';
 import { InvitationStatusLabelPipe } from '../../pipes/invitation-status-label.pipe';
 
 @Component({
   selector: 'app-invitation-card',
-  imports: [
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-    MemberRoleLabelPipe,
-    InvitationStatusLabelPipe,
-  ],
+  imports: [AppCard, AppButton, AppIcon, MemberRoleLabelPipe, InvitationStatusLabelPipe],
   templateUrl: 'invitation-card.html',
   styleUrl: 'invitation-card.scss',
 })

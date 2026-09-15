@@ -1,0 +1,49 @@
+<app-field
+  [label]="label()"
+  [inputId]="inputId"
+  [hint]="hint()"
+  [error]="error()"
+  [required]="required()"
+  [compact]="appearance() === 'amount'"
+>
+  @if (multiline()) {
+    <textarea
+      [id]="inputId"
+      [name]="name()"
+      [value]="value()"
+      [disabled]="disabled()"
+      [readOnly]="readonly()"
+      [required]="required()"
+      [placeholder]="placeholder()"
+      [attr.autocomplete]="autocomplete() || null"
+      [attr.inputmode]="inputmode()"
+      [attr.maxlength]="maxlength()"
+      [attr.aria-describedby]="inputId + '-description'"
+      [attr.aria-invalid]="error() ? 'true' : null"
+      (input)="updateValue($event)"
+      (blur)="markTouched()"
+    ></textarea>
+  } @else {
+    <input
+      [id]="inputId"
+      [name]="name()"
+      [type]="type()"
+      [class.amount-input]="appearance() === 'amount'"
+      [value]="value()"
+      [disabled]="disabled()"
+      [readOnly]="readonly()"
+      [required]="required()"
+      [placeholder]="placeholder()"
+      [attr.autocomplete]="autocomplete() || null"
+      [attr.min]="min()"
+      [attr.max]="max()"
+      [attr.step]="step()"
+      [attr.inputmode]="inputmode()"
+      [attr.maxlength]="maxlength()"
+      [attr.aria-describedby]="inputId + '-description'"
+      [attr.aria-invalid]="error() ? 'true' : null"
+      (input)="updateValue($event)"
+      (blur)="markTouched()"
+    />
+  }
+</app-field>

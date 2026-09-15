@@ -1,0 +1,1 @@
+export { AppDisclosure } from './disclosure';
