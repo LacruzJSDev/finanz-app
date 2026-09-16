@@ -1,9 +1,4 @@
-<app-card
-  appearance="outlined"
-  layout="row"
-  spacing="compact"
-  [class.budget-card--child]="isChild()"
->
+<app-card appearance="outlined" layout="row" spacing="compact">
   <app-color-icon
     [icon]="category()?.icon ?? 'savings'"
     [color]="category()?.color ?? 'var(--app-color-muted)'"

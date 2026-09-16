@@ -12,9 +12,8 @@
             'budget-group-' + (group.root?.id ?? group.budgets[0].category_id)
           "
         >
-          @if (group.root) {
+          @if (group.root && !group.hasRootBudget) {
             <h2 class="budget-group__title" [id]="'budget-group-' + group.root.id">
-              <app-color-icon [icon]="group.root.icon" [color]="group.root.color" [size]="24" />
               <span>{{ group.root.name }}</span>
             </h2>
           }
@@ -23,7 +22,6 @@
               <app-budget-card
                 [budget]="budget"
                 [category]="categoryFor(budget)"
-                [isChild]="!!parentFor(budget)"
                 [canManage]="canManage()"
                 (editClick)="openBudgetForm($event)"
                 (deleteClick)="deleteBudget($event)"
