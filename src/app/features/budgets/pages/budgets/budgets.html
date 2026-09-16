@@ -6,29 +6,14 @@
   } @else if (budgets().length) {
     <section class="budgets-list" aria-label="Presupuestos vigentes">
       @for (group of budgetGroups(); track group.root?.id ?? group.budgets[0].category_id) {
-        <section
-          class="budget-group"
-          [attr.aria-labelledby]="
-            'budget-group-' + (group.root?.id ?? group.budgets[0].category_id)
-          "
-        >
-          @if (group.root && !group.hasRootBudget) {
-            <h2 class="budget-group__title" [id]="'budget-group-' + group.root.id">
-              <span>{{ group.root.name }}</span>
-            </h2>
-          }
-          <div class="budget-group__items">
-            @for (budget of group.budgets; track budget.category_id) {
-              <app-budget-card
-                [budget]="budget"
-                [category]="categoryFor(budget)"
-                [canManage]="canManage()"
-                (editClick)="openBudgetForm($event)"
-                (deleteClick)="deleteBudget($event)"
-              />
-            }
-          </div>
-        </section>
+        <app-budget-group-card
+          [root]="group.root"
+          [budgets]="group.budgets"
+          [categories]="activeCategories()"
+          [canManage]="canManage()"
+          (editClick)="openBudgetForm($event)"
+          (deleteClick)="deleteBudget($event)"
+        />
       }
     </section>
   } @else {

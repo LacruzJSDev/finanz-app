@@ -12,7 +12,7 @@ import { PageContent } from '../../../../shared/ui/page-content/page-content';
 import { PageLoader } from '../../../../shared/ui/page-loader/page-loader';
 import { dateToIso, startOfMonth } from '../../../../shared/date/date';
 import { MonthStepper } from '../../../account-stats';
-import { BudgetCard } from '../../components/budget-card/budget-card';
+import { BudgetGroupCard } from '../../components/budget-group-card/budget-group-card';
 import { BudgetForm, BudgetFormData } from '../../components/budget-form/budget-form';
 import {
   DeleteBudgetForm,
@@ -21,7 +21,7 @@ import {
 
 @Component({
   selector: 'app-budgets',
-  imports: [BudgetCard, EmptyState, MonthStepper, PageContent, PageLoader],
+  imports: [BudgetGroupCard, EmptyState, MonthStepper, PageContent, PageLoader],
   templateUrl: './budgets.html',
   styleUrl: './budgets.scss',
   host: { class: 'page-container' },
@@ -46,18 +46,14 @@ export class Budgets {
   protected readonly budgetGroups = computed(() => {
     const categories = this.categoriesService.categories();
     const byId = new Map(categories.map((category) => [category.id, category]));
-    const groups = new Map<
-      string,
-      { root: CategoryRead | null; budgets: BudgetProgressRead[]; hasRootBudget: boolean }
-    >();
+    const groups = new Map<string, { root: CategoryRead | null; budgets: BudgetProgressRead[] }>();
 
     for (const budget of this.budgets()) {
       const category = byId.get(budget.category_id) ?? null;
       const root = category?.parent_id ? (byId.get(category.parent_id) ?? category) : category;
       const rootId = root?.id ?? budget.category_id;
-      const group = groups.get(rootId) ?? { root, budgets: [], hasRootBudget: false };
+      const group = groups.get(rootId) ?? { root, budgets: [] };
       group.budgets.push(budget);
-      group.hasRootBudget ||= budget.category_id === root?.id;
       groups.set(rootId, group);
     }
 

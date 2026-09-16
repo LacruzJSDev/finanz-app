@@ -1,0 +1,94 @@
+<app-disclosure
+  [expandable]="expandable()"
+  [expanded]="expanded()"
+  (expandedChange)="expanded.set($event)"
+>
+  <span class="budget-group-title" appDisclosureTitle>
+    <app-color-icon
+      [icon]="root()?.icon ?? 'savings'"
+      [color]="root()?.color ?? null"
+      [size]="40"
+    />
+    <span class="budget-group-title__content">
+      <span class="budget-group-title__name">{{ displayRootName() }}</span>
+      @if (rootBudget(); as budget) {
+        <span class="budget-group-title__meta">
+          {{ budget.spent | centsToEuros }} de {{ budget.amount | centsToEuros }} ·
+          {{ budget.percentage | number: '1.0-0' }}%
+        </span>
+        <app-progress
+          [value]="progress(budget)"
+          [class]="'budget-progress--' + progressTone(budget)"
+        />
+      } @else {
+        <span class="budget-group-title__meta">
+          {{ childBudgets().length }} presupuesto{{ childBudgets().length === 1 ? '' : 's' }}
+        </span>
+      }
+    </span>
+  </span>
+
+  @if (rootBudget() && canManage()) {
+    <div class="budget-actions" appDisclosureActions>
+      <button
+        appButton
+        variant="icon"
+        [attr.aria-label]="'Editar presupuesto de ' + displayRootName()"
+        (click)="editClick.emit(rootBudget()!)"
+      >
+        <app-icon name="edit" />
+      </button>
+      <button
+        appButton
+        variant="icon"
+        class="budget-actions__delete"
+        [attr.aria-label]="'Eliminar presupuesto de ' + displayRootName()"
+        (click)="deleteClick.emit(rootBudget()!)"
+      >
+        <app-icon name="delete" />
+      </button>
+    </div>
+  }
+
+  @for (budget of childBudgets(); track budget.category_id) {
+    <div class="budget-row">
+      <app-color-icon
+        [icon]="categoryFor(budget)?.icon ?? 'savings'"
+        [color]="categoryFor(budget)?.color ?? null"
+        [size]="32"
+      />
+      <div class="budget-row__content">
+        <span class="budget-row__name">{{ budget.category_name }}</span>
+        <span class="budget-row__meta">
+          {{ budget.spent | centsToEuros }} de {{ budget.amount | centsToEuros }} ·
+          {{ budget.percentage | number: '1.0-0' }}%
+        </span>
+        <app-progress
+          [value]="progress(budget)"
+          [class]="'budget-progress--' + progressTone(budget)"
+        />
+      </div>
+      @if (canManage()) {
+        <div class="budget-actions">
+          <button
+            appButton
+            variant="icon"
+            [attr.aria-label]="'Editar presupuesto de ' + budget.category_name"
+            (click)="editClick.emit(budget)"
+          >
+            <app-icon name="edit" />
+          </button>
+          <button
+            appButton
+            variant="icon"
+            class="budget-actions__delete"
+            [attr.aria-label]="'Eliminar presupuesto de ' + budget.category_name"
+            (click)="deleteClick.emit(budget)"
+          >
+            <app-icon name="delete" />
+          </button>
+        </div>
+      }
+    </div>
+  }
+</app-disclosure>
