@@ -39,8 +39,8 @@ describe('TransactionCard presentation category', () => {
     const component = fixture.debugElement.query(By.directive(TransactionCard)).componentInstance;
     expect(component.presentationCategory()).toEqual({
       name: 'Transferencia',
-      icon: 'swap_horiz',
-      color: '#3567c8',
+      icon: 'transfer',
+      color: 'var(--app-color-transfer)',
     });
     expect(card.textContent).toContain('Transferencia');
     expect(card.textContent).not.toContain('Sin categoría');

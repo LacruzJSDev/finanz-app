@@ -5,6 +5,6 @@
  */
 export const FRONTEND_TRANSFER_CATEGORY = {
   name: 'Transferencia',
-  icon: 'swap_horiz',
-  color: '#3567c8',
+  icon: 'transfer',
+  color: 'var(--app-color-transfer)',
 } as const;

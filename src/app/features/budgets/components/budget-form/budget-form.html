@@ -1,15 +1,10 @@
 <h2>{{ selectedBudget() ? 'Editar presupuesto' : 'Nuevo presupuesto' }}</h2>
 <form [formGroup]="form" (ngSubmit)="submit()">
   <app-input-group>
-    <app-select
-      label="Categoría"
-      [options]="categoryOptions"
-      formControlName="categoryId"
-      [error]="
-        form.controls.categoryId.invalid
-          ? (form.controls.categoryId.getError('server') ?? 'Elige una categoría.')
-          : null
-      "
+    <app-category-select
+      [categories]="data.categories"
+      [control]="form.controls.categoryId"
+      [allowEmpty]="false"
     />
     <app-text-input
       label="Límite mensual (EUR)"
