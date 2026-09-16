@@ -1,5 +1,5 @@
 <app-card spacing="compact" [class.disclosure-card--expanded]="expandable() && expanded()">
-  <div class="disclosure-header">
+  <div class="disclosure-header" [class.disclosure-header--expandable]="expandable()">
     <button
       type="button"
       class="disclosure-trigger"

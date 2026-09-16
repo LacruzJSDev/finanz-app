@@ -2,6 +2,8 @@
   [label]="label()"
   [options]="options()"
   [formControl]="control()"
+  [placeholder]="placeholder()"
+  [required]="!allowEmpty()"
   [error]="
     control().invalid ? (control().getError('server') ?? 'La categoría es obligatoria.') : null
   "

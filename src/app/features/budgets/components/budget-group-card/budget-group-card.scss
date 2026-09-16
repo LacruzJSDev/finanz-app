@@ -1,0 +1,97 @@
+:host {
+  display: block;
+}
+
+.budget-group-title {
+  align-items: center;
+  display: flex;
+  flex: 1;
+  gap: var(--app-space-2);
+  min-width: 0;
+}
+
+.budget-group-title__content,
+.budget-row__content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.budget-group-title__name,
+.budget-row__name {
+  font: var(--app-font-body);
+}
+
+.budget-group-title__name {
+  font: var(--app-font-title);
+}
+
+.budget-group-title__name,
+.budget-row__name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.budget-group-title__meta,
+.budget-row__meta {
+  color: var(--app-color-muted);
+  font: var(--app-font-small);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.budget-actions {
+  align-items: center;
+  display: flex;
+  flex: 0 0 auto;
+  gap: 0.25rem;
+}
+
+.budget-actions__delete {
+  color: var(--app-color-danger);
+}
+
+.budget-row {
+  --budget-row-chevron-space: 1.25rem;
+  align-items: center;
+  display: grid;
+  gap: var(--app-space-2);
+  // El último track equivale al objetivo táctil del chevron de la cabecera.
+  // Así el progreso de una hija termina en la misma columna que el del padre.
+  grid-template-columns: 40px minmax(0, 1fr) var(--budget-row-chevron-space);
+  min-width: 0;
+  padding-block: 0.5rem;
+
+  app-color-icon {
+    justify-self: center;
+  }
+}
+
+.budget-row--with-actions {
+  // El hueco antes de las acciones compensa el padding interno del trigger
+  // padre. El último track reserva solo el chevron: las acciones quedan así
+  // alineadas entre padre e hijas, sin alargar su pista de progreso.
+  grid-template-columns: 40px minmax(0, 1fr) var(--budget-row-chevron-space) auto var(
+      --budget-row-chevron-space
+    );
+}
+
+.budget-row:not(:last-child) {
+  border-bottom: 1px solid var(--app-color-border);
+}
+
+.budget-progress--positive {
+  --app-progress-color: var(--app-color-positive, #2f7d32);
+}
+
+.budget-progress--warning {
+  --app-progress-color: var(--app-color-warning, #b77900);
+}
+
+.budget-progress--danger {
+  --app-progress-color: var(--app-color-danger, #ba1a1a);
+}

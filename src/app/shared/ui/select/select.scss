@@ -42,6 +42,10 @@
   color: var(--app-color-muted);
 }
 
+.app-select__value--selected {
+  font-weight: 600;
+}
+
 .app-select__chevron {
   color: var(--app-color-muted);
   flex-shrink: 0;
@@ -99,6 +103,10 @@
   gap: var(--app-space-2);
 }
 
+.app-select__option--nested {
+  padding-inline-start: calc(var(--app-space-4) + var(--app-space-4));
+}
+
 .app-select__option:hover,
 .app-select__option:focus-visible {
   background: var(--app-color-surface-low);
@@ -110,6 +118,11 @@
   background: var(--app-color-selected);
   color: var(--app-color-on-selected);
   font-weight: 600;
+}
+
+.app-select__value--muted,
+.app-select__option--muted {
+  color: var(--app-color-muted);
 }
 
 .app-select__option[aria-disabled='true'] {

@@ -166,6 +166,7 @@ export const APP_ICONS: Readonly<Record<string, LucideIconData>> = {
   receipt_long: ReceiptText,
   trending_up: TrendingUp,
   currency_exchange: ArrowRightLeft,
+  transfer: Repeat,
   paid: CircleDollarSign,
   security: Shield,
   gavel: Gavel,
