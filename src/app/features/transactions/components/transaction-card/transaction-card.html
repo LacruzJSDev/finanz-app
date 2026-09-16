@@ -6,8 +6,8 @@
     (click)="rowClick.emit(transaction())"
   >
     <app-color-icon
-      [icon]="category()?.icon ?? null"
-      [color]="category()?.color ?? null"
+      [icon]="presentationCategory()?.icon ?? null"
+      [color]="presentationCategory()?.color ?? null"
       [size]="40"
     />
 

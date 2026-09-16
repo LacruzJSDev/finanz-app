@@ -16,7 +16,7 @@ export interface DeleteBudgetFormData {
   imports: [AppButton, AppLoader],
   templateUrl: './delete-budget-form.html',
   styleUrl: './delete-budget-form.scss',
-  host: { class: 'bottom-sheet-form' },
+  host: { class: 'bottom-sheet-form bottom-sheet-confirm' },
 })
 export class DeleteBudgetForm {
   private readonly sheetRef = inject(AppSheetRef<DeleteBudgetForm>);

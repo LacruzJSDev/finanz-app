@@ -29,7 +29,12 @@ class FakeApi {
 }
 
 const budgets = (names: string[]) =>
-  ({ items: names.map((category_name) => ({ category_name })) }) as unknown as {
+  ({
+    items: names.map((category_name, index) => ({
+      category_id: `category-${index + 1}`,
+      category_name,
+    })),
+  }) as unknown as {
     items: BudgetProgressRead[];
   };
 
@@ -67,12 +72,21 @@ describe('BudgetsService', () => {
   });
 
   it('refresca la lista después de retirar un presupuesto confirmado', () => {
-    service.deleteBudget('group-A', 'category-A').subscribe();
-
-    expect(api.deleteCalls).toEqual(['category-A']);
-    api.requests[0].next(budgets([]));
+    service.getBudgets('group-A').subscribe();
+    api.requests[0].next(budgets(['Alimentación', 'Gas']));
     api.requests[0].complete();
 
-    expect(service.budgets()).toEqual([]);
+    service.deleteBudget('group-A', 'category-1').subscribe();
+
+    expect(api.deleteCalls).toEqual(['category-1']);
+    // El estado se corrige en cuanto el servidor confirma el DELETE, sin
+    // esperar a que termine el GET de reconciliación.
+    expect(service.budgets().map((budget) => budget.category_name)).toEqual(['Gas']);
+
+    // Incluso si el refresco lleva el valor viejo, no puede resucitarlo.
+    api.requests[1].next(budgets(['Alimentación', 'Gas']));
+    api.requests[1].complete();
+
+    expect(service.budgets().map((budget) => budget.category_name)).toEqual(['Gas']);
   });
 });
