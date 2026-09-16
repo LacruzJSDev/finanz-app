@@ -4,12 +4,13 @@ import { Router } from '@angular/router';
 import { canManageGroupData } from '../../../../core/account-groups/permissions';
 import { BudgetsService } from '../../../../core/budgets/budgets.service';
 import { CategoriesService } from '../../../../core/categories/categories.service';
-import { BudgetProgressRead } from '../../../../core/models';
+import { BudgetProgressRead, CategoryRead } from '../../../../core/models';
 import { GroupContextService } from '../../../../core/ui/group-context.service';
 import { PageContextService } from '../../../../core/ui/page-context.service';
 import { EmptyState } from '../../../../shared/ui/empty-state/empty-state';
 import { PageContent } from '../../../../shared/ui/page-content/page-content';
 import { PageLoader } from '../../../../shared/ui/page-loader/page-loader';
+import { ColorIcon } from '../../../../shared/ui/color-icon/color-icon';
 import { dateToIso, startOfMonth } from '../../../../shared/date/date';
 import { MonthStepper } from '../../../account-stats';
 import { BudgetCard } from '../../components/budget-card/budget-card';
@@ -21,7 +22,7 @@ import {
 
 @Component({
   selector: 'app-budgets',
-  imports: [BudgetCard, EmptyState, MonthStepper, PageContent, PageLoader],
+  imports: [BudgetCard, ColorIcon, EmptyState, MonthStepper, PageContent, PageLoader],
   templateUrl: './budgets.html',
   styleUrl: './budgets.scss',
   host: { class: 'page-container' },
@@ -43,6 +44,51 @@ export class Budgets {
   protected readonly activeCategories = computed(() =>
     this.categoriesService.categories().filter((category) => category.is_active),
   );
+  protected readonly budgetGroups = computed(() => {
+    const categories = this.categoriesService.categories();
+    const byId = new Map(categories.map((category) => [category.id, category]));
+    const groups = new Map<string, { root: CategoryRead | null; budgets: BudgetProgressRead[] }>();
+
+    for (const budget of this.budgets()) {
+      const category = byId.get(budget.category_id) ?? null;
+      const root = category?.parent_id ? (byId.get(category.parent_id) ?? category) : category;
+      const rootId = root?.id ?? budget.category_id;
+      const group = groups.get(rootId) ?? { root, budgets: [] };
+      group.budgets.push(budget);
+      groups.set(rootId, group);
+    }
+
+    return [...groups.values()]
+      .map((group) => ({
+        ...group,
+        budgets: [...group.budgets].sort((a, b) => {
+          const aIsRoot = a.category_id === group.root?.id;
+          const bIsRoot = b.category_id === group.root?.id;
+          if (aIsRoot !== bIsRoot) return aIsRoot ? -1 : 1;
+          return a.category_name.localeCompare(b.category_name, 'es');
+        }),
+      }))
+      .sort((a, b) =>
+        (a.root?.name ?? a.budgets[0]?.category_name ?? '').localeCompare(
+          b.root?.name ?? b.budgets[0]?.category_name ?? '',
+          'es',
+        ),
+      );
+  });
+
+  protected categoryFor(budget: BudgetProgressRead): CategoryRead | null {
+    return (
+      this.categoriesService.categories().find((category) => category.id === budget.category_id) ??
+      null
+    );
+  }
+
+  protected parentFor(budget: BudgetProgressRead): CategoryRead | null {
+    const category = this.categoryFor(budget);
+    return category?.parent_id
+      ? (this.categoriesService.categories().find((item) => item.id === category.parent_id) ?? null)
+      : null;
+  }
 
   constructor() {
     this.pageContextService.setTitle('Presupuestos');

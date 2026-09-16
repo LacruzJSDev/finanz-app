@@ -11,6 +11,10 @@ textarea {
   border: 0;
   color: var(--app-color-text);
   font: var(--app-font-body);
+  // iOS Safari amplía el viewport al enfocar controles editables por debajo de
+  // 16px. La tipografía visual de las etiquetas puede seguir siendo menor;
+  // este mínimo pertenece únicamente a la zona que recibe escritura.
+  font-size: max(1rem, 16px);
   outline: none;
   padding: 0;
 }

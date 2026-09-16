@@ -18,6 +18,8 @@ and component styles remain the source of truth for the rendered implementation.
 
 - Interactive controls have a minimum 44px touch target, even when the visible
   icon or affordance is smaller.
+- Editable native controls use a minimum 16px font size, preventing iOS Safari
+  from zooming the viewport when a field receives focus.
 - Fixed chrome (bottom navigation, floating actions and similar controls) must
   include the relevant `safe-area-inset-*` padding or offset.
 - Private pages use a bounded viewport with one explicit scroll owner;

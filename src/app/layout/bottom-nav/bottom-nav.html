@@ -21,19 +21,19 @@
   <app-icon name="groups" />
 </a>
 
-<!-- La acción de la página. Se encoge hasta desaparecer cuando no hay ninguna,
-     en vez de quitarse de golpe y dar un salto a los iconos de al lado. -->
-<button
-  appButton
-  variant="fab"
-  class="fab"
-  [class.fab--hidden]="!action()"
-  [attr.aria-hidden]="!action()"
-  (click)="action()?.onClick()"
-  [disabled]="!action()"
->
-  <app-icon [name]="action()?.icon" />
-</button>
+<span class="fab-slot" [class.fab-slot--hidden]="!action()" [attr.inert]="!action() ? '' : null">
+  <button
+    appButton
+    variant="fab"
+    class="fab"
+    aria-label="Acción de la página"
+    [attr.aria-hidden]="!action()"
+    (click)="action()?.onClick()"
+    [disabled]="!action()"
+  >
+    <app-icon [name]="action()?.icon" />
+  </button>
+</span>
 
 <a
   class="navigate-button"
