@@ -9,6 +9,9 @@
   gap: 0.25rem;
   min-width: 0;
 }
+.budget-card--child {
+  margin-inline-start: 1rem;
+}
 .budget-info app-progress {
   width: 100%;
 }
@@ -23,7 +26,13 @@
   color: var(--app-color-muted);
   font: var(--app-font-small);
 }
-.budget-progress--over {
+.budget-progress--positive {
+  --app-progress-color: var(--app-color-positive, #2f7d32);
+}
+.budget-progress--warning {
+  --app-progress-color: var(--app-color-warning, #b77900);
+}
+.budget-progress--danger {
   --app-progress-color: var(--app-color-danger, #ba1a1a);
 }
 .budget-delete {
