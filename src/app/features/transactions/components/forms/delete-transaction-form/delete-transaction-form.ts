@@ -15,7 +15,7 @@ export interface DeleteTransactionFormData {
   imports: [AppButton, AppLoader],
   templateUrl: './delete-transaction-form.html',
   styleUrl: './delete-transaction-form.scss',
-  host: { class: 'bottom-sheet-form' },
+  host: { class: 'bottom-sheet-form bottom-sheet-confirm' },
 })
 export class DeleteTransactionForm {
   private readonly sheetRef = inject(AppSheetRef<DeleteTransactionForm>);

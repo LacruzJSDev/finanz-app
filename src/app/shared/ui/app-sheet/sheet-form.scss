@@ -40,3 +40,28 @@
     margin-top: 0.5rem;
   }
 }
+
+// Confirmar una acción destructiva no es un formulario con campos. Esta
+// variante reúne el mensaje y las dos decisiones en el centro y reserva más
+// aire debajo de los botones, incluido el área segura de iPhone.
+.bottom-sheet-confirm {
+  padding: 1rem 1.25rem calc(1.5rem + env(safe-area-inset-bottom));
+  text-align: center;
+
+  h2 {
+    margin-block: 0.25rem 0.75rem;
+  }
+
+  p {
+    margin: 0;
+    color: var(--app-color-muted, #62615b);
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+}

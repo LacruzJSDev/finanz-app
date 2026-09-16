@@ -17,7 +17,6 @@ import { ColorIcon } from '../../../../shared/ui/color-icon/color-icon';
 export class BudgetCard {
   readonly budget = input.required<BudgetProgressRead>();
   readonly category = input<CategoryRead | null>(null);
-  readonly isChild = input(false);
   readonly canManage = input(false);
   readonly editClick = output<BudgetProgressRead>();
   readonly deleteClick = output<BudgetProgressRead>();

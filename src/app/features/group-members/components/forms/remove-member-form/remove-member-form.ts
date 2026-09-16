@@ -17,7 +17,7 @@ export interface RemoveMemberFormData {
   imports: [AppButton, AppLoader],
   templateUrl: './remove-member-form.html',
   styleUrl: './remove-member-form.scss',
-  host: { class: 'bottom-sheet-form' },
+  host: { class: 'bottom-sheet-form bottom-sheet-confirm' },
 })
 export class RemoveMemberForm {
   private readonly sheetRef = inject(AppSheetRef<RemoveMemberForm>);

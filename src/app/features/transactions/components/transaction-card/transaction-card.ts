@@ -5,6 +5,7 @@ import { AppIcon } from '../../../../shared/ui/icon';
 import { CentsToEurosPipe } from '../../../../shared/money/cents-to-euros.pipe';
 import { ColorIcon } from '../../../../shared/ui/color-icon/color-icon';
 import { CategoryRead, TransactionRead, TransactionTypeEnum } from '../../../../core/models';
+import { FRONTEND_TRANSFER_CATEGORY } from '../../transaction-presentation';
 
 /** Una fila de movimiento: icono de categoría, concepto, contexto e importe. */
 @Component({
@@ -23,6 +24,13 @@ export class TransactionCard {
   readonly category = computed(() =>
     this.categories().find((category) => category.id === this.transaction().category_id),
   );
+  readonly presentationCategory = computed(
+    () =>
+      this.category() ??
+      (this.transaction().type === TransactionTypeEnum.Transfer
+        ? FRONTEND_TRANSFER_CATEGORY
+        : null),
+  );
 
   readonly title = computed(() => {
     const notes = this.transaction().notes?.trim();
@@ -35,5 +43,8 @@ export class TransactionCard {
 
   // Solo la categoría: la cuenta ya la dice el título de la barra superior, y
   // repetirla en cada fila era ruido.
-  readonly subtitle = computed(() => this.category()?.name ?? 'Sin categoría');
+  readonly subtitle = computed(() => {
+    if (this.category()) return this.category()!.name;
+    return this.transaction().type === TransactionTypeEnum.Transfer ? null : 'Sin categoría';
+  });
 }

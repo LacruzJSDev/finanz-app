@@ -24,9 +24,15 @@
   transition: none;
 }
 .app-sheet__handle {
+  box-sizing: border-box;
   display: grid;
+  // El tirador conserva aire por encima incluso cuando un formulario ocupa el
+  // máximo alto disponible de Safari. Sin ese padding el `env()` de la hoja
+  // deja el control visual pegado a la arista redondeada.
+  min-height: 52px;
+  padding-block-start: 0.5rem;
   place-items: center;
-  flex: 0 0 44px;
+  flex: 0 0 52px;
 }
 .app-sheet__handle span {
   width: 36px;

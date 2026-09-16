@@ -15,7 +15,7 @@ export interface RevokeInvitationFormData {
   imports: [AppButton, AppLoader],
   templateUrl: './revoke-invitation-form.html',
   styleUrl: './revoke-invitation-form.scss',
-  host: { class: 'bottom-sheet-form' },
+  host: { class: 'bottom-sheet-form bottom-sheet-confirm' },
 })
 export class RevokeInvitationForm {
   private readonly sheetRef = inject(AppSheetRef<RevokeInvitationForm>);
