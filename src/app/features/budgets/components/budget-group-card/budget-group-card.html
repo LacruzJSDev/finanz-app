@@ -51,11 +51,11 @@
   }
 
   @for (budget of childBudgets(); track budget.category_id) {
-    <div class="budget-row">
+    <div class="budget-row" [class.budget-row--with-actions]="canManage()">
       <app-color-icon
         [icon]="categoryFor(budget)?.icon ?? 'savings'"
         [color]="categoryFor(budget)?.color ?? null"
-        [size]="32"
+        [size]="20"
       />
       <div class="budget-row__content">
         <span class="budget-row__name">{{ budget.category_name }}</span>
@@ -69,6 +69,7 @@
         />
       </div>
       @if (canManage()) {
+        <span class="budget-row__action-space" aria-hidden="true"></span>
         <div class="budget-actions">
           <button
             appButton
@@ -89,6 +90,7 @@
           </button>
         </div>
       }
+      <span class="budget-row__chevron-space" aria-hidden="true"></span>
     </div>
   }
 </app-disclosure>

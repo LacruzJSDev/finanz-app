@@ -10,10 +10,12 @@ app-card.disclosure-card--expanded {
   --app-card-gap: var(--app-space-4, 1rem);
 }
 .disclosure-header {
+  --app-disclosure-chevron-space: 1.75rem;
   display: flex;
   align-items: center;
   gap: var(--app-space-2);
   min-width: 0;
+  position: relative;
 }
 .disclosure-trigger {
   appearance: none;
@@ -32,6 +34,15 @@ app-card.disclosure-card--expanded {
   text-align: start;
   font: inherit;
 }
+.disclosure-header--expandable .disclosure-trigger {
+  // El icono se coloca al extremo de toda la cabecera, no entre el título y
+  // las acciones. El padding mantiene intacto su objetivo táctil.
+  padding-inline-end: var(--app-disclosure-chevron-space);
+}
+.disclosure-trigger app-icon {
+  position: absolute;
+  inset-inline-end: 0;
+}
 .disclosure-trigger:disabled {
   cursor: default;
 }
@@ -45,6 +56,10 @@ app-card.disclosure-card--expanded {
 
 .disclosure-actions:empty {
   display: none;
+}
+.disclosure-header--expandable .disclosure-actions:not(:empty) {
+  // Deja el último objetivo táctil para el chevron absoluto.
+  margin-inline-end: var(--app-disclosure-chevron-space);
 }
 .disclosure-content {
   display: grid;
@@ -67,16 +82,5 @@ app-card.disclosure-card--expanded {
   app-card,
   .disclosure-content {
     transition: none;
-  }
-}
-@container (max-width: 22rem) {
-  .disclosure-header {
-    flex-wrap: wrap;
-  }
-  .disclosure-trigger {
-    flex-basis: 100%;
-  }
-  .disclosure-actions {
-    margin-inline-start: auto;
   }
 }

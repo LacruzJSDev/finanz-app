@@ -29,7 +29,13 @@
       } @else if (selected.color) {
         <app-color-mark [color]="selected.color" [size]="20" />
       }
-      <span class="app-select__value">{{ selected.label }}</span>
+      <span
+        class="app-select__value app-select__value--selected"
+        [class.app-select__value--muted]="selected.muted"
+        [style.color]="selected.color || null"
+      >
+        {{ selected.label }}
+      </span>
     } @else {
       <span class="app-select__placeholder">{{ placeholder() }}</span>
     }
@@ -83,6 +89,8 @@
           [attr.data-value]="option.value"
           [disabled]="option.disabled || false"
           [class.app-select__option--selected]="value() === option.value"
+          [class.app-select__option--nested]="(option.depth ?? 0) > 0"
+          [class.app-select__option--muted]="option.muted"
           (click)="choose(option)"
         >
           @if (option.icon) {

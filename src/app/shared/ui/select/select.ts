@@ -21,6 +21,10 @@ export interface AppSelectOption {
   color?: string;
   disabled?: boolean;
   group?: string;
+  /** Visual nesting depth for related options. Does not change listbox semantics. */
+  depth?: number;
+  /** Keeps semantically neutral choices neutral when selected. */
+  muted?: boolean;
 }
 
 let nextSelectId = 0;

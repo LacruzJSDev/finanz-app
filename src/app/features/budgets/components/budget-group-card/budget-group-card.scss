@@ -21,7 +21,15 @@
 
 .budget-group-title__name,
 .budget-row__name {
+  font: var(--app-font-body);
+}
+
+.budget-group-title__name {
   font: var(--app-font-title);
+}
+
+.budget-group-title__name,
+.budget-row__name {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -48,12 +56,28 @@
 }
 
 .budget-row {
+  --budget-row-chevron-space: 1.25rem;
   align-items: center;
   display: grid;
   gap: var(--app-space-2);
-  grid-template-columns: auto minmax(0, 1fr) auto;
+  // El último track equivale al objetivo táctil del chevron de la cabecera.
+  // Así el progreso de una hija termina en la misma columna que el del padre.
+  grid-template-columns: 40px minmax(0, 1fr) var(--budget-row-chevron-space);
   min-width: 0;
-  padding-block: 0.75rem;
+  padding-block: 0.5rem;
+
+  app-color-icon {
+    justify-self: center;
+  }
+}
+
+.budget-row--with-actions {
+  // El hueco antes de las acciones compensa el padding interno del trigger
+  // padre. El último track reserva solo el chevron: las acciones quedan así
+  // alineadas entre padre e hijas, sin alargar su pista de progreso.
+  grid-template-columns: 40px minmax(0, 1fr) var(--budget-row-chevron-space) auto var(
+      --budget-row-chevron-space
+    );
 }
 
 .budget-row:not(:last-child) {

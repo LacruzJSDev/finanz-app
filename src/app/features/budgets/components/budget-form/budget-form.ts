@@ -4,13 +4,13 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { APP_SHEET_DATA, AppSheetRef } from '../../../../shared/ui/app-sheet';
 import { AppLoader } from '../../../../shared/ui/loader';
-import { AppSelect, AppSelectOption } from '../../../../shared/ui/select';
 import { AppInputGroup } from '../../../../shared/ui/input-group';
 import { AppTextInput } from '../../../../shared/ui/text-input';
 import { BudgetsService } from '../../../../core/budgets/budgets.service';
 import { applyServerErrors } from '../../../../core/forms/apply-server-errors';
 import { BudgetProgressRead, CategoryRead } from '../../../../core/models';
 import { centsToEuros, eurosToCents } from '../../../../shared/money/money';
+import { CategorySelect } from '../../../categories';
 
 export interface BudgetFormData {
   groupId: string;
@@ -22,7 +22,7 @@ export interface BudgetFormData {
 
 @Component({
   selector: 'app-budget-form',
-  imports: [ReactiveFormsModule, AppButton, AppInputGroup, AppTextInput, AppLoader, AppSelect],
+  imports: [ReactiveFormsModule, AppButton, AppInputGroup, AppTextInput, AppLoader, CategorySelect],
   templateUrl: './budget-form.html',
   host: { class: 'bottom-sheet-form' },
 })
@@ -43,14 +43,6 @@ export class BudgetForm {
   });
   protected readonly selectedCategory = computed(() =>
     this.data.categories.find((category) => category.id === this.categoryId()),
-  );
-  protected readonly categoryOptions: readonly AppSelectOption[] = this.data.categories.map(
-    (category) => ({
-      value: category.id,
-      label: category.name,
-      icon: category.icon ?? undefined,
-      color: category.color ?? undefined,
-    }),
   );
   protected readonly selectedBudget = computed(() =>
     this.data.budgets.find((budget) => budget.category_id === this.categoryId()),
