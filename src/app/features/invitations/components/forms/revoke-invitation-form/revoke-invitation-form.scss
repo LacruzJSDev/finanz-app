@@ -1,9 +1,3 @@
-.actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.5rem;
-}
-
 .revoke-button {
   --app-button-background: var(--app-color-danger);
   --app-button-foreground: var(--app-color-on-primary);
